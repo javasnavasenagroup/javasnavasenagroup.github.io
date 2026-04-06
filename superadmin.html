@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Panel | Rumah Kebangsaan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B91C1C;
+            --primary-light: #FEE2E2;
+            --primary-dark: #7F1D1D;
+            --accent: #D97706;
+            --purple: #7C3AED;
+            --purple-light: #EDE9FE;
+            --success: #16A34A;
+            --success-light: #DCFCE7;
+            --danger: #DC2626;
+            --danger-light: #FEE2E2;
+            --warning: #D97706;
+            --warning-light: #FEF3C7;
+            --dark: #0C0A09;
+            --gray: #57534E;
+            --muted: #A8A29E;
+            --light: #F5F5F4;
+            --border: #E7E5E4;
+            --white: #FFFBF8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+            --radius: 12px;
+            --sidebar-w: 264px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ============ SIDEBAR ============ */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: #0F0D0C;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: transform .3s ease;
+        }
+
+        .sidebar-head {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .sidebar-logo {
+            width: 36px; height: 36px;
+            background: var(--black);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+        }
+
+        .root-badge {
+            font-size: .62rem;
+            background: var(--purple);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            display: block;
+            margin-top: 3px;
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            padding: 1.25rem .85rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-label {
+            font-size: .68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255,255,255,.3);
+            padding: .85rem .75rem .4rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            padding: .75rem .85rem;
+            border-radius: 8px;
+            color: rgba(255,255,255,.55);
+            font-weight: 500;
+            font-size: .9rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-family: 'DM Sans', sans-serif;
+            transition: .2s;
+            margin-bottom: .1rem;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,.06);
+            color: rgba(255,255,255,.85);
+        }
+
+        .nav-item.active {
+            background: var(--purple);
+            color: white;
+            font-weight: 600;
+        }
+
+        .sidebar-foot {
+            padding: 1.25rem;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
+        .btn-logout-side {
+            width: 100%;
+            padding: .75rem;
+            background: rgba(220,38,38,.15);
+            border: 1px solid rgba(220,38,38,.25);
+            color: #FCA5A5;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: .875rem;
+            cursor: pointer;
+            transition: .2s;
+        }
+        .btn-logout-side:hover { background: rgba(220,38,38,.25); color: #FEE2E2; }
+
+        /* ============ MAIN ============ */
+        .main {
+            flex: 1;
+            margin-left: var(--sidebar-w);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .topbar {
+            height: 66px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mob-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        .topbar-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+        }
+
+        .user-name { font-weight: 700; font-size: .875rem; }
+        .user-role {
+            font-size: .72rem;
+            color: white;
+            background: var(--purple);
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .avatar {
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            background: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .875rem;
+        }
+
+        /* ============ CONTENT ============ */
+        .content { padding: 2rem; }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        .page-sub { color: var(--muted); font-size: .875rem; margin-top: .2rem; }
+
+        .mode-tag {
+            background: var(--warning-light);
+            color: var(--warning);
+            padding: .45rem .9rem;
+            border-radius: 6px;
+            font-size: .8rem;
+            font-weight: 700;
+            border: 1px dashed var(--warning);
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: .875rem;
+            cursor: pointer;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            transition: .2s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-purple { background: var(--purple); color: white; }
+        .btn-purple:hover { background: #6D28D9; }
+        .btn-outline { border: 1.5px solid var(--border); background: white; color: var(--dark); }
+        .btn-outline:hover { border-color: var(--purple); color: var(--purple); }
+        .btn-danger-soft { background: var(--danger-light); color: var(--danger); border: 1px solid #FCA5A5; }
+        .btn-danger-soft:hover { background: #FECACA; }
+        .btn-sm { padding: .35rem .75rem; font-size: .8rem; }
+
+        /* ============ STATS ============ */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-icon {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .si-purple { background: var(--purple-light); }
+        .si-green  { background: var(--success-light); }
+        .si-red    { background: var(--primary-light); }
+
+        .stat-label { font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+        .stat-num   { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; line-height: 1; }
+
+        /* ============ PANELS ============ */
+        .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title { font-weight: 700; font-size: 1rem; }
+
+        /* ============ TABLE ============ */
+        .data-table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+
+        .data-table th {
+            padding: .85rem 1.25rem;
+            text-align: left;
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #FAFAF9;
+            border-bottom: 1.5px solid var(--border);
+        }
+
+        .data-table td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
+        }
+
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: #FAFAF9; }
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .3rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: .72rem;
+            font-weight: 700;
+        }
+
+        .role-admin  { background: var(--primary-light); color: var(--primary-dark); }
+        .role-super  { background: var(--purple-light);  color: var(--purple); }
+
+        .status-dot  {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* ============ LOGS ============ */
+        .log-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            transition: .15s;
+        }
+        .log-item:last-child { border-bottom: none; }
+        .log-item:hover { background: #FAFAF9; }
+
+        .log-icon { font-size: 1.1rem; margin-top: 1px; flex-shrink: 0; }
+        .log-info h4 { font-size: .875rem; font-weight: 700; margin-bottom: .2rem; }
+        .log-info p  { font-size: .8rem; color: var(--gray); margin-bottom: .2rem; }
+
+        /* ============ ANALYTICS ============ */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .analytics-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 1.35rem;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .analytics-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .analytics-label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: .5rem;
+        }
+
+        /* ============ MODAL ============ */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.open { display: flex; }
+
+        .modal {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            width: 100%;
+            max-width: 460px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.15);
+        }
+
+        .modal-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group { margin-bottom: 1.1rem; }
+
+        .form-label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 700;
+            margin-bottom: .45rem;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: .75rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem;
+            background: var(--light);
+            color: var(--dark);
+            transition: .2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--purple);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(124,58,237,.1);
+        }
+
+        .form-control:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .form-hint {
+            font-size: .74rem;
+            color: var(--muted);
+            margin-top: .3rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: .85rem;
+            margin-top: 1.5rem;
+        }
+
+        /* ============ SETTINGS ============ */
+        .settings-panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .settings-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--muted);
+            font-size: .9rem;
+        }
+
+        /* ============ TOAST ============ */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: var(--dark);
+            color: white;
+            padding: .85rem 1.25rem;
+            border-radius: 10px;
+            font-size: .875rem;
+            font-weight: 600;
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .35s cubic-bezier(.4,0,.2,1);
+            box-shadow: var(--shadow-md);
+            font-family: 'DM Sans', sans-serif;
+            min-width: 240px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { border-left: 3px solid var(--success); }
+        .toast.danger  { border-left: 3px solid var(--primary); }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) { .two-col { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main { margin-left: 0; }
+            .mob-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-head">
+        <div class="sidebar-logo">
+            <img src="Logo rumah kebangsaan.png" alt="Logo Rumah Kebangsaan" style="width: 100%; height: 100%; object-fit: cover;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+            <div class="sidebar-name">Rumah Kebangsaan</div>
+            <span class="root-badge">ROOT ACCESS</span>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <button class="nav-item active" data-section="main"     onclick="showSection('main',this)">⚡ Server Dashboard</button>
+
+        <div class="nav-label">Administrator</div>
+        <button class="nav-item" data-section="users"    onclick="showSection('users',this)">👥 Manajemen Pengguna</button>
+        <button class="nav-item" data-section="logs"     onclick="showSection('logs',this)">🔍 Log Keamanan &amp; Akses</button>
+
+        <div class="nav-label">Tools</div>
+        <button class="nav-item" data-section="analitik" onclick="showSection('analitik',this)">📊 Analitik Pengunjung</button>
+        <button class="nav-item" data-section="settings" onclick="showSection('settings',this)">⚙️ Pengaturan Sistem</button>
+
+        <div class="nav-label">Navigasi</div>
+        <button class="nav-item" onclick="window.location.href='admin.html'">📝 Panel Admin Konten</button>
+        <button class="nav-item" onclick="window.location.href='index.html'">🏠 Portal Publik</button>
+    </nav>
+
+    <div class="sidebar-foot">
+        <button class="btn-logout-side" onclick="logout()">⬠ Keluar dari Sistem</button>
+    </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="mob-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+            <div class="topbar-title">Super Admin Panel</div>
+        </div>
+        <div class="topbar-right">
+            <div style="text-align:right">
+                <div class="user-name" id="uname">Super Admin</div>
+                <div class="user-role">Root Access</div>
+            </div>
+            <div class="avatar" id="uavatar">SA</div>
+        </div>
+    </header>
+
+    <div class="content">
+
+        <!-- ======== DASHBOARD ======== -->
+        <div id="section-main">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Sistem Kontrol Utama</h1>
+                    <p class="page-sub">Pantau sistem, otorisasi pengguna, dan integritas data.</p>
+                </div>
+                <div class="mode-tag">⚠️ Mode Prototype: Bypass Active</div>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon si-purple">👥</div>
+                    <div>
+                        <div class="stat-label">Total Admin Aktif</div>
+                        <div class="stat-num" id="statAdmin">3</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon si-green">⚡</div>
+                    <div>
+                        <div class="stat-label">Status Keamanan</div>
+                        <div style="color:var(--success);font-weight:700;font-size:.95rem;margin-top:.2rem">✓ Aman</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon si-red">🛡️</div>
+                    <div>
+                        <div class="stat-label">Ancaman Diblokir</div>
+                        <div class="stat-num">12</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two-col">
+                <div class="panel">
+                    <div class="panel-head">
+                        <span class="panel-title">Daftar Pengelola (Least Privilege)</span>
+                        <button class="btn btn-purple btn-sm" onclick="showSectionByName('users')">Kelola</button>
+                    </div>
+                    <table class="data-table">
+                        <thead><tr><th>Pengguna</th><th>Role</th><th>Status</th></tr></thead>
+                        <tbody id="mainUserPrev"></tbody>
+                    </table>
+                </div>
+                <div class="panel">
+                    <div class="panel-head"><span class="panel-title">Log Terbaru</span></div>
+                    <div id="logPrev"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== USER MANAGEMENT ======== -->
+        <div id="section-users" style="display:none">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Manajemen Pengguna</h1>
+                    <p class="page-sub">Kelola akun admin. Hanya Super Admin yang dapat membuat akun baru.</p>
+                </div>
+                <button class="btn btn-purple" onclick="openModal()">+ Tambah Admin</button>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
+                    <span class="panel-title">Daftar Pengelola</span>
+                    <span id="userCount" style="font-size:.82rem;color:var(--muted)"></span>
+                </div>
+                <table class="data-table">
+                    <thead><tr><th>Nama / Email</th><th>Role</th><th>Aksi</th></tr></thead>
+                    <tbody id="userTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ======== LOGS ======== -->
+        <div id="section-logs" style="display:none">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Log Keamanan &amp; Akses</h1>
+                    <p class="page-sub">Rekam jejak seluruh aktivitas sistem.</p>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-head"><span class="panel-title">Log Sistem</span></div>
+                <div id="fullLog"></div>
+            </div>
+        </div>
+
+        <!-- ======== ANALITIK ======== -->
+        <div id="section-analitik" style="display:none">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Analitik Pengunjung</h1>
+                    <p class="page-sub">Statistik kunjungan portal publik.</p>
+                </div>
+            </div>
+            <div class="panel" style="padding:2rem">
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <div class="analytics-num" style="color:var(--primary)">12,450</div>
+                        <div class="analytics-label">Total Pengunjung</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-num" style="color:var(--success)" id="activeV">84</div>
+                        <div class="analytics-label">Aktif Sekarang</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-num" style="color:var(--purple)">03:45</div>
+                        <div class="analytics-label">Rata-rata Durasi</div>
+                    </div>
+                    <div class="analytics-card">
+                        <div class="analytics-num" style="color:var(--warning)">42.5%</div>
+                        <div class="analytics-label">Rasio Pantulan</div>
+                    </div>
+                </div>
+                <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);font-size:.85rem;color:var(--muted)">
+                    💡 Catatan: Data analitik bersifat simulasi untuk keperluan prototype.
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== SETTINGS ======== -->
+        <div id="section-settings" style="display:none">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Pengaturan Sistem</h1>
+                    <p class="page-sub">Konfigurasi global portal Rumah Kebangsaan.</p>
+                </div>
+            </div>
+            <div class="settings-panel">
+                <div class="settings-title">ℹ️ Informasi Lembaga</div>
+                <div class="form-group">
+                    <label class="form-label">Nama Lembaga</label>
+                    <input type="text" class="form-control" value="Rumah Kebangsaan Banyuwangi">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email Resmi</label>
+                    <input type="email" class="form-control" value="remapenta@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="text" class="form-control" value="+62 823-3835-5251">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Alamat</label>
+                    <input type="text" class="form-control" value="Jl. Piere Tendean No.1, Karangrejo, Banyuwangi 68411">
+                </div>
+                <button class="btn btn-purple" onclick="showToast('✓ Pengaturan berhasil disimpan.','success')">Simpan Pengaturan</button>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<!-- MODAL ADD/EDIT USER -->
+<div class="modal-overlay" id="userModalOverlay">
+    <div class="modal">
+        <div class="modal-title" id="modalTitle">Tambah Akun Admin</div>
+        <div class="form-group">
+            <label class="form-label">Nama Lengkap *</label>
+            <input type="text" id="mNama" class="form-control" placeholder="Nama pengelola">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Alamat Email *</label>
+            <input type="email" id="mEmail" class="form-control" placeholder="email@contoh.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Role / Hak Akses</label>
+            <select id="mRole" class="form-control">
+                <option value="admin">Admin Konten (Artikel &amp; UGC)</option>
+                <option value="superadmin">Super Admin (Akses Penuh)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Password Default</label>
+            <input type="text" class="form-control" value="RumahKebangsaan2026" disabled>
+            <p class="form-hint">Password otomatis digenerate. Admin harus menggantinya saat pertama login.</p>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-purple" style="flex:1;justify-content:center" id="modalSaveBtn">Simpan</button>
+            <button class="btn btn-outline" style="flex:1;justify-content:center" onclick="closeModal()">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================
+// AUTH GUARD — hanya superadmin
+// ============================================
+(function() {
+    if (sessionStorage.getItem('rk_logged_in') !== 'true' || sessionStorage.getItem('rk_role') !== 'superadmin') {
+        window.location.replace('login.html');
+        return;
+    }
+    const u = sessionStorage.getItem('rk_username') || 'Super Admin';
+    document.getElementById('uname').textContent   = u;
+    document.getElementById('uavatar').textContent = u.substring(0, 2).toUpperCase();
+})();
+
+// ============================================
+// DATA
+// ============================================
+let users = [
+    { id:1, nama:'Bapak Hakim',            email:'hakim@rumahkebangsaan.id', role:'admin',      locked:false },
+    { id:2, nama:'Tim IT TRPL (Jevon dkk)', email:'developer@poli.edu',       role:'superadmin', locked:true  },
+    { id:3, nama:'Staf Internal',           email:'staf@rumahkebangsaan.id',  role:'admin',      locked:false },
+];
+let nextId = 4;
+
+let logs = [
+    { icon:'🔴', title:'Akses Ditolak (Bypass URL)',  desc:'Tamu mencoba akses langsung halaman admin melalui URL.', time:'10 menit lalu', color:'var(--danger)' },
+    { icon:'🛡️', title:'Sistem Filter Bekerja',       desc:'Menolak file .exe pada form UGC pengunjung.',            time:'1 jam lalu',    color:'var(--success)' },
+    { icon:'✅', title:'Login Berhasil',               desc:'Super Admin berhasil masuk ke sistem.',                  time:'2 jam lalu',    color:'var(--success)' },
+    { icon:'⚠️', title:'Percobaan Login Gagal',       desc:'Gagal 3 kali dari IP 192.168.1.105.',                    time:'3 jam lalu',    color:'var(--warning)' },
+];
+
+// ============================================
+// RENDER
+// ============================================
+function renderUsers() {
+    const tbody = document.getElementById('userTable');
+    const prev  = document.getElementById('mainUserPrev');
+    document.getElementById('userCount').textContent  = users.length + ' pengguna';
+    document.getElementById('statAdmin').textContent  = users.length;
+
+    const rowMain = u => `
+        <tr>
+            <td>
+                <strong>${escHtml(u.nama)}</strong><br>
+                <span style="font-size:.78rem;color:var(--muted)">${escHtml(u.email)}</span>
+            </td>
+            <td>
+                <span class="role-badge ${u.role === 'superadmin' ? 'role-super' : 'role-admin'}">
+                    ${u.role === 'superadmin' ? '👑 Super Admin' : '📝 Admin Konten'}
+                </span>
+            </td>
+            <td>
+                ${u.locked
+                    ? `<button class="btn btn-outline btn-sm" disabled style="opacity:.4">Edit</button>`
+                    : `<button class="btn btn-outline btn-sm" onclick="openEditModal(${u.id})" style="margin-right:.4rem">Edit</button>
+                       <button class="btn btn-danger-soft btn-sm" onclick="deleteUser(${u.id})">Hapus</button>`
+                }
+            </td>
+        </tr>`;
+
+    const rowPrev = u => `
+        <tr>
+            <td>
+                <strong>${escHtml(u.nama)}</strong><br>
+                <span style="font-size:.78rem;color:var(--muted)">${escHtml(u.email)}</span>
+            </td>
+            <td>
+                <span class="role-badge ${u.role === 'superadmin' ? 'role-super' : 'role-admin'}">
+                    ${u.role === 'superadmin' ? '👑 Super Admin' : '📝 Admin'}
+                </span>
+            </td>
+            <td><span class="status-dot">● Aktif</span></td>
+        </tr>`;
+
+    if (tbody) tbody.innerHTML = users.map(rowMain).join('');
+    if (prev)  prev.innerHTML  = users.map(rowPrev).join('');
+}
+
+function renderLogs() {
+    const logHTML = items => items.map(l => `
+        <div class="log-item">
+            <div class="log-icon">${l.icon}</div>
+            <div class="log-info">
+                <h4>${l.title}</h4>
+                <p>${escHtml(l.desc)}</p>
+                <span style="font-size:.75rem;color:${l.color};font-weight:700">${l.time}</span>
+            </div>
+        </div>`
+    ).join('');
+
+    const fl = document.getElementById('fullLog');
+    const pv = document.getElementById('logPrev');
+    if (fl) fl.innerHTML = logHTML(logs);
+    if (pv) pv.innerHTML = logHTML(logs.slice(0, 3));
+}
+
+// ============================================
+// USER CRUD
+// ============================================
+let editingId = null;
+
+function openModal() {
+    editingId = null;
+    document.getElementById('modalTitle').textContent = '+ Tambah Akun Admin';
+    document.getElementById('mNama').value  = '';
+    document.getElementById('mEmail').value = '';
+    document.getElementById('mRole').value  = 'admin';
+    document.getElementById('userModalOverlay').classList.add('open');
+    document.getElementById('mNama').focus();
+}
+
+function openEditModal(id) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    editingId = id;
+    document.getElementById('modalTitle').textContent = '✏️ Edit Akun: ' + u.nama;
+    document.getElementById('mNama').value  = u.nama;
+    document.getElementById('mEmail').value = u.email;
+    document.getElementById('mRole').value  = u.role;
+    document.getElementById('userModalOverlay').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('userModalOverlay').classList.remove('open');
+    editingId = null;
+}
+
+document.getElementById('userModalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+document.getElementById('modalSaveBtn').addEventListener('click', function() {
+    const nama  = document.getElementById('mNama').value.trim();
+    const email = document.getElementById('mEmail').value.trim();
+    const role  = document.getElementById('mRole').value;
+
+    if (!nama || !email) { showToast('Nama dan email wajib diisi.', 'danger'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showToast('Format email tidak valid.', 'danger'); return; }
+
+    if (editingId !== null) {
+        const u = users.find(x => x.id === editingId);
+        if (u) { u.nama = nama; u.email = email; u.role = role; }
+        logs.unshift({ icon:'✏️', title:'Edit Pengguna', desc:`Akun ${nama} diperbarui.`, time:'Baru saja', color:'var(--success)' });
+        showToast('Akun ' + nama + ' berhasil diperbarui.', 'success');
+    } else {
+        if (users.find(u => u.email === email)) {
+            showToast('Email sudah digunakan akun lain.', 'danger');
+            return;
+        }
+        users.push({ id: nextId++, nama, email, role, locked: false });
+        logs.unshift({ icon:'👤', title:'Pengguna Baru', desc:`Akun ${nama} (${role === 'superadmin' ? 'Super Admin' : 'Admin'}) ditambahkan.`, time:'Baru saja', color:'var(--success)' });
+        showToast('Akun ' + nama + ' berhasil ditambahkan.', 'success');
+    }
+
+    closeModal();
+    renderUsers();
+    renderLogs();
+});
+
+function deleteUser(id) {
+    const u = users.find(x => x.id === id);
+    if (!u) return;
+    if (confirm('Hapus akses ' + u.nama + '?\nTindakan ini tidak dapat dibatalkan.')) {
+        users = users.filter(x => x.id !== id);
+        logs.unshift({ icon:'🗑️', title:'Pengguna Dihapus', desc:`Akun ${u.nama} dihapus dari sistem.`, time:'Baru saja', color:'var(--danger)' });
+        renderUsers();
+        renderLogs();
+        showToast('Akun ' + u.nama + ' dihapus.', 'danger');
+    }
+}
+
+// ============================================
+// NAVIGATION
+// ============================================
+const ALL_SECTIONS = ['main','users','logs','analitik','settings'];
+
+function showSection(name, btn) {
+    ALL_SECTIONS.forEach(s => {
+        document.getElementById('section-' + s).style.display = s === name ? 'block' : 'none';
+    });
+    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+
+    if (btn && btn.classList) {
+        btn.classList.add('active');
+    } else {
+        const menuBtn = document.querySelector('.nav-item[data-section="' + name + '"]');
+        if (menuBtn) menuBtn.classList.add('active');
+    }
+
+    renderUsers();
+    renderLogs();
+    if (window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open');
+}
+
+function showSectionByName(name) {
+    showSection(name, null);
+}
+
+// ============================================
+// REAL-TIME COUNTER SIMULATION
+// ============================================
+setInterval(() => {
+    const el = document.getElementById('activeV');
+    if (el) {
+        const v = parseInt(el.textContent) || 84;
+        el.textContent = Math.max(50, Math.min(150, v + Math.floor(Math.random() * 7) - 3));
+    }
+}, 5000);
+
+// ============================================
+// HELPERS
+// ============================================
+function logout() {
+    if (confirm('Yakin ingin keluar dari Super Admin Panel?')) {
+        sessionStorage.clear();
+        window.location.replace('login.html');
+    }
+}
+
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// INIT
+renderUsers();
+renderLogs();
+</script>
+</body>
+</html>

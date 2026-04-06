@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrasi | Rumah Kebangsaan Banyuwangi</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============ VARIABLES ============ */
+        :root {
+            --primary: #B91C1C;
+            --primary-dark: #7F1D1D;
+            --primary-light: #FEE2E2;
+            --accent: #D97706;
+            --dark: #0C0A09;
+            --gray: #57534E;
+            --muted: #A8A29E;
+            --light-gray: #F5F5F4;
+            --border: #E7E5E4;
+            --white: #FFFBF8;
+            --success: #16A34A;
+            --success-light: #DCFCE7;
+        }
+
+        /* ============ RESET ============ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* ============ LEFT PANEL (DISAMAKAN DENGAN LOGIN) ============ */
+        .left-panel {
+            position: relative;
+            background: linear-gradient(160deg, #1c1917 0%, var(--primary-dark) 60%, #450a0a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -20%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(185,28,28,.3) 0%, transparent 70%);
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -10%;
+            width: 60%; height: 60%;
+            background: radial-gradient(circle, rgba(217,119,6,.15) 0%, transparent 70%);
+        }
+
+        .left-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .left-logo {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 44px; 
+            height: 44px;
+            background: transparent; 
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(185,28,28,.4);
+            overflow: hidden; 
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .logo-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+        }
+
+        .left-content h2 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .left-content p {
+            color: rgba(255,255,255,.6);
+            font-size: 0.975rem;
+            line-height: 1.7;
+            max-width: 380px;
+        }
+
+        .steps {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            color: rgba(255,255,255,.65);
+            font-size: 0.875rem;
+        }
+
+        .step-num {
+            width: 26px;
+            height: 26px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: white;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .left-footer {
+            position: relative;
+            z-index: 1;
+            color: rgba(255,255,255,.35);
+            font-size: 0.8rem;
+        }
+
+        /* ============ RIGHT PANEL ============ */
+        .right-panel {
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            min-height: 100vh;
+            overflow-y: auto;
+        }
+
+        .reg-box {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .reg-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.4rem;
+        }
+
+        .reg-sub {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ============ FORM ELEMENTS ============ */
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            letter-spacing: 0.2px;
+        }
+
+        .form-label .req {
+            color: var(--primary);
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: var(--light-gray);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.925rem;
+            transition: all 0.25s;
+            color: var(--dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(185,28,28,.08);
+        }
+
+        .form-control.error {
+            border-color: var(--primary);
+            background: #FFF5F5;
+        }
+
+        .form-control.valid {
+            border-color: var(--success);
+            background: #F0FDF4;
+        }
+
+        .form-control::placeholder {
+            color: var(--muted);
+        }
+
+        .toggle-pw {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--muted);
+            user-select: none;
+            letter-spacing: 0.5px;
+        }
+
+        .toggle-pw:hover {
+            color: var(--primary);
+        }
+
+        /* Field hint */
+        .field-hint {
+            font-size: 0.75rem;
+            margin-top: 0.35rem;
+            display: none;
+            padding-left: 2px;
+        }
+
+        .field-hint.show { display: block; }
+        .field-hint.error { color: var(--primary); }
+        .field-hint.success { color: var(--success); }
+
+        /* Strength bar */
+        .strength-wrap {
+            margin-top: 0.6rem;
+            display: none;
+        }
+
+        .strength-wrap.show {
+            display: block;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.35rem;
+        }
+
+        .strength-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s, background 0.3s;
+            width: 0%;
+        }
+
+        .strength-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 14px rgba(185,28,28,.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 1.25rem;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(185,28,28,.28);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,.35);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+
+        .btn-submit.loading .spinner { display: block; }
+        .btn-submit.loading .btn-text { display: none; }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Login Link */
+        .login-prompt {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray);
+        }
+
+        .login-prompt a {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .login-prompt a:hover {
+            text-decoration: underline;
+        }
+
+        /* Success State */
+        .success-card {
+            display: none;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .success-card.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--success-light);
+            color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.25rem;
+        }
+
+        .success-card h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .success-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .btn-to-login {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.85rem 2.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: 0.25s;
+        }
+
+        .btn-to-login:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .copyright {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 768px) {
+            body {
+                grid-template-columns: 1fr;
+            }
+            .left-panel {
+                display: none;
+            }
+            .right-panel {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="left-panel">
+        <div class="left-grid"></div>
+
+        <div class="left-logo">
+            <div class="logo-icon">
+                <img src="images/logo.png" alt="Logo Rumah Kebangsaan">
+            </div>
+            <div class="logo-name">Rumah<br>Kebangsaan</div>
+        </div>
+
+        <div class="left-content">
+            <h2>Bergabung<br>Bersama Kami<br><em>Banyuwangi</em></h2>
+            <p>Daftarkan diri Anda untuk mengelola konten dan berpartisipasi dalam pembangunan portal kebangsaan.</p>
+
+            <div class="steps">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <span>Isi formulir pendaftaran dengan data yang valid</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <span>Akun akan diverifikasi oleh Super Admin</span>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <span>Login dan mulai mengelola konten portal</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="left-footer">
+            &copy; 2026 Rumah Kebangsaan Banyuwangi — PBL Poliwangi
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="reg-box">
+
+            <div id="formHeader">
+                <h1 class="reg-title">Buat Akun Baru</h1>
+                <p class="reg-sub">Lengkapi data di bawah ini untuk mendaftar</p>
+            </div>
+
+            <form id="registerForm" novalidate>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap <span class="req">*</span></label>
+                    <input type="text" id="regNama" class="form-control" placeholder="Masukkan nama lengkap Anda" autocomplete="name">
+                    <div class="field-hint" id="hintNama"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Alamat Email <span class="req">*</span></label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="nama@email.com" autocomplete="email">
+                    <div class="field-hint" id="hintEmail"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Kata Sandi <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <input type="password" id="regPassword" class="form-control" placeholder="Minimal 8 karakter" autocomplete="new-password">
+                        <span class="toggle-pw" id="togglePw1">LIHAT</span>
+                    </div>
+                    <div class="strength-wrap" id="strengthWrap">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strengthFill"></div>
+                        </div>
+                        <div class="strength-label" id="strengthLabel"></div>
+                    </div>
+                    <div class="field-hint" id="hintPassword"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Konfirmasi Kata Sandi <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <input type="password" id="regConfirm" class="form-control" placeholder="Ulangi kata sandi" autocomplete="new-password">
+                        <span class="toggle-pw" id="togglePw2">LIHAT</span>
+                    </div>
+                    <div class="field-hint" id="hintConfirm"></div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="registerBtn">
+                    <div class="spinner"></div>
+                    <span class="btn-text">Daftar Sekarang</span>
+                </button>
+            </form>
+
+            <div class="success-card" id="successCard">
+                <div class="success-icon">✓</div>
+                <h3>Pendaftaran Berhasil!</h3>
+                <p>Akun Anda telah dibuat dan sedang menunggu verifikasi Super Admin. Silakan login untuk melanjutkan.</p>
+                <a href="login.html" class="btn-to-login">Masuk Sekarang</a>
+            </div>
+
+            <p class="login-prompt">
+                Sudah punya akun? <a href="login.html">Masuk di sini</a>
+            </p>
+
+            <div class="copyright">
+                <p>&copy; 2026 Rumah Kebangsaan Banyuwangi</p>
+                <p style="margin-top: 0.3rem; font-style: italic; color: var(--accent);">"Hidup Harus Bahagia"</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // TOGGLE PASSWORD
+        // ============================================
+        function setupToggle(inputId, btnId) {
+            const input = document.getElementById(inputId);
+            const btn   = document.getElementById(btnId);
+
+            btn.addEventListener('click', function() {
+                const show      = input.type === 'password';
+                input.type      = show ? 'text' : 'password';
+                btn.textContent = show ? 'SEMBUNYIKAN' : 'LIHAT';
+            });
+        }
+
+        setupToggle('regPassword', 'togglePw1');
+        setupToggle('regConfirm',  'togglePw2');
+
+        // ============================================
+        // PASSWORD STRENGTH
+        // ============================================
+        document.getElementById('regPassword').addEventListener('input', function() {
+            const val   = this.value;
+            const wrap  = document.getElementById('strengthWrap');
+            const fill  = document.getElementById('strengthFill');
+            const label = document.getElementById('strengthLabel');
+
+            if (!val) {
+                wrap.classList.remove('show');
+                fill.style.width = '0%';
+                label.textContent = '';
+                updateConfirmHint();
+                return;
+            }
+
+            wrap.classList.add('show');
+
+            let score = 0;
+            if (val.length >= 8)          score++;
+            if (/[A-Z]/.test(val))        score++;
+            if (/[0-9]/.test(val))        score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const levels = [
+                { pct: '25%', color: '#EF4444', text: 'Lemah' },
+                { pct: '50%', color: '#F97316', text: 'Cukup' },
+                { pct: '75%', color: '#EAB308', text: 'Kuat' },
+                { pct: '100%', color: '#16A34A', text: 'Sangat Kuat' },
+            ];
+
+            const lvl = levels[Math.max(0, score - 1)];
+            fill.style.width      = lvl.pct;
+            fill.style.background = lvl.color;
+            label.textContent     = 'Kekuatan: ' + lvl.text;
+            label.style.color     = lvl.color;
+
+            updateConfirmHint();
+        });
+
+        // ============================================
+        // CONFIRM PASSWORD
+        // ============================================
+        function updateConfirmHint() {
+            const pass    = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+            const hint    = document.getElementById('hintConfirm');
+            const input   = document.getElementById('regConfirm');
+
+            if (!confirm) {
+                hint.classList.remove('show', 'error', 'success');
+                input.classList.remove('error', 'valid');
+                return;
+            }
+
+            if (pass === confirm) {
+                hint.textContent = '✓ Kata sandi cocok';
+                hint.className   = 'field-hint show success';
+                input.classList.remove('error');
+                input.classList.add('valid');
+            } else {
+                hint.textContent = '✗ Kata sandi tidak cocok';
+                hint.className   = 'field-hint show error';
+                input.classList.remove('valid');
+                input.classList.add('error');
+            }
+        }
+
+        document.getElementById('regConfirm').addEventListener('input', updateConfirmHint);
+
+        // ============================================
+        // HELPER: setField
+        // ============================================
+        function setField(inputId, hintId, isValid, msg) {
+            const input = document.getElementById(inputId);
+            const hint  = document.getElementById(hintId);
+
+            if (isValid) {
+                input.classList.remove('error');
+                input.classList.add('valid');
+                hint.textContent = '';
+                hint.classList.remove('show');
+            } else {
+                input.classList.add('error');
+                input.classList.remove('valid');
+                hint.textContent = msg;
+                hint.className   = 'field-hint show error';
+            }
+
+            return isValid;
+        }
+
+        // ============================================
+        // FORM SUBMIT
+        // ============================================
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nama     = document.getElementById('regNama').value.trim();
+            const email    = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const confirm  = document.getElementById('regConfirm').value;
+
+            const results = [
+                setField('regNama', 'hintNama', nama.length >= 3, 'Nama minimal 3 karakter.'),
+                setField('regEmail', 'hintEmail', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), 'Format email tidak valid.'),
+                setField('regPassword', 'hintPassword', password.length >= 8, 'Kata sandi minimal 8 karakter.'),
+                setField('regConfirm', 'hintConfirm', password === confirm && confirm.length > 0, 'Konfirmasi kata sandi tidak cocok.'),
+            ];
+
+            const valid = results.every(Boolean);
+
+            if (!valid) {
+                const firstErr = document.querySelector('.form-control.error');
+                if (firstErr) {
+                    firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
+            const btn = document.getElementById('registerBtn');
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            setTimeout(() => {
+                sessionStorage.setItem('rk_registered_email', email);
+
+                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('formHeader').style.display   = 'none';
+                document.getElementById('successCard').classList.add('show');
+
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

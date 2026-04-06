@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Berita | Rumah Kebangsaan Banyuwangi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B91C1C;
+            --primary-dark: #7F1D1D;
+            --accent: #D97706;
+            --dark: #0C0A09;
+            --mid: #1C1917;
+            --gray: #57534E;
+            --muted: #A8A29E;
+            --light-gray: #F5F5F4;
+            --border: #E7E5E4;
+            --white: #FFFBF8;
+            --radius: 14px;
+            --container: 1100px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--dark);
+            background: var(--white);
+            line-height: 1.8;
+        }
+
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; line-height: 1.2; color: var(--mid); }
+
+        .container {
+            width: 100%;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ============ NAVBAR (Sama dengan Index) ============ */
+        .navbar {
+            padding: 1rem 0;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: .85rem; font-weight: 700; color: var(--dark); }
+        .logo-mark { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-link { font-size: .9rem; font-weight: 500; color: var(--gray); text-decoration: none; }
+        .nav-link:hover { color: var(--primary); }
+
+        /* ============ ARTICLE HEADER ============ */
+        .article-header { padding: 3rem 0 2rem; }
+        .breadcrumb { font-size: .8rem; color: var(--muted); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 600; }
+        .category-badge { display: inline-block; background: var(--primary-dark); color: white; padding: 4px 12px; border-radius: 4px; font-size: .75rem; font-weight: 700; margin-bottom: 1rem; }
+        .article-title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 1.5rem; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; color: var(--gray); font-size: .9rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+        .meta-item { display: flex; align-items: center; gap: .5rem; }
+
+        /* ============ MAIN CONTENT ============ */
+        .main-grid { display: grid; grid-template-columns: 1fr 320px; gap: 4rem; padding-bottom: 5rem; }
+        
+        .featured-image-wrapper { margin-bottom: 2.5rem; }
+        .featured-image { width: 100%; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .image-caption { font-size: .85rem; color: var(--muted); text-align: center; margin-top: 1rem; font-style: italic; }
+
+        .article-body p { margin-bottom: 1.5rem; font-size: 1.1rem; color: #374151; text-align: justify; }
+        
+        .quote-box {
+            background: var(--light-gray);
+            border-left: 4px solid var(--primary);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 12px 12px 0;
+        }
+        .quote-text { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; color: var(--mid); line-height: 1.5; }
+        .quote-author { display: block; margin-top: 1rem; font-weight: 700; font-size: .9rem; color: var(--primary); text-transform: uppercase; }
+
+        .sub-heading { font-size: 1.8rem; font-weight: 700; margin: 2.5rem 0 1.25rem; }
+
+        /* ============ SIDEBAR ============ */
+        .sidebar-section { margin-bottom: 3rem; }
+        .sidebar-title { font-size: 1.2rem; font-weight: 700; border-bottom: 2px solid var(--primary); display: inline-block; margin-bottom: 1.5rem; padding-bottom: 4px; }
+        .related-card { display: flex; gap: 1rem; margin-bottom: 1.5rem; text-decoration: none; align-items: center; }
+        .related-img { width: 80px; height: 80px; border-radius: 8px; background: #eee; flex-shrink: 0; object-fit: cover; }
+        .related-info h4 { font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 600; line-height: 1.4; color: var(--dark); }
+        .related-info span { font-size: .75rem; color: var(--muted); }
+
+        .tags-wrap { display: flex; flex-wrap: wrap; gap: .5rem; }
+        .tag-item { background: var(--light-gray); padding: 5px 12px; border-radius: 4px; font-size: .8rem; color: var(--gray); text-decoration: none; transition: .2s; }
+        .tag-item:hover { background: var(--primary); color: white; }
+
+        /* ============ FOOTER ============ */
+        footer { background: var(--mid); color: rgba(255,255,255,.6); padding: 4rem 0 2rem; margin-top: 5rem; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 2rem; text-align: center; font-size: .8rem; }
+
+        @media (max-width: 1024px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .sidebar { display: none; }
+            .article-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-mark">
+                <img src="images/logo.png" alt="Logo">
+            </div>
+            <span>Rumah Kebangsaan</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Beranda</a>
+            <a href="index.html#berita" class="nav-link">Berita</a>
+            <a href="index.html#galeri" class="nav-link">Galeri</a>
+            <a href="login.html" class="nav-link" style="color: var(--primary); font-weight: 700;">Login</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    <header class="article-header">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <a href="index.html#berita">Berita</a> / Detail
+        </div>
+        <span class="category-badge">Berita Daerah</span>
+        <h1 class="article-title">Hadiri Buka Bersama Lintas Elemen, Bupati Ipuk Panen Apresiasi</h1>
+        
+        <div class="article-meta">
+            <div class="meta-item">👤 <strong>Aflahul Abidin</strong></div>
+            <div class="meta-item">📅 27 Februari 2026</div>
+            <div class="meta-item">📍 Karangrejo, Banyuwangi</div>
+        </div>
+    </header>
+
+    <div class="main-grid">
+        <article class="article-content">
+            <div class="featured-image-wrapper">
+                <img src="images/berita-2.png" alt="Bupati Ipuk di Rumah Kebangsaan" class="featured-image">
+                <p class="image-caption">Bupati Ipuk Fiestiandani saat berdialog gayeng bersama tokoh lintas elemen di Rumah Kebangsaan Banyuwangi.</p>
+            </div>
+
+            <div class="article-body">
+                <p><strong>TRIBUNJATIMTIMUR.COM, Banyuwangi</strong> - Kehadiran Bupati Banyuwangi Ipuk Fiestiandani beserta jajarannya dalam buka bersama tokoh lintas elemen di Rumah Kebangsaan asuhan jurnalis senior Hakim Said di Karangrejo, Banyuwangi, Kamis (26/02/2026) mendapat banyak apresiasi. Kehadirannya untuk berdialog dan berbaur secara gayeng dinilai sebagai sosok pemimpin yang terbuka.</p>
+                
+                <p>Bupati Ipuk duduk bersama dengan lebih dari seratus tokoh lintas elemen. Mulai dari agamawan, pejabat, pegiat sosial, kalangan pendidik, tokoh perempuan, pers, LSM hingga budayawan. Tak sedikit di antara para tokoh yang hadir adalah pihak yang kerap mengkritisi sejumlah kebijakan Pemkab Banyuwangi.</p>
+
+                <div class="quote-box">
+                    <p class="quote-text">“Saya bersyukur bisa berdialog langsung dengan Bupati seperti ini. Berbagai persoalan yang selama tak terselesaikan bisa didialogkan dengan baik,”</p>
+                    <span class="quote-author">— Herman Sjahthi (Akademisi & Aktivis Sosial)</span>
+                </div>
+
+                <p>Hal yang sama juga diungkapkan oleh Andi Purnama. Podcaster yang sering mengangkat isu-isu kebijakan publik tersebut, menilai ruang dialog yang egaliter demikian, memberikan kesan positif. “Ada pertukaran perspektif dan pemikiran di antara kami yang kemudian melahirkan saling kepahaman. Jadi, tidak lagi hanya satu sisi dalam melihat sebuah peristiwa,” paparnya.</p>
+
+                <h2 class="sub-heading">Karakter Kepemimpinan yang Berani</h2>
+                
+                <p>KH. Achmad Wahyudi yang didapuk memberikan tausiyah dalam kesempatan tersebut menyebutkan jika keberanian seorang pemimpin dalam menghadapi persoalan dan menyelesaikannya adalah bentuk karakter kepemimpinan yang baik.</p>
+
+                <div class="quote-box">
+                    <p class="quote-text">“Kita lihat saat ini, bagaimana Ibu Ipuk menjelaskan soal tambang, infrastruktur jalan, hingga layanan publik seperti ini, adalah sebuah keberanian dari seorang pemimpin. Hadir langsung dan menuntaskan persoalan merupakan karakter yang baik.”</p>
+                    <span class="quote-author">— KH. Achmad Wahyudi (Pengasuh PP. Adzikra)</span>
+                </div>
+
+                <h2 class="sub-heading">Semangat Sinergi 3KO</h2>
+
+                <p>Ketua Rumah Kebangsaan Banyuwangi, Hakim Said, menyampaikan bahwa kegiatan ini mengusung semangat sinergitas <strong>3KO (Komunikasi, Koordinasi, dan Kolaborasi)</strong> sebagai fondasi membangun daerah. Menurutnya, forum ini menjadi ruang mempererat ukhuwah Ramadhan sekaligus memperkuat kolaborasi pemerintah dan masyarakat dalam mendukung Gerakan Nasional Indonesia ASRI (Aman, Sehat, Resik, dan Indah).</p>
+                
+                <p>“Ini waktunya kita tandang bareng untuk mewujudkan Banyuwangi yang asri,” tegas jurnalis senior tersebut.</p>
+
+                <p>Sementara itu, Bupati Ipuk menyampaikan bahwa kritik terhadap pemerintah merupakan bentuk kepedulian masyarakat. “Ketika ada kritik kepada Pemerintah Kabupaten Banyuwangi, itu adalah bukti kecintaan masyarakat dan kepedulian terhadap pemerintah,” ujarnya.</p>
+                
+                <p>Ia mengingatkan bahwa Pemkab Banyuwangi membuka ruang pengawasan publik, namun seluruh pihak tetap harus berjalan dalam koridor aturan. “Kami tidak menghalangi masyarakat untuk memantau pemerintah. Tetapi jangan pula menggoda pemerintah untuk tidak taat pada aturan,” pungkasnya.</p>
+            </div>
+        </article>
+
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Berita Terkait</h3>
+                
+                <a href="#" class="related-card">
+                    <img src="images/berita-1.png" class="related-img">
+                    <div class="related-info">
+                        <h4>Audiensi RK Banyuwangi Soroti Tambang Ilegal</h4>
+                        <span>24 Jan 2026</span>
+                    </div>
+                </a>
+
+                <a href="#" class="related-card">
+                    <img src="images/berita-3.png" class="related-img">
+                    <div class="related-info">
+                        <h4>Mengurai Peran Panti Rehabilitasi Swasta</h4>
+                        <span>5 Apr 2026</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">Topik Populer</h3>
+                <div class="tags-wrap">
+                    <a href="#" class="tag-item">Bupati Ipuk</a>
+                    <a href="#" class="tag-item">3KO</a>
+                    <a href="#" class="tag-item">Banyuwangi Asri</a>
+                    <a href="#" class="tag-item">Dialog Publik</a>
+                    <a href="#" class="tag-item">Rumah Kebangsaan</a>
+                    <a href="#" class="tag-item">PBL Poliwangi</a>
+                </div>
+            </div>
+        </aside>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h3 style="color: white; margin-bottom: 1rem;">Rumah Kebangsaan Banyuwangi</h3>
+            <p>Wadah Pemersatu & Aspirasi Masyarakat Banyuwangi</p>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Rumah Kebangsaan Banyuwangi | Design for PBL Poliwangi
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

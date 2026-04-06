@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rumah Kebangsaan Banyuwangi | Bersatu &amp; Berdaya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B91C1C;
+            --primary-dark: #7F1D1D;
+            --primary-light: #FEE2E2;
+            --accent: #D97706;
+            --accent-light: #FEF3C7;
+            --dark: #0C0A09;
+            --mid: #1C1917;
+            --gray: #57534E;
+            --muted: #A8A29E;
+            --light-gray: #F5F5F4;
+            --border: #E7E5E4;
+            --white: #FFFBF8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
+            --shadow-md: 0 4px 16px rgba(0,0,0,.08);
+            --shadow-lg: 0 12px 40px rgba(0,0,0,.12);
+            --radius: 14px;
+            --container: 1200px;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--dark);
+            background: var(--white);
+            line-height: 1.65;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.15;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all .3s ease; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        .container {
+            width: 100%;
+            max-width: var(--container);
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ============ UTILITY ============ */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary);
+        }
+        .badge::before {
+            content: '';
+            width: 20px;
+            height: 1.5px;
+            background: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .8rem 1.75rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: all .25s ease;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            letter-spacing: .3px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 12px rgba(185,28,28,.25);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(185,28,28,.3);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: white;
+            border: 1.5px solid rgba(255,255,255,.35);
+        }
+        .btn-ghost:hover {
+            background: rgba(255,255,255,.1);
+            border-color: white;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ============ NAVBAR ============ */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1.4rem 0;
+            transition: all .4s ease;
+        }
+
+        .navbar.scrolled {
+            padding: .9rem 0;
+            background: rgba(255,251,248,.96);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 0 var(--border);
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+        }
+        .navbar.scrolled .nav-logo { color: var(--dark); }
+
+        .logo-mark {
+            width: 42px;
+            height: 42px;
+            background: transparent;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 10px rgba(185,28,28,.3);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .logo-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.25rem;
+        }
+
+        .nav-link {
+            font-size: .9rem;
+            font-weight: 500;
+            color: rgba(255,255,255,.75);
+            position: relative;
+        }
+        .navbar.scrolled .nav-link { color: var(--gray); }
+        .nav-link:hover { color: white; }
+        .navbar.scrolled .nav-link:hover { color: var(--primary); }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -3px; left: 0;
+            width: 0; height: 1.5px;
+            background: var(--accent);
+            transition: width .3s;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        .nav-cta {
+            background: var(--accent);
+            color: white;
+            padding: .5rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: .875rem;
+        }
+        .nav-cta:hover { background: #b45309; transform: translateY(-1px); }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: .25rem;
+        }
+        .mobile-toggle span {
+            width: 26px;
+            height: 2px;
+            background: white;
+            transition: .3s;
+            border-radius: 2px;
+        }
+        .navbar.scrolled .mobile-toggle span { background: var(--dark); }
+
+        /* Mobile Menu */
+        .mob-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,.5);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s;
+        }
+        .mob-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .mob-menu {
+            position: fixed;
+            top: 0; right: -320px;
+            width: 300px; height: 100vh;
+            background: var(--white);
+            z-index: 1001;
+            transition: right .4s cubic-bezier(.4,0,.2,1);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+            box-shadow: -8px 0 30px rgba(0,0,0,.1);
+        }
+        .mob-menu.open { right: 0; }
+
+        .mob-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .mob-close {
+            width: 36px; height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--light-gray);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--gray);
+            border: none;
+        }
+
+        .mob-nav-link {
+            display: block;
+            padding: .85rem 0;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--dark);
+            border-bottom: 1px solid var(--border);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+        }
+        .mob-nav-link:hover { color: var(--primary); }
+
+        /* ============ HERO ============ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            background: var(--mid);
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 100px 0 60px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 60% at 70% 50%, rgba(185,28,28,.35) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(217,119,6,.15) 0%, transparent 60%);
+        }
+
+        .hero-grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        .hero-container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1.3fr .7fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.15);
+            padding: .5rem 1rem;
+            border-radius: 100px;
+            font-size: .78rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1.75rem;
+        }
+
+        .hero-title {
+            font-size: clamp(3.2rem, 5.5vw, 5rem);
+            font-weight: 700;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title em { font-style: italic; color: var(--accent); }
+
+        .hero-desc {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,.7);
+            max-width: 520px;
+            margin-bottom: 2.5rem;
+            line-height: 1.75;
+        }
+
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .hero-stats {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,.1);
+        }
+
+        .hero-stat-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            color: white;
+        }
+
+        .hero-stat-label {
+            font-size: .8rem;
+            color: rgba(255,255,255,.45);
+            margin-top: .3rem;
+            font-weight: 500;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+        }
+
+        .hero-card-icon {
+            width: 80px; height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(185,28,28,.3);
+            border: 1.5px solid rgba(185,28,28,.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ============ MARQUEE ============ */
+        .marquee-strip {
+            background: var(--primary);
+            color: white;
+            padding: .9rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .marquee-track {
+            display: inline-block;
+            animation: marquee 35s linear infinite;
+        }
+
+        .marquee-track span {
+            display: inline-block;
+            padding: 0 1.5rem;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+        }
+
+        .marquee-dot {
+            display: inline-block;
+            width: 4px; height: 4px;
+            background: rgba(255,255,255,.5);
+            border-radius: 50%;
+            vertical-align: middle;
+        }
+
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        /* ============ SECTIONS ============ */
+        .section { padding: 7rem 0; }
+        .section-alt { background: var(--light-gray); }
+
+        .section-header { margin-bottom: 4rem; }
+
+        .section-title {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-top: .5rem;
+            line-height: 1.1;
+        }
+
+        .section-desc {
+            color: var(--gray);
+            margin-top: 1rem;
+            max-width: 580px;
+            font-size: 1rem;
+        }
+
+        /* ============ NEWS CARDS ============ */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.75rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all .3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .news-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(185,28,28,.15);
+        }
+
+        .card-thumb {
+            height: 200px;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .news-card:hover .card-thumb img { transform: scale(1.05); }
+
+        .card-body {
+            padding: 1.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: .75rem;
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: .85rem;
+            line-height: 1.3;
+        }
+
+        .card-excerpt {
+            font-size: .9rem;
+            color: var(--gray);
+            line-height: 1.65;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            font-size: .8rem;
+            color: var(--muted);
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+        }
+
+        /* ============ KOMENTAR ============ */
+        .comment-section {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .comment-section h4 {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: .85rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            letter-spacing: .2px;
+        }
+
+        .comment-list {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+            margin-bottom: 1rem;
+        }
+
+        .comment-item {
+            background: var(--light-gray);
+            border-radius: 8px;
+            padding: .85rem 1rem;
+            border-left: 2.5px solid var(--border);
+        }
+
+        .comment-author {
+            font-weight: 700;
+            font-size: .78rem;
+            color: var(--dark);
+            margin-bottom: .2rem;
+        }
+
+        .comment-text {
+            font-size: .85rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .comment-pending {
+            background: var(--accent-light);
+            border-radius: 8px;
+            padding: .65rem 1rem;
+            font-size: .8rem;
+            color: #92400E;
+            font-style: italic;
+            border-left: 2.5px solid var(--accent);
+        }
+
+        .cmt-input {
+            width: 100%;
+            padding: .65rem .9rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .875rem;
+            transition: .2s;
+            background: #FAFAF9;
+            margin-bottom: .5rem;
+            color: var(--dark);
+            resize: none;
+        }
+
+        .cmt-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(185,28,28,.08);
+        }
+
+        .cmt-input::placeholder { color: var(--muted); }
+
+        .cmt-btn {
+            padding: .5rem 1.1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: .8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+            font-family: 'DM Sans', sans-serif;
+            margin-top: .5rem;
+        }
+        .cmt-btn:hover { background: var(--primary-dark); }
+
+        /* ============ CAPTCHA BERSAMA ============ */
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+            background: white;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: .75rem 1rem;
+            margin: .6rem 0;
+            user-select: none;
+        }
+
+        .captcha-check {
+            width: 22px; height: 22px;
+            border: 2px solid #CBD5E1;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: .2s;
+        }
+
+        .captcha-check.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            font-size: .7rem;
+        }
+
+        .captcha-label { font-size: .83rem; color: var(--gray); font-weight: 500; }
+        .captcha-logo { margin-left: auto; font-size: .6rem; color: var(--muted); text-align: center; line-height: 1.4; }
+
+        /* ============ MODAL CAPTCHA ============ */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,.6);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
+        
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 400px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: .3s ease;
+        }
+        .modal-overlay.open .modal-content { transform: translateY(0); }
+
+        /* ============ PROFIL ============ */
+        .profile-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .profile-visual { position: relative; }
+
+        .profile-visual::before {
+            content: '';
+            position: absolute;
+            top: 24px; left: -24px;
+            width: 100%; height: 100%;
+            border: 1.5px solid var(--accent);
+            border-radius: var(--radius);
+            z-index: 0;
+        }
+
+        .profile-frame {
+            position: relative;
+            z-index: 1;
+            aspect-ratio: 4/5;
+            background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .profile-frame::before {
+            content: '';
+            position: absolute;
+            top: -30%; right: -30%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(255,255,255,.1) 0%, transparent 70%);
+        }
+
+        .profile-quote {
+            border-left: 3px solid var(--primary);
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-style: italic;
+            line-height: 1.5;
+            color: var(--dark);
+        }
+
+        .info-box {
+            background: var(--light-gray);
+            border-radius: 10px;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid var(--border);
+            margin-top: 1.5rem;
+        }
+
+        /* ============ GALERI ============ */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 240px;
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item:nth-child(1) { grid-column: span 2; }
+        .gallery-item:nth-child(4) { grid-row: span 2; }
+
+        .gallery-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: transform .5s ease;
+        }
+
+        .gallery-item:hover .gallery-bg { transform: scale(1.06); }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.25rem;
+            opacity: 0;
+            transition: opacity .3s;
+        }
+
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-label { color: white; font-weight: 600; font-size: .95rem; }
+
+        /* ============ PARTISIPASI ============ */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .form-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .form-card-title {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--dark);
+        }
+
+        .form-group { margin-bottom: 1.25rem; }
+
+        .form-label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 600;
+            margin-bottom: .5rem;
+            color: var(--dark);
+            letter-spacing: .2px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: .8rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .9rem;
+            background: #FAFAF9;
+            color: var(--dark);
+            transition: .25s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(185,28,28,.08);
+        }
+
+        .form-control::placeholder { color: var(--muted); }
+        textarea.form-control { resize: vertical; }
+
+        .file-drop {
+            border: 2px dashed var(--border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .3s;
+            background: #FAFAF9;
+        }
+
+        .file-drop:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .file-drop-icon { font-size: 1.75rem; margin-bottom: .5rem; }
+        .file-drop-text { font-size: .875rem; color: var(--gray); }
+
+        .field-error {
+            font-size: .75rem;
+            color: var(--primary);
+            margin-top: .3rem;
+            display: none;
+        }
+        .field-error.show { display: block; }
+
+        /* ============ FOOTER ============ */
+        footer {
+            background: var(--mid);
+            color: rgba(255,255,255,.7);
+            padding: 5rem 0 2.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand h3 {
+            color: white;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            margin-bottom: .75rem;
+        }
+
+        .footer-brand p {
+            font-size: .9rem;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-col ul li { margin-bottom: .7rem; }
+
+        .footer-col a {
+            font-size: .9rem;
+            color: rgba(255,255,255,.55);
+            transition: .2s;
+        }
+        .footer-col a:hover { color: var(--accent); }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.08);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: .82rem;
+        }
+
+        /* ============ TOAST ============ */
+        .toast {
+            position: fixed;
+            bottom: 2rem; right: 2rem;
+            background: var(--dark);
+            color: white;
+            padding: .95rem 1.5rem;
+            border-radius: 10px;
+            font-size: .875rem;
+            font-weight: 600;
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all .4s cubic-bezier(.4,0,.2,1);
+            box-shadow: var(--shadow-lg);
+            min-width: 260px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { border-left: 3px solid #16A34A; }
+        .toast.warning { border-left: 3px solid var(--accent); }
+        .toast.error   { border-left: 3px solid var(--primary); }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 1024px) {
+            .hero-container { grid-template-columns: 1fr; }
+            .hero-visual { display: none; }
+            .profile-wrap { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: repeat(2,1fr); }
+            .gallery-item:nth-child(1) { grid-column: span 1; }
+            .gallery-item:nth-child(4) { grid-row: span 1; }
+            .form-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none; }
+            .mobile-toggle { display: flex; }
+            .news-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; gap: .75rem; text-align: center; }
+            .hero-title { font-size: 2.8rem; }
+            .section { padding: 5rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container nav-inner">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-mark">
+                <img src="images/logo.png" alt="Logo Rumah Kebangsaan">
+            </div>
+            Rumah Kebangsaan
+        </a>
+
+        <div class="nav-links">
+            <a href="#beranda" class="nav-link">Beranda</a>
+            <a href="#berita" class="nav-link">Berita</a>
+            <a href="#profil" class="nav-link">Profil</a>
+            <a href="#galeri" class="nav-link">Galeri</a>
+            <a href="#partisipasi" class="nav-link">Partisipasi</a>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:1.25rem">
+            <a href="login.html" class="nav-cta" id="mainLoginBtn">Login</a>
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="mob-menu" id="mobMenu">
+    <div class="mob-head">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700">Menu</span>
+        <button class="mob-close" id="mobClose">&times;</button>
+    </div>
+    <a href="#beranda" class="mob-nav-link">Beranda</a>
+    <a href="#berita" class="mob-nav-link">Berita</a>
+    <a href="#profil" class="mob-nav-link">Profil</a>
+    <a href="#galeri" class="mob-nav-link">Galeri</a>
+    <a href="#partisipasi" class="mob-nav-link">Partisipasi</a>
+    <a href="login.html" id="mobLoginBtn" style="margin-top:2rem;display:block;text-align:center;background:var(--primary);color:white;padding:.85rem;border-radius:8px;font-weight:600">Login</a>
+</div>
+
+<section id="beranda" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-pattern"></div>
+    <div class="container">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-eyebrow">
+                    <span style="width:6px;height:6px;background:var(--accent);border-radius:50%;display:inline-block"></span>
+                    Portal Resmi Banyuwangi
+                </div>
+                <h1 class="hero-title">
+                    Rumah Bersama<br>
+                    <em>Masyarakat</em><br>
+                    Banyuwangi
+                </h1>
+                <p class="hero-desc">
+                    Wadah inklusif untuk dialog, berita terkini, dan aspirasi publik. Mari bersatu membangun harmoni dan kemajuan daerah.
+                </p>
+                <div class="hero-actions">
+                    <a href="#berita" class="btn btn-primary">Baca Berita Terbaru</a>
+                    <a href="#profil" class="btn btn-ghost">Tentang Kami</a>
+                </div>
+                <div class="hero-stats">
+                    <div>
+                        <div class="hero-stat-num">5+</div>
+                        <div class="hero-stat-label">Tahun Berdiri</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-num">200+</div>
+                        <div class="hero-stat-label">Kegiatan</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-num">10k+</div>
+                        <div class="hero-stat-label">Anggota</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="hero-card-icon">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                    </div>
+                    <h3 style="color:white;font-size:1.3rem;margin-bottom:.75rem">"Hidup Harus Bahagia"</h3>
+                    <p style="font-size:.875rem;color:rgba(255,255,255,.65);line-height:1.65">Kebahagiaan lahir dari masyarakat yang terinformasi, harmonis, dan peduli satu sama lain.</p>
+                    <div style="margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid rgba(255,255,255,.1);font-size:.75rem;font-weight:700;letter-spacing:1.5px;color:var(--accent)">MOH. HAKIM SAID, S.H.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="marquee-strip">
+    <div class="marquee-track">
+        <span>Rumah Kebangsaan Banyuwangi</span><span class="marquee-dot"></span>
+        <span>Informasi Terpercaya</span><span class="marquee-dot"></span>
+        <span>Ruang Publik Inklusif</span><span class="marquee-dot"></span>
+        <span>Arsip Kebangsaan</span><span class="marquee-dot"></span>
+        <span>Aspirasi Warga</span><span class="marquee-dot"></span>
+        <span>Hidup Harus Bahagia</span><span class="marquee-dot"></span>
+        <span>Rumah Kebangsaan Banyuwangi</span><span class="marquee-dot"></span>
+        <span>Informasi Terpercaya</span><span class="marquee-dot"></span>
+        <span>Ruang Publik Inklusif</span><span class="marquee-dot"></span>
+        <span>Arsip Kebangsaan</span><span class="marquee-dot"></span>
+        <span>Aspirasi Warga</span><span class="marquee-dot"></span>
+        <span>Hidup Harus Bahagia</span><span class="marquee-dot"></span>
+    </div>
+</div>
+
+<section id="berita" class="section">
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:3.5rem">
+            <div>
+                <div class="badge">Berita Terkini</div>
+                <h2 class="section-title">Kabar Banyuwangi</h2>
+            </div>
+            <a href="#" style="color:var(--primary);font-weight:600;font-size:.9rem;display:inline-flex;align-items:center;gap:.4rem">
+                Lihat Semua
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <div class="news-grid reveal">
+            <article class="news-card">
+                <div class="card-thumb">
+                    <img src="images/berita-3.png" alt="Rehabilitasi Swasta">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">Opini Hukum</span>
+                    <h3 class="card-title">Dari Niat Baik ke Risiko Hukum: Mengurai Peran Panti Rehabilitasi Swasta</h3>
+                    <p class="card-excerpt">Tumbuhnya panti rehabilitasi swasta patut diapresiasi, namun tanpa pengawasan dan regulasi, berpotensi menimbulkan penyimpangan hukum.</p>
+                    <div class="card-meta">
+                        <span>📅 5 Apr 2026</span>
+                        <span>👤 Hakim Said, S.H.</span>
+                    </div>
+                    <div class="comment-section">
+                        <h4>💬 Komentar (<span id="cnt-1">2</span>)</h4>
+                        <div class="comment-list" id="cmts-1">
+                            <div class="comment-item">
+                                <div class="comment-author">Ahmad Z. &mdash; 5 Apr 2026</div>
+                                <div class="comment-text">Tulisan yang sangat mencerahkan, perlu pengawasan lebih ketat.</div>
+                            </div>
+                            <div class="comment-item">
+                                <div class="comment-author">Bu Sri &mdash; 5 Apr 2026</div>
+                                <div class="comment-text">Terima kasih infonya Pak Hakim.</div>
+                            </div>
+                        </div>
+                        <input type="text" class="cmt-input" id="cn-1" placeholder="Nama Anda">
+                        <textarea class="cmt-input" id="ct-1" rows="2" placeholder="Tulis komentar..."></textarea>
+                        <button class="cmt-btn" type="button" onclick="kirimKomentar('1')">Kirim Komentar</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <a href="detail-berita.html" class="card-thumb" style="display: block;">
+                    <img src="images/berita-2.png" alt="Bupati Ipuk">
+                </a>
+                <div class="card-body">
+                    <span class="card-tag">Berita Daerah</span>
+                    <a href="detail-berita.html" style="text-decoration: none; color: inherit;">
+                        <h3 class="card-title">Hadiri Buka Bersama Lintas Elemen, Bupati Ipuk Panen Apresiasi</h3>
+                    </a>
+                    <p class="card-excerpt">Bupati Ipuk berdialog dengan lebih dari seratus tokoh lintas elemen di Rumah Kebangsaan, wujudkan sinergi 3KO untuk Banyuwangi.</p>
+                    <div class="card-meta">
+                        <span>📅 27 Feb 2026</span>
+                        <span>👤 Tim Redaksi</span>
+                    </div>
+                    <div class="comment-section">
+                        <h4>💬 Komentar (<span id="cnt-2">1</span>)</h4>
+                        <div class="comment-list" id="cmts-2">
+                            <div class="comment-item">
+                                <div class="comment-author">Budi S. &mdash; 28 Feb 2026</div>
+                                <div class="comment-text">Semoga kolaborasi pemerintah dan warga terus terjalin baik!</div>
+                            </div>
+                        </div>
+                        <input type="text" class="cmt-input" id="cn-2" placeholder="Nama Anda">
+                        <textarea class="cmt-input" id="ct-2" rows="2" placeholder="Tulis komentar..."></textarea>
+                        <button class="cmt-btn" type="button" onclick="kirimKomentar('2')">Kirim Komentar</button>
+                    </div>
+                </div>
+            </article>
+
+            <article class="news-card">
+                <div class="card-thumb">
+                    <img src="images/berita-1.png" alt="Audiensi RK Banyuwangi">
+                </div>
+                <div class="card-body">
+                    <span class="card-tag">Utama</span>
+                    <h3 class="card-title">Audiensi RK Banyuwangi: Soroti Jalan Rusak &amp; Tambang Ilegal</h3>
+                    <p class="card-excerpt">Pengurus RK Banyuwangi menggelar audiensi dengan Kapolresta membahas infrastruktur jalan dan legalitas penambangan galian C.</p>
+                    <div class="card-meta">
+                        <span>📅 24 Jan 2026</span>
+                        <span>👤 Admin</span>
+                    </div>
+                    <div class="comment-section">
+                        <h4>💬 Komentar (<span id="cnt-3">0</span>)</h4>
+                        <div class="comment-list" id="cmts-3"></div>
+                        <input type="text" class="cmt-input" id="cn-3" placeholder="Nama Anda">
+                        <textarea class="cmt-input" id="ct-3" rows="2" placeholder="Tulis komentar..."></textarea>
+                        <button class="cmt-btn" type="button" onclick="kirimKomentar('3')">Kirim Komentar</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section id="profil" class="section section-alt">
+    <div class="container">
+        <div class="profile-wrap">
+            <div class="profile-visual reveal">
+                <div class="profile-frame">
+                    <div style="width:100px;height:100px;background:rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:3rem;margin-bottom:1.25rem;border:2px solid rgba(255,255,255,.2)">👤</div>
+                    <h3 style="color:white;font-size:1.6rem;margin-bottom:.35rem">Moh. Hakim Said, S.H.</h3>
+                    <span style="font-size:.75rem;letter-spacing:2px;opacity:.7;text-transform:uppercase">Founder &amp; Ketua</span>
+                    <div style="margin-top:2rem;padding:1.25rem 1.5rem;background:rgba(255,255,255,.08);border-radius:10px;max-width:80%;text-align:left">
+                        <p style="font-size:.85rem;opacity:.75;line-height:1.65;font-style:italic">"Hidup harus bahagia — kebahagiaan sejati lahir ketika kita hidup rukun, sadar hukum, dan peduli sesama."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal">
+                <div class="badge">Tentang Kami</div>
+                <h2 class="section-title">Wadah Pemersatu Banyuwangi</h2>
+                <div class="profile-quote">
+                    "Hidup harus bahagia. Dan kebahagiaan sejati hanya bisa dicapai ketika kita hidup rukun, sadar hukum, dan peduli sesama."
+                </div>
+                <p style="color:var(--gray);margin-bottom:1rem;line-height:1.75">
+                    Rumah Kebangsaan Banyuwangi didirikan pada 12 Januari 2019 oleh Hakim Said, SH sebagai respons atas kebutuhan ruang publik yang netral dan edukatif. Pada 2022, diresmikan bersama Badan Kesatuan Bangsa dan Politik Kabupaten Banyuwangi.
+                </p>
+                <p style="color:var(--gray);margin-bottom:1.5rem;line-height:1.75">
+                    Kami mempertemukan mahasiswa, media, komunitas, akademisi, dan tokoh masyarakat dalam semangat kebangsaan dan prinsip <strong>3KO: Komunikasi, Koordinasi, dan Kolaborasi</strong>.
+                </p>
+                <div class="info-box">
+                    <p style="font-weight:700;margin-bottom:.4rem;font-size:.9rem">📍 Lokasi Kami</p>
+                    <p style="color:var(--gray);font-size:.875rem">Jl. Piere Tendean No.1, Karangrejo, Kecamatan Banyuwangi, Kabupaten Banyuwangi, Jawa Timur 68411</p>
+                    <p style="color:var(--gray);font-size:.875rem;margin-top:.5rem">📞 +62 823-3835-5251 &nbsp;|&nbsp; ✉️ remapenta@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="galeri" class="section">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:3.5rem">
+            <div class="badge" style="justify-content:center">Arsip Digital</div>
+            <h2 class="section-title">Jejak Kegiatan</h2>
+            <p class="section-desc" style="margin:1rem auto">Dokumentasi visual perjalanan Rumah Kebangsaan dalam merawat persatuan bangsa.</p>
+        </div>
+
+        <div class="gallery-grid reveal">
+            <div class="gallery-item">
+                <div class="gallery-bg" style="background:linear-gradient(135deg,#1c1917,#44403c)">🏛️</div>
+                <div class="gallery-overlay"><div class="gallery-label">Kunjungan Tokoh</div></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-bg" style="background:linear-gradient(135deg,#78350f,#b45309)">🎙️</div>
+                <div class="gallery-overlay"><div class="gallery-label">Seminar Kebangsaan</div></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-bg" style="background:linear-gradient(135deg,#292524,#44403c)">🏫</div>
+                <div class="gallery-overlay"><div class="gallery-label">Bakti Sosial</div></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-bg" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)">🎭</div>
+                <div class="gallery-overlay"><div class="gallery-label">Pentas Seni Budaya</div></div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-bg" style="background:linear-gradient(135deg,#0c4a6e,#075985)">📚</div>
+                <div class="gallery-overlay"><div class="gallery-label">Pojok Baca</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="partisipasi" class="section section-alt">
+    <div class="container">
+        <div style="text-align:center;margin-bottom:3.5rem">
+            <div class="badge" style="justify-content:center">Suara Warga</div>
+            <h2 class="section-title">Partisipasi Publik</h2>
+            <p class="section-desc" style="margin:1rem auto">Bagikan pengalaman kunjungan Anda melalui form di bawah ini.</p>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-card reveal">
+                <h3 class="form-card-title">✅ Tulis Ulasan Kunjungan</h3>
+                <form id="formTestimoni" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Nama Lengkap *</label>
+                        <input type="text" id="testiNama" class="form-control" placeholder="Masukkan nama Anda">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Ulasan *</label>
+                        <textarea id="testiPesan" class="form-control" rows="4" placeholder="Ceritakan pengalaman kunjungan Anda..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.75rem;border-radius:8px">Kirim Ulasan</button>
+                </form>
+            </div>
+
+            <div class="form-card reveal">
+                <h3 class="form-card-title">📷 Upload Foto Kunjungan</h3>
+                <form id="formFoto" novalidate>
+                    <div class="form-group">
+                        <label class="form-label">Nama Pengunjung *</label>
+                        <input type="text" id="fotoNama" class="form-control" placeholder="Nama Anda">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Foto * (Maks 5MB — JPG/PNG/WEBP)</label>
+                        <div class="file-drop" id="fileBox" onclick="document.getElementById('fotoFile').click()">
+                            <div class="file-drop-icon">📷</div>
+                            <div class="file-drop-text" id="fileTxt">Klik untuk pilih foto</div>
+                            <input type="file" id="fotoFile" accept=".jpg,.jpeg,.png,.webp" style="display:none">
+                        </div>
+                        <p id="fileErr" class="field-error"></p>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.75rem;border-radius:8px">Kirim Foto</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <h3>Rumah Kebangsaan Banyuwangi</h3>
+                <p>Tempat lahirnya gagasan strategis untuk membangun negeri melalui Komunikasi, Koordinasi, dan Kolaborasi (3KO).</p>
+                <p style="margin-top:1rem;font-size:.85rem">📍 Jl. Piere Tendean No.1, Banyuwangi 68411</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="#beranda">Beranda</a></li>
+                    <li><a href="#berita">Berita</a></li>
+                    <li><a href="#profil">Profil</a></li>
+                    <li><a href="#galeri">Galeri</a></li>
+                    <li><a href="#partisipasi">Partisipasi</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul>
+                    <li><a href="tel:+6282338355251">+62 823-3835-5251</a></li>
+                    <li><a href="mailto:remapenta@gmail.com">remapenta@gmail.com</a></li>
+                    <li><a href="login.html">Panel Admin</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2026 Rumah Kebangsaan Banyuwangi. Semua hak dilindungi.</div>
+            <div>Design by <span style="color:var(--accent)">PBL Poliwangi</span></div>
+        </div>
+    </div>
+</footer>
+
+<div class="modal-overlay" id="captchaModal">
+    <div class="modal-content">
+        <h3 style="margin-bottom: 1rem; font-family: 'DM Sans', sans-serif; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem;">Verifikasi Keamanan</h3>
+        <p style="font-size: .85rem; color: var(--gray); margin-bottom: 1rem;">Mohon selesaikan verifikasi reCAPTCHA berikut untuk melanjutkan aksi Anda.</p>
+        
+        <div class="captcha-box" style="margin: 0; margin-bottom: 1.5rem;">
+            <div class="captcha-check" id="modalCaptchaCheck" onclick="toggleModalCaptcha()"></div>
+            <span class="captcha-label">Saya bukan robot</span>
+            <div class="captcha-logo">🔒<br>reCAPTCHA</div>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button type="button" class="btn btn-ghost" style="color: var(--dark); border-color: var(--border);" onclick="closeCaptchaModal()">Batal</button>
+            <button type="button" class="btn btn-primary" id="btnConfirmCaptcha" onclick="confirmCaptcha()">Verifikasi</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================
+// SISTEM AUTH & NAVIGASI
+// ============================================
+const isLoggedIn = () => sessionStorage.getItem('rk_logged_in') === 'true';
+
+function updateNav() {
+    const mainBtn = document.getElementById('mainLoginBtn');
+    const mobBtn  = document.getElementById('mobLoginBtn');
+    
+    if (isLoggedIn()) {
+        // Ambil role dari session, tentukan target URL
+        const role = sessionStorage.getItem('rk_role');
+        const target = (role === 'superadmin') ? 'superadmin.html' : 'admin.html';
+        
+        if (mainBtn) { mainBtn.textContent = 'Dashboard'; mainBtn.href = target; }
+        if (mobBtn)  { mobBtn.textContent  = 'Dashboard'; mobBtn.href  = target; }
+    } else {
+        if (mainBtn) { mainBtn.textContent = 'Login'; mainBtn.href = 'login.html'; }
+        if (mobBtn)  { mobBtn.textContent  = 'Login'; mobBtn.href  = 'login.html'; }
+    }
+}
+
+// Panggil updateNav saat halaman dimuat
+updateNav();
+
+// Fungsi helper jika user belum login saat akses fitur form
+function requireLogin() {
+    if (!isLoggedIn()) {
+        showToast('Anda harus login terlebih dahulu.', 'warning');
+        setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        return false;
+    }
+    return true;
+}
+
+// ============================================
+// NAVBAR SCROLL & MOBILE MENU
+// ============================================
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
+
+function openMobMenu() {
+    document.getElementById('mobMenu').classList.add('open');
+    document.getElementById('mobOverlay').classList.add('open');
+}
+function closeMobMenu() {
+    document.getElementById('mobMenu').classList.remove('open');
+    document.getElementById('mobOverlay').classList.remove('open');
+}
+document.getElementById('mobileToggle').addEventListener('click', openMobMenu);
+document.getElementById('mobClose').addEventListener('click', closeMobMenu);
+document.getElementById('mobOverlay').addEventListener('click', closeMobMenu);
+document.querySelectorAll('.mob-nav-link').forEach(l => l.addEventListener('click', closeMobMenu));
+
+// ============================================
+// FILTER KATA KASAR
+// ============================================
+const KASAR_WORDS = ['bajingan','brengsek','keparat','bangsat','anjing','babi','tolol','goblok','idiot'];
+const KASAR_REGEX = new RegExp('\\b(' + KASAR_WORDS.join('|') + ')\\b', 'gi');
+function adaKasar(teks) { KASAR_REGEX.lastIndex = 0; return KASAR_REGEX.test(teks); }
+
+// ============================================
+// MODAL CAPTCHA LOGIC
+// ============================================
+let pendingSubmitAction = null;
+let isModalCaptchaChecked = false;
+
+function toggleModalCaptcha() {
+    isModalCaptchaChecked = !isModalCaptchaChecked;
+    const el = document.getElementById('modalCaptchaCheck');
+    el.classList.toggle('checked', isModalCaptchaChecked);
+    el.textContent = isModalCaptchaChecked ? '✓' : '';
+}
+
+function openCaptchaModal(actionCallback) {
+    pendingSubmitAction = actionCallback;
+    isModalCaptchaChecked = false;
+    const el = document.getElementById('modalCaptchaCheck');
+    el.classList.remove('checked');
+    el.textContent = '';
+    document.getElementById('captchaModal').classList.add('open');
+}
+
+function closeCaptchaModal() {
+    pendingSubmitAction = null;
+    document.getElementById('captchaModal').classList.remove('open');
+}
+
+function confirmCaptcha() {
+    if (!isModalCaptchaChecked) { showToast('Centang reCAPTCHA terlebih dulu.', 'warning'); return; }
+    closeCaptchaModal();
+    if (pendingSubmitAction) pendingSubmitAction();
+}
+
+// ============================================
+// KOMENTAR, TESTIMONI & UPLOAD (US-6, US-4, US-3)
+// ============================================
+function kirimKomentar(id) {
+    if (!requireLogin()) return;
+
+    const nama = document.getElementById('cn-' + id).value.trim();
+    const teks = document.getElementById('ct-' + id).value.trim();
+
+    if (!nama || !teks) { showToast('Nama dan komentar wajib diisi.', 'warning'); return; }
+    if (adaKasar(teks)) { showToast('Komentar mengandung kata yang tidak pantas.', 'error'); return; }
+
+    openCaptchaModal(() => {
+        const list = document.getElementById('cmts-' + id);
+        const el   = document.createElement('div');
+        el.className   = 'comment-pending';
+        el.textContent = '⏳ Komentar Anda sedang menunggu persetujuan admin.';
+        list.appendChild(el);
+
+        const cntEl = document.getElementById('cnt-' + id);
+        if (cntEl) cntEl.textContent = parseInt(cntEl.textContent) + 1;
+
+        document.getElementById('cn-' + id).value = '';
+        document.getElementById('ct-' + id).value = '';
+        showToast('Komentar terkirim! Menunggu moderasi admin.', 'success');
+    });
+}
+
+document.getElementById('formTestimoni').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!requireLogin()) return;
+
+    const nama  = document.getElementById('testiNama').value.trim();
+    const pesan = document.getElementById('testiPesan').value.trim();
+
+    if (!nama || !pesan) { showToast('Lengkapi semua kolom terlebih dulu.', 'warning'); return; }
+    if (adaKasar(pesan)) { showToast('Pesan mengandung kata yang tidak pantas.', 'error'); return; }
+
+    openCaptchaModal(() => {
+        this.reset();
+        showToast('Ulasan dikirim! Menunggu moderasi admin.', 'success');
+    });
+});
+
+const ALLOWED_TYPES = ['image/jpeg','image/jpg','image/png','image/webp'];
+const MAX_SIZE = 5 * 1024 * 1024;
+
+document.getElementById('fotoFile').addEventListener('change', function() {
+    const f   = this.files[0];
+    const err = document.getElementById('fileErr');
+    const txt = document.getElementById('fileTxt');
+    const box = document.getElementById('fileBox');
+
+    if (!f) return;
+
+    if (!ALLOWED_TYPES.includes(f.type) || f.size > MAX_SIZE) {
+        err.textContent = !ALLOWED_TYPES.includes(f.type) ? 'Format tidak didukung. Gunakan JPG, PNG, atau WEBP.' : 'Ukuran file melebihi batas 5MB.';
+        err.classList.add('show');
+        box.style.borderColor = 'var(--primary)';
+        this.value = '';
+        return;
+    }
+
+    err.classList.remove('show');
+    box.style.borderColor = '#16A34A';
+    txt.textContent = '✓ ' + f.name.substring(0, 25) + (f.name.length > 25 ? '...' : '');
+});
+
+document.getElementById('formFoto').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!requireLogin()) return;
+
+    const nama = document.getElementById('fotoNama').value.trim();
+    const file = document.getElementById('fotoFile').files[0];
+
+    if (!nama) { showToast('Nama pengunjung wajib diisi.', 'warning'); return; }
+    if (!file) { showToast('Pilih foto terlebih dahulu.', 'warning'); return; }
+
+    openCaptchaModal(() => {
+        this.reset();
+        document.getElementById('fileTxt').textContent = 'Klik untuk pilih foto';
+        document.getElementById('fileBox').style.borderColor = '';
+        document.getElementById('fileErr').classList.remove('show');
+        showToast('Foto berhasil diunggah! Menunggu moderasi admin.', 'success');
+    });
+});
+
+// ============================================
+// ANIMASI & TOAST
+// ============================================
+const observer = new IntersectionObserver((entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }), { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>

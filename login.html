@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Admin | Rumah Kebangsaan Banyuwangi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #B91C1C;
+            --primary-dark: #7F1D1D;
+            --primary-light: #FEE2E2;
+            --accent: #D97706;
+            --dark: #0C0A09;
+            --gray: #57534E;
+            --muted: #A8A29E;
+            --light-gray: #F5F5F4;
+            --border: #E7E5E4;
+            --white: #FFFBF8;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* LEFT PANEL */
+        .left-panel {
+            position: relative;
+            background: linear-gradient(160deg, #1c1917 0%, var(--primary-dark) 60%, #450a0a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -20%; right: -20%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle, rgba(185,28,28,.3) 0%, transparent 70%);
+        }
+
+        .left-panel::after {
+            content: '';
+            position: absolute;
+            bottom: -10%; left: -10%;
+            width: 60%; height: 60%;
+            background: radial-gradient(circle, rgba(217,119,6,.15) 0%, transparent 70%);
+        }
+
+        .left-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .left-logo {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: .85rem;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 44px; height: 44px;
+            background: transparent; /* Diubah agar transparan untuk gambar */
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(185,28,28,.4);
+            overflow: hidden; /* Tambahan agar gambar tidak keluar radius */
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Memastikan gambar memenuhi area icon */
+        }
+
+        .logo-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+        }
+
+        .left-content h2 em {
+            font-style: italic;
+            color: var(--accent);
+        }
+
+        .left-content p {
+            color: rgba(255,255,255,.6);
+            font-size: .975rem;
+            line-height: 1.7;
+            max-width: 380px;
+        }
+
+        .left-footer {
+            position: relative;
+            z-index: 1;
+            color: rgba(255,255,255,.35);
+            font-size: .8rem;
+        }
+
+        /* RIGHT PANEL */
+        .right-panel {
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: .5rem;
+        }
+
+        .login-sub {
+            color: var(--gray);
+            font-size: .9rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Demo hint */
+        .demo-hint {
+            background: var(--light-gray);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            font-size: .8rem;
+            color: var(--gray);
+            margin-bottom: 1.75rem;
+            line-height: 1.7;
+        }
+
+        .demo-hint strong { color: var(--dark); display: block; margin-bottom: .35rem; font-size: .82rem; }
+        .demo-hint code {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 6px;
+            font-size: .78rem;
+            color: var(--primary-dark);
+        }
+
+        /* Error Message */
+        .error-box {
+            display: none;
+            background: var(--primary-light);
+            border: 1px solid #FCA5A5;
+            border-radius: 8px;
+            padding: .85rem 1rem;
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 1.25rem;
+            align-items: center;
+            gap: .6rem;
+        }
+        .error-box.show { display: flex; }
+
+        /* Form */
+        .form-group { margin-bottom: 1.25rem; }
+
+        .form-label {
+            display: block;
+            font-size: .82rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            color: var(--dark);
+            letter-spacing: .2px;
+        }
+
+        .input-wrap { position: relative; }
+
+        .form-control {
+            width: 100%;
+            padding: .875rem 1rem;
+            background: var(--light-gray);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .95rem;
+            transition: all .25s;
+            color: var(--dark);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(185,28,28,.08);
+        }
+
+        .form-control.error {
+            border-color: var(--primary);
+            background: #FFF5F5;
+        }
+
+        .form-control::placeholder { color: var(--muted); }
+
+        .toggle-pw {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--muted);
+            user-select: none;
+            letter-spacing: .5px;
+        }
+        .toggle-pw:hover { color: var(--primary); }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            font-size: .82rem;
+        }
+
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .remember input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 15px;
+            height: 15px;
+        }
+
+        .forgot { color: var(--primary); font-weight: 600; }
+        .forgot:hover { text-decoration: underline; }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all .25s;
+            box-shadow: 0 4px 14px rgba(185,28,28,.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .6rem;
+        }
+        .btn-submit:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(185,28,28,.28);
+        }
+        .btn-submit:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+        .spinner {
+            width: 18px; height: 18px;
+            border: 2px solid rgba(255,255,255,.35);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            display: none;
+        }
+        .btn-submit.loading .spinner { display: block; }
+        .btn-submit.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Bottom Links */
+        .login-footer-links {
+            margin-top: 1.75rem;
+            text-align: center;
+        }
+
+        .register-prompt {
+            font-size: .875rem;
+            color: var(--gray);
+            margin-bottom: .75rem;
+        }
+        .register-prompt a { color: var(--primary); font-weight: 700; }
+        .register-prompt a:hover { text-decoration: underline; }
+
+        .back-link {
+            font-size: .8rem;
+            color: var(--muted);
+        }
+        .back-link a { color: var(--primary); font-weight: 600; }
+        .back-link a:hover { text-decoration: underline; }
+
+        /* Copyright */
+        .copyright {
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: .75rem;
+            color: var(--muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { grid-template-columns: 1fr; }
+            .left-panel { display: none; }
+            .right-panel { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="left-panel">
+    <div class="left-grid"></div>
+
+    <div class="left-logo">
+        <div class="logo-icon">
+            <img src="images/logo.png" alt="Logo Rumah Kebangsaan">
+        </div>
+        <div class="logo-name">Rumah<br>Kebangsaan</div>
+    </div>
+
+    <div class="left-content">
+        <h2>Portal Admin<br><em>Rumah Kebangsaan</em><br>Banyuwangi</h2>
+        <p>Kelola konten, moderasi interaksi warga, dan pantau aktivitas sistem dari satu panel terintegrasi.</p>
+    </div>
+
+    <div class="left-footer">
+        &copy; 2026 Rumah Kebangsaan Banyuwangi — PBL Poliwangi
+    </div>
+</div>
+
+<div class="right-panel">
+    <div class="login-box">
+        <h1 class="login-title">Selamat Datang</h1>
+        <p class="login-sub">Masuk ke Panel Administrasi</p>
+
+        <div class="demo-hint">
+            <strong>🔑 Demo Akun</strong>
+            Super Admin: <code>superadmin</code> / <code>super123</code><br>
+            Admin Konten: <code>admin</code> / <code>admin123</code>
+        </div>
+
+        <div class="error-box" id="errorBox">
+            <span>⚠️</span>
+            <span id="errorMsg">Username atau kata sandi salah.</span>
+        </div>
+
+        <form id="loginForm" novalidate>
+            <div class="form-group">
+                <label class="form-label">Email atau Username</label>
+                <input type="text" id="username" class="form-control" placeholder="Masukkan akun Anda" autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kata Sandi</label>
+                <div class="input-wrap">
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" autocomplete="current-password">
+                    <span class="toggle-pw" id="togglePw">LIHAT</span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label class="remember">
+                    <input type="checkbox" id="rememberMe"> Ingat Saya
+                </label>
+                <a href="#" class="forgot" onclick="showForgot(event)">Lupa Sandi?</a>
+            </div>
+
+            <button type="submit" class="btn-submit" id="loginBtn">
+                <div class="spinner"></div>
+                <span class="btn-text">Masuk Sekarang</span>
+            </button>
+        </form>
+
+        <div class="login-footer-links">
+            <p class="register-prompt">
+                Belum punya akun? <a href="regestrasi.html">Daftar di sini</a>
+            </p>
+            <p class="back-link">
+                ← <a href="index.html">Kembali ke Portal Publik</a>
+            </p>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2026 Rumah Kebangsaan Banyuwangi</p>
+            <p style="margin-top:.3rem;font-style:italic;color:var(--accent)">"Hidup Harus Bahagia"</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================
+// AKUN TERDAFTAR
+// ============================================
+const ACCOUNTS = [
+    { username: 'superadmin',             password: 'super123',  role: 'superadmin', redirect: 'superadmin.html' },
+    { username: 'admin',                    password: 'admin123',  role: 'admin',      redirect: 'admin.html' },
+    { username: 'hakim@rumahkebangsaan.id', password: 'hakim123',  role: 'admin',      redirect: 'admin.html' },
+    { username: 'developer@poli.edu',       password: 'dev123',    role: 'superadmin', redirect: 'superadmin.html' },
+];
+
+// Redirect jika sudah login
+(function checkAlreadyLoggedIn() {
+    if (sessionStorage.getItem('rk_logged_in') === 'true') {
+        const role = sessionStorage.getItem('rk_role');
+        window.location.replace(role === 'superadmin' ? 'superadmin.html' : 'admin.html');
+        return;
+    }
+    // Restore "remember me"
+    const saved = localStorage.getItem('rk_remember');
+    if (saved) {
+        document.getElementById('username').value = saved;
+        document.getElementById('rememberMe').checked = true;
+    }
+})();
+
+// ============================================
+// TOGGLE PASSWORD
+// ============================================
+document.getElementById('togglePw').addEventListener('click', function() {
+    const pw   = document.getElementById('password');
+    const show = pw.type === 'password';
+    pw.type          = show ? 'text' : 'password';
+    this.textContent = show ? 'SEMBUNYIKAN' : 'LIHAT';
+});
+
+// ============================================
+// SUBMIT LOGIN
+// ============================================
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const uname    = document.getElementById('username').value.trim();
+    const pass     = document.getElementById('password').value;
+    const remember = document.getElementById('rememberMe').checked;
+    const errorBox = document.getElementById('errorBox');
+    const errorMsg = document.getElementById('errorMsg');
+    const btn      = document.getElementById('loginBtn');
+
+    // Reset error state
+    errorBox.classList.remove('show');
+    document.getElementById('username').classList.remove('error');
+    document.getElementById('password').classList.remove('error');
+
+    // Validasi kosong
+    if (!uname || !pass) {
+        errorMsg.textContent = 'Email/username dan kata sandi wajib diisi.';
+        errorBox.classList.add('show');
+        if (!uname) document.getElementById('username').classList.add('error');
+        if (!pass)  document.getElementById('password').classList.add('error');
+        return;
+    }
+
+    // Loading state
+    btn.classList.add('loading');
+    btn.disabled = true;
+
+    setTimeout(() => {
+        const acc = ACCOUNTS.find(a => a.username === uname && a.password === pass);
+
+        btn.classList.remove('loading');
+        btn.disabled = false;
+
+        if (acc) {
+            sessionStorage.setItem('rk_logged_in', 'true');
+            sessionStorage.setItem('rk_role',      acc.role);
+            sessionStorage.setItem('rk_username',  acc.username);
+
+            if (remember) {
+                localStorage.setItem('rk_remember', uname);
+            } else {
+                localStorage.removeItem('rk_remember');
+            }
+
+            window.location.href = acc.redirect;
+        } else {
+            errorMsg.textContent = 'Username/email atau kata sandi salah.';
+            errorBox.classList.add('show');
+            document.getElementById('username').classList.add('error');
+            document.getElementById('password').classList.add('error');
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+        }
+    }, 800);
+});
+
+function showForgot(e) {
+    e.preventDefault();
+    alert('Hubungi Super Admin untuk reset kata sandi:\ndeveloper@poli.edu');
+}
+</script>
+</body>
+</html>
