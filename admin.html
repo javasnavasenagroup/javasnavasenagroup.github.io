@@ -6,38 +6,41 @@
     <title>Dashboard Admin Konten | Rumah Kebangsaan</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #B91C1C;
-            --primary-light: #FEE2E2;
+            --primary-light: #FEF2F2;
             --primary-dark: #7F1D1D;
             --accent: #D97706;
             --dark: #0C0A09;
             --mid: #1C1917;
-            --gray: #57534E;
-            --muted: #A8A29E;
-            --light: #F5F5F4;
-            --border: #E7E5E4;
-            --white: #FFFBF8;
-            --success: #16A34A;
-            --success-light: #DCFCE7;
-            --warning: #D97706;
-            --warning-light: #FEF3C7;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,.06);
-            --shadow-md: 0 4px 16px rgba(0,0,0,.08);
-            --radius: 12px;
-            --sidebar-w: 260px;
+            --gray: #44403C;
+            --muted: #78716C;
+            --light: #F7F5F3;
+            --border: #E8E3DD;
+            --white: #FEFCFA;
+            --success: #15803D;
+            --success-light: #F0FDF4;
+            --warning: #B45309;
+            --warning-light: #FFFBEB;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.04);
+            --shadow-md: 0 4px 20px rgba(0,0,0,.07);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,.1);
+            --radius: 10px;
+            --sidebar-w: 252px;
         }
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
             background: var(--light);
             color: var(--dark);
             display: flex;
             min-height: 100vh;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         /* ============ SIDEBAR ============ */
@@ -54,7 +57,7 @@
         }
 
         .sidebar-head {
-            padding: 1.5rem;
+            padding: 1.25rem 1.25rem 1.1rem;
             border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -62,55 +65,61 @@
         }
 
         .sidebar-logo {
-            width: 36px; height: 36px;
-            background: var(--primary);
-            color: white;
-            border-radius: 8px;
+            width: 32px; height: 32px;
+            border-radius: 7px;
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .sidebar-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.05rem;
+            font-family: 'Playfair Display', serif;
+            font-size: .9rem;
             font-weight: 700;
+            color: var(--dark);
             line-height: 1.2;
         }
 
         .sidebar-nav {
-            padding: 1.25rem .85rem;
+            padding: 1rem .8rem;
             flex: 1;
             overflow-y: auto;
         }
 
+        .sidebar-nav::-webkit-scrollbar { width: 3px; }
+        .sidebar-nav::-webkit-scrollbar-track { background: transparent; }
+        .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
         .nav-label {
-            font-size: .7rem;
+            font-size: .62rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.8px;
             color: var(--muted);
-            padding: .85rem .75rem .4rem;
+            padding: 1rem .65rem .4rem;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: .75rem;
-            padding: .75rem .85rem;
-            border-radius: 8px;
+            gap: .65rem;
+            padding: .6rem .75rem;
+            border-radius: 6px;
             color: var(--gray);
             font-weight: 500;
-            font-size: .9rem;
+            font-size: .85rem;
             cursor: pointer;
             background: none;
             border: none;
             width: 100%;
             text-align: left;
-            font-family: 'DM Sans', sans-serif;
-            transition: .2s;
-            margin-bottom: .1rem;
+            font-family: 'Figtree', sans-serif;
+            transition: all .15s;
+            margin-bottom: 1px;
+            letter-spacing: .01em;
         }
 
         .nav-item:hover {
@@ -124,35 +133,52 @@
             font-weight: 600;
         }
 
+        .nav-icon {
+            width: 15px; height: 15px;
+            flex-shrink: 0;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.75;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
         .nav-badge {
             margin-left: auto;
             background: var(--primary);
             color: white;
-            padding: 2px 7px;
+            padding: 1px 7px;
             border-radius: 20px;
-            font-size: .72rem;
+            font-size: .67rem;
             font-weight: 700;
+            min-width: 20px;
+            text-align: center;
         }
 
-        .nav-item.active .nav-badge {
-            background: rgba(255,255,255,.25);
-        }
+        .nav-item.active .nav-badge { background: rgba(255,255,255,.25); }
 
         .sidebar-footer {
-            padding: 1.25rem;
+            padding: 1rem 1.25rem 1.25rem;
             border-top: 1px solid var(--border);
         }
 
         .privilege-box {
             background: var(--primary-light);
-            border: 1px dashed rgba(185,28,28,.3);
-            border-radius: 8px;
-            padding: .9rem 1rem;
-            font-size: .78rem;
-            line-height: 1.5;
+            border: 1px solid rgba(185,28,28,.12);
+            border-radius: 7px;
+            padding: .85rem 1rem;
+            font-size: .76rem;
+            line-height: 1.55;
             color: var(--gray);
         }
-        .privilege-box strong { color: var(--primary-dark); display: block; margin-bottom: .2rem; }
+        .privilege-box strong {
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: .2rem;
+            font-size: .73rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
 
         /* ============ MAIN ============ */
         .main {
@@ -163,7 +189,7 @@
         }
 
         .topbar {
-            height: 66px;
+            height: 60px;
             background: var(--white);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -180,51 +206,49 @@
             display: none;
             background: none;
             border: none;
-            font-size: 1.4rem;
             cursor: pointer;
             color: var(--dark);
+            padding: .25rem;
         }
 
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: .85rem;
-        }
+        .topbar-right { display: flex; align-items: center; gap: 1rem; }
 
         .user-info { text-align: right; }
-        .user-name { font-weight: 700; font-size: .875rem; }
+        .user-name { font-weight: 700; font-size: .82rem; color: var(--dark); line-height: 1.3; }
         .user-role {
-            font-size: .72rem;
-            color: var(--muted);
-            background: var(--light);
-            padding: 2px 8px;
-            border-radius: 20px;
-            display: inline-block;
+            font-size: .68rem;
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: .4px;
+            text-transform: uppercase;
         }
 
         .avatar {
-            width: 38px; height: 38px;
+            width: 34px; height: 34px;
             border-radius: 50%;
-            background: var(--primary);
+            background: linear-gradient(135deg, #7F1D1D, #B91C1C);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: .875rem;
+            font-size: .73rem;
+            letter-spacing: .03em;
+            flex-shrink: 0;
         }
 
         .btn-logout {
             padding: .45rem .9rem;
             border: 1.5px solid var(--border);
-            background: white;
+            background: var(--white);
             border-radius: 6px;
-            font-size: .8rem;
+            font-size: .76rem;
             font-weight: 600;
             cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
             color: var(--gray);
-            transition: .2s;
+            transition: all .15s;
+            letter-spacing: .01em;
         }
         .btn-logout:hover { border-color: var(--primary); color: var(--primary); }
 
@@ -234,103 +258,86 @@
         .page-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: flex-start;
             margin-bottom: 2rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
 
         .page-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.75rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
             font-weight: 700;
+            color: var(--dark);
+            line-height: 1.2;
         }
 
         .page-sub {
             color: var(--muted);
-            font-size: .875rem;
-            margin-top: .2rem;
+            font-size: .82rem;
+            margin-top: .35rem;
         }
 
+        /* ============ BUTTONS ============ */
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: .5rem;
-            padding: .6rem 1.2rem;
-            border-radius: 8px;
+            gap: .45rem;
+            padding: .55rem 1.1rem;
+            border-radius: 7px;
             font-weight: 600;
-            font-size: .875rem;
+            font-size: .82rem;
             cursor: pointer;
             border: none;
-            font-family: 'DM Sans', sans-serif;
-            transition: .2s;
+            font-family: 'Figtree', sans-serif;
+            transition: all .15s;
+            letter-spacing: .01em;
+            line-height: 1;
         }
 
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); }
-        .btn-outline { border: 1.5px solid var(--border); background: white; color: var(--dark); }
+        .btn-outline { border: 1.5px solid var(--border); background: var(--white); color: var(--gray); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-        .btn-approve { color: var(--success); }
-        .btn-reject { color: var(--primary); }
+        .btn-sm { padding: .35rem .7rem; font-size: .75rem; }
 
         /* ============ STATS ============ */
         .stats-row {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .stat-card {
             background: var(--white);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
+            padding: 1.4rem 1.5rem;
             box-shadow: var(--shadow-sm);
-            transition: .2s;
+            transition: all .2s;
         }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 
-        .stat-icon {
-            width: 52px; height: 52px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .si-blue  { background: #EFF6FF; }
-        .si-orange{ background: #FFF7ED; }
-        .si-red   { background: var(--primary-light); }
-        .si-green { background: var(--success-light); }
-
         .stat-label {
-            font-size: .75rem;
+            font-size: .68rem;
             font-weight: 700;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: .35rem;
+            letter-spacing: 1.2px;
+            margin-bottom: .7rem;
         }
 
         .stat-num {
-            font-family: 'Cormorant Garamond', serif;
+            font-family: 'Playfair Display', serif;
             font-size: 2rem;
             font-weight: 700;
             line-height: 1;
+            color: var(--dark);
         }
 
         /* ============ PANELS ============ */
-        .two-col {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
-        }
+        .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
 
         .panel {
             background: var(--white);
@@ -344,143 +351,194 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 1.5rem;
+            padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--border);
         }
 
         .panel-title {
             font-weight: 700;
-            font-size: 1rem;
+            font-size: .88rem;
+            color: var(--dark);
+            letter-spacing: .01em;
         }
 
-        .panel-body { padding: 1.5rem; }
+        .panel-body { padding: 1.35rem 1.5rem; }
+
+        .panel-link {
+            font-size: .78rem;
+            color: var(--primary);
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Figtree', sans-serif;
+            letter-spacing: .01em;
+        }
+        .panel-link:hover { text-decoration: underline; }
 
         /* ============ TABLE ============ */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: .875rem;
-        }
+        .data-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
 
         .data-table th {
-            padding: .85rem 1rem;
+            padding: .75rem 1rem;
             text-align: left;
-            font-size: .72rem;
+            font-size: .65rem;
             font-weight: 700;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            background: #FAFAF9;
-            border-bottom: 1.5px solid var(--border);
+            letter-spacing: 1.2px;
+            background: #FAFAF8;
+            border-bottom: 1px solid var(--border);
         }
 
         .data-table td {
-            padding: 1rem;
+            padding: .9rem 1rem;
             border-bottom: 1px solid var(--border);
-            vertical-align: top;
+            vertical-align: middle;
+            color: var(--gray);
         }
 
         .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { background: #FAFAF8; }
+
+        .td-name {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: .83rem;
+        }
+
+        .td-sub {
+            font-size: .73rem;
+            color: var(--muted);
+            margin-top: 1px;
+        }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: .35rem;
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: .72rem;
+            gap: .3rem;
+            padding: 3px 9px;
+            border-radius: 4px;
+            font-size: .68rem;
             font-weight: 700;
+            letter-spacing: .3px;
         }
 
-        .badge-pending  { background: var(--warning-light); color: #92400E; }
-        .badge-approved { background: var(--success-light); color: #15803D; }
-        .badge-rejected { background: var(--light); color: var(--muted); }
-        .badge-published{ background: var(--success-light); color: #15803D; }
-        .badge-draft    { background: var(--warning-light); color: #92400E; }
+        .badge-pending   { background: var(--warning-light); color: var(--warning); border: 1px solid rgba(180,83,9,.15); }
+        .badge-approved  { background: var(--success-light); color: var(--success); border: 1px solid rgba(21,128,61,.15); }
+        .badge-rejected  { background: var(--light); color: var(--muted); border: 1px solid var(--border); }
+        .badge-published { background: var(--success-light); color: var(--success); border: 1px solid rgba(21,128,61,.15); }
+        .badge-draft     { background: var(--warning-light); color: var(--warning); border: 1px solid rgba(180,83,9,.15); }
 
         .action-btn {
             background: none;
             border: none;
             cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            font-size: .82rem;
+            font-family: 'Figtree', sans-serif;
+            font-size: .78rem;
             font-weight: 700;
             padding: 0;
             transition: .15s;
+            letter-spacing: .02em;
         }
         .action-btn:hover { text-decoration: underline; }
         .action-btn.approve { color: var(--success); }
         .action-btn.reject  { color: var(--primary); }
-        .action-btn + .action-btn { margin-left: .75rem; }
+        .action-btn + .action-btn { margin-left: .85rem; }
+
+        /* ============ ARTIKEL LIST ============ */
+        .article-item {
+            padding: .9rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .article-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .article-item:first-child { padding-top: 0; }
+
+        .article-name {
+            font-weight: 600;
+            font-size: .85rem;
+            color: var(--dark);
+            margin-bottom: .25rem;
+            line-height: 1.35;
+        }
+
+        .article-meta {
+            font-size: .73rem;
+            color: var(--muted);
+            margin-bottom: .45rem;
+        }
 
         /* ============ EDITOR ============ */
-        .form-group { margin-bottom: 1.25rem; }
+        .form-group { margin-bottom: 1.1rem; }
 
         .form-label {
             display: block;
-            font-size: .82rem;
+            font-size: .72rem;
             font-weight: 700;
-            margin-bottom: .5rem;
-            color: var(--dark);
+            margin-bottom: .4rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: .4px;
         }
 
         .form-control {
             width: 100%;
-            padding: .75rem 1rem;
+            padding: .7rem .9rem;
             border: 1.5px solid var(--border);
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: .9rem;
-            background: #FAFAF9;
+            border-radius: 7px;
+            font-family: 'Figtree', sans-serif;
+            font-size: .85rem;
+            background: var(--light);
             color: var(--dark);
-            transition: .2s;
+            transition: all .15s;
         }
 
         .form-control:focus {
             outline: none;
             border-color: var(--primary);
             background: white;
-            box-shadow: 0 0 0 3px rgba(185,28,28,.08);
+            box-shadow: 0 0 0 3px rgba(185,28,28,.07);
         }
 
         select.form-control { cursor: pointer; }
 
         .wysiwyg-toolbar {
             display: flex;
-            gap: .4rem;
+            gap: .3rem;
             flex-wrap: wrap;
-            padding: .6rem;
-            background: #FAFAF9;
+            padding: .55rem;
+            background: var(--light);
             border: 1.5px solid var(--border);
             border-bottom: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 7px 7px 0 0;
         }
 
         .toolbar-btn {
-            padding: .3rem .65rem;
+            padding: .28rem .6rem;
             border: 1px solid var(--border);
-            background: white;
+            background: var(--white);
             border-radius: 5px;
             cursor: pointer;
-            font-size: .82rem;
+            font-size: .78rem;
             font-weight: 700;
             transition: .15s;
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Figtree', sans-serif;
+            color: var(--gray);
         }
 
         .toolbar-btn:hover {
             background: var(--primary-light);
-            border-color: var(--primary);
+            border-color: rgba(185,28,28,.25);
             color: var(--primary);
         }
 
         .wysiwyg-area {
-            min-height: 200px;
-            padding: 1rem;
+            min-height: 190px;
+            padding: .9rem 1rem;
             border: 1.5px solid var(--border);
-            border-radius: 0 0 8px 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: .9rem;
+            border-radius: 0 0 7px 7px;
+            font-family: 'Figtree', sans-serif;
+            font-size: .85rem;
             line-height: 1.65;
             background: white;
             outline: none;
@@ -489,7 +547,7 @@
 
         .wysiwyg-area:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(185,28,28,.08);
+            box-shadow: 0 0 0 3px rgba(185,28,28,.07);
         }
 
         .wysiwyg-area[contenteditable]:empty::before {
@@ -498,72 +556,119 @@
         }
 
         .file-drop {
-            border: 2px dashed var(--border);
-            padding: 1.5rem;
+            border: 1.5px dashed var(--border);
+            padding: 1.35rem;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 7px;
             cursor: pointer;
-            transition: .25s;
-            background: #FAFAF9;
+            transition: all .2s;
+            background: var(--light);
         }
 
         .file-drop:hover {
-            border-color: var(--primary);
+            border-color: rgba(185,28,28,.4);
             background: var(--primary-light);
         }
 
-        /* ============ ARTIKEL LIST ============ */
-        .article-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        .article-item:last-child { border-bottom: none; padding-bottom: 0; }
-
-        .article-name {
-            font-weight: 600;
-            font-size: .9rem;
-            margin-bottom: .3rem;
-        }
-
-        .article-meta {
-            font-size: .78rem;
+        .file-drop-icon {
+            width: 28px; height: 28px;
+            margin: 0 auto .5rem;
             color: var(--muted);
-            margin-bottom: .5rem;
+        }
+
+        .file-drop-text {
+            font-size: .8rem;
+            color: var(--muted);
         }
 
         /* ============ EMPTY STATE ============ */
         .empty-state {
             text-align: center;
-            padding: 3rem 2rem;
+            padding: 2.5rem;
             color: var(--muted);
         }
 
-        .empty-icon { font-size: 2rem; margin-bottom: .75rem; }
-        .empty-text { font-size: .9rem; }
+        .empty-icon {
+            width: 36px; height: 36px;
+            margin: 0 auto .75rem;
+            color: var(--success);
+        }
+
+        .empty-text { font-size: .85rem; font-weight: 500; color: var(--muted); }
+
+        /* ============ MODAL LOGOUT ============ */
+        .logout-overlay {
+            position: fixed; inset: 0;
+            background: rgba(12, 10, 9, 0.6);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: .3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .logout-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .logout-modal {
+            background: var(--white);
+            padding: 2.25rem 2rem;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 360px;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(20px);
+            transition: .3s ease;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .logout-overlay.open .logout-modal { transform: translateY(0); }
+
+        .logout-icon {
+            width: 64px; height: 64px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+        }
 
         /* ============ TOAST ============ */
         .toast {
             position: fixed;
             bottom: 1.5rem;
             right: 1.5rem;
-            background: var(--dark);
+            background: #1C1917;
             color: white;
-            padding: .85rem 1.25rem;
-            border-radius: 10px;
-            font-size: .875rem;
-            font-weight: 600;
+            padding: .8rem 1.1rem;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 500;
             z-index: 9999;
             transform: translateY(80px);
             opacity: 0;
-            transition: all .35s cubic-bezier(.4,0,.2,1);
-            box-shadow: var(--shadow-md);
-            font-family: 'DM Sans', sans-serif;
+            transition: all .3s cubic-bezier(.4,0,.2,1);
+            box-shadow: var(--shadow-lg);
+            font-family: 'Figtree', sans-serif;
             min-width: 240px;
+            letter-spacing: .01em;
         }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { border-left: 3px solid var(--success); }
-        .toast.warning { border-left: 3px solid var(--warning); }
+        .toast.warning { border-left: 3px solid var(--accent); }
         .toast.danger  { border-left: 3px solid var(--primary); }
+
+        /* ============ GALLERY PREVIEW ============ */
+        .gal-placeholder {
+            aspect-ratio: 1;
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         /* ============ RESPONSIVE ============ */
         @media (max-width: 1024px) { .two-col { grid-template-columns: 1fr; } }
@@ -577,11 +682,10 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-head">
-        <div class="sidebar-logo" style="overflow: hidden; background: transparent;">
-            <img src="images/logo.png" alt="Logo Rumah Kebangsaan" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="sidebar-logo">
+            <img src="images/logo.png" alt="Logo" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">
         </div>
         <div class="sidebar-name">Rumah<br>Kebangsaan</div>
     </div>
@@ -589,24 +693,29 @@
     <nav class="sidebar-nav">
         <div class="nav-label">Menu Utama</div>
         <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard',this)">
-            📊 Dashboard
+            <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            Dashboard
         </button>
 
         <div class="nav-label">Konten Web</div>
         <button class="nav-item" data-section="artikel" onclick="showSection('artikel',this)">
-            📰 Manajemen Berita
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+            Manajemen Berita
         </button>
         <button class="nav-item" data-section="galeri" onclick="showSection('galeri',this)">
-            📸 Galeri Dokumentasi
+            <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            Galeri Dokumentasi
         </button>
 
         <div class="nav-label">Interaksi Warga</div>
         <button class="nav-item" data-section="komentar" onclick="showSection('komentar',this)">
-            💬 Moderasi Komentar
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Moderasi Komentar
             <span class="nav-badge" id="badgeCmt">3</span>
         </button>
         <button class="nav-item" data-section="foto" onclick="showSection('foto',this)">
-            🖼️ Moderasi Foto Tamu
+            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            Moderasi Foto Tamu
             <span class="nav-badge" id="badgeFoto">2</span>
         </button>
     </nav>
@@ -614,16 +723,16 @@
     <div class="sidebar-footer">
         <div class="privilege-box">
             <strong>Hak Akses: Admin Konten</strong>
-            Kelola berita, galeri, dan moderasi konten (Least Privilege).
+            Kelola berita, galeri, dan moderasi konten pengguna (Least Privilege).
         </div>
     </div>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
-    <!-- TOPBAR -->
     <header class="topbar">
-        <button class="mob-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+        <button class="mob-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
         <div style="flex:1"></div>
         <div class="topbar-right">
             <div class="user-info">
@@ -637,44 +746,31 @@
 
     <div class="content">
 
-        <!-- ======== DASHBOARD ======== -->
         <div id="section-dashboard">
             <div class="page-header">
                 <div>
                     <h1 class="page-title">Dashboard Admin</h1>
-                    <p class="page-sub">Selamat datang kembali! Ringkasan sistem hari ini.</p>
+                    <p class="page-sub">Selamat datang kembali. Ringkasan sistem hari ini.</p>
                 </div>
                 <button class="btn btn-primary" onclick="showSectionByName('artikel')">+ Tulis Artikel Baru</button>
             </div>
 
             <div class="stats-row">
                 <div class="stat-card">
-                    <div class="stat-icon si-blue">👥</div>
-                    <div>
-                        <div class="stat-label">Total Pengunjung</div>
-                        <div class="stat-num">12,450</div>
-                    </div>
+                    <div class="stat-label">Total Pengunjung</div>
+                    <div class="stat-num">12,450</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon si-orange">💬</div>
-                    <div>
-                        <div class="stat-label">Komentar Pending</div>
-                        <div class="stat-num" id="statCmt">3</div>
-                    </div>
+                    <div class="stat-label">Komentar Pending</div>
+                    <div class="stat-num" id="statCmt">3</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon si-red">🖼️</div>
-                    <div>
-                        <div class="stat-label">Foto Pending</div>
-                        <div class="stat-num" id="statFoto">2</div>
-                    </div>
+                    <div class="stat-label">Foto Pending</div>
+                    <div class="stat-num" id="statFoto">2</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-icon si-green">📰</div>
-                    <div>
-                        <div class="stat-label">Artikel Terbit</div>
-                        <div class="stat-num">45</div>
-                    </div>
+                    <div class="stat-label">Artikel Terbit</div>
+                    <div class="stat-num">45</div>
                 </div>
             </div>
 
@@ -682,7 +778,7 @@
                 <div class="panel">
                     <div class="panel-head">
                         <span class="panel-title">Antrean Moderasi Komentar</span>
-                        <button onclick="showSectionByName('komentar')" style="font-size:.82rem;color:var(--primary);font-weight:600;background:none;border:none;cursor:pointer">Lihat Semua →</button>
+                        <button class="panel-link" onclick="showSectionByName('komentar')">Lihat Semua</button>
                     </div>
                     <div id="previewCmt" style="overflow-x:auto"></div>
                 </div>
@@ -707,7 +803,6 @@
             </div>
         </div>
 
-        <!-- ======== ARTIKEL ======== -->
         <div id="section-artikel" style="display:none">
             <div class="page-header">
                 <div>
@@ -717,12 +812,11 @@
             </div>
 
             <div class="two-col">
-                <!-- Editor -->
                 <div class="panel">
                     <div class="panel-head"><span class="panel-title">Editor Artikel</span></div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label class="form-label">Judul Artikel *</label>
+                            <label class="form-label">Judul Artikel</label>
                             <input type="text" class="form-control" id="artJudul" placeholder="Masukkan judul artikel...">
                         </div>
                         <div class="form-group">
@@ -735,51 +829,50 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Isi Artikel *</label>
+                            <label class="form-label">Isi Artikel</label>
                             <div class="wysiwyg-toolbar">
-                                <button class="toolbar-btn" onclick="fmt('bold')" title="Bold"><b>B</b></button>
-                                <button class="toolbar-btn" onclick="fmt('italic')" title="Italic"><i>I</i></button>
-                                <button class="toolbar-btn" onclick="fmt('underline')" title="Underline"><u>U</u></button>
-                                <button class="toolbar-btn" onclick="fmt('insertUnorderedList')">• List</button>
-                                <button class="toolbar-btn" onclick="fmt('insertOrderedList')">1. List</button>
-                                <button class="toolbar-btn" onclick="fmt('justifyLeft')">⇐</button>
-                                <button class="toolbar-btn" onclick="fmt('justifyCenter')">⇔</button>
-                                <button class="toolbar-btn" onclick="fmt('justifyRight')">⇒</button>
+                                <button class="toolbar-btn" onclick="fmt('bold')"><b>B</b></button>
+                                <button class="toolbar-btn" onclick="fmt('italic')"><i>I</i></button>
+                                <button class="toolbar-btn" onclick="fmt('underline')"><u>U</u></button>
+                                <button class="toolbar-btn" onclick="fmt('insertUnorderedList')">Bullets</button>
+                                <button class="toolbar-btn" onclick="fmt('insertOrderedList')">Nomor</button>
+                                <button class="toolbar-btn" onclick="fmt('justifyLeft')">Kiri</button>
+                                <button class="toolbar-btn" onclick="fmt('justifyCenter')">Tengah</button>
+                                <button class="toolbar-btn" onclick="fmt('justifyRight')">Kanan</button>
                             </div>
                             <div class="wysiwyg-area" id="artIsi" contenteditable="true" placeholder="Tulis isi artikel di sini..."></div>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Foto Artikel (JPG/PNG/WEBP, maks 5MB)</label>
+                            <label class="form-label">Foto Artikel (JPG / PNG / WEBP, maks 5MB)</label>
                             <div class="file-drop" onclick="document.getElementById('artFoto').click()">
-                                <div style="font-size:1.5rem;margin-bottom:.35rem">📷</div>
-                                <div id="artFotoTxt" style="font-size:.85rem;color:var(--muted)">Klik untuk pilih gambar sampul</div>
+                                <svg class="file-drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <div class="file-drop-text" id="artFotoTxt">Klik untuk pilih gambar sampul</div>
                                 <input type="file" id="artFoto" accept=".jpg,.jpeg,.png,.webp" style="display:none">
                             </div>
                         </div>
-                        <div style="display:flex;gap:.85rem;margin-top:1.25rem">
-                            <button class="btn btn-outline" style="flex:1;justify-content:center" onclick="saveDraft()">💾 Simpan Draft</button>
-                            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="publishArtikel()">🚀 Terbitkan</button>
+                        <div style="display:flex;gap:.75rem;margin-top:1.25rem">
+                            <button class="btn btn-outline" style="flex:1;justify-content:center" onclick="saveDraft()">Simpan Draft</button>
+                            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="publishArtikel()">Terbitkan</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- List Artikel -->
                 <div class="panel">
                     <div class="panel-head"><span class="panel-title">Artikel Terbit</span></div>
                     <div class="panel-body" id="artikelList">
                         <div class="article-item">
                             <div class="article-name">Forum Diskusi Kebangsaan</div>
-                            <div class="article-meta">📅 16 Feb 2026 · Utama</div>
-                            <span class="status-badge badge-published">✓ Terbit</span>
+                            <div class="article-meta">16 Feb 2026 &middot; Utama</div>
+                            <span class="status-badge badge-published">Terbit</span>
                         </div>
                         <div class="article-item">
                             <div class="article-name">Pentingnya Literasi Hukum</div>
-                            <div class="article-meta">📅 14 Feb 2026 · Opini Hukum</div>
-                            <span class="status-badge badge-published">✓ Terbit</span>
+                            <div class="article-meta">14 Feb 2026 &middot; Opini Hukum</div>
+                            <span class="status-badge badge-published">Terbit</span>
                         </div>
                         <div class="article-item">
                             <div class="article-name">Peran Pemuda dalam Demokrasi</div>
-                            <div class="article-meta">📅 Draft</div>
+                            <div class="article-meta">Draft</div>
                             <span class="status-badge badge-draft">Draft</span>
                         </div>
                     </div>
@@ -787,7 +880,6 @@
             </div>
         </div>
 
-        <!-- ======== GALERI ======== -->
         <div id="section-galeri" style="display:none">
             <div class="page-header">
                 <div>
@@ -805,33 +897,32 @@
                             <input type="text" class="form-control" id="galKet" placeholder="Contoh: Seminar Kebangsaan Feb 2026">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">File Foto (JPG/PNG/WEBP, maks 5MB per file)</label>
+                            <label class="form-label">File Foto (JPG / PNG / WEBP, maks 5MB per file)</label>
                             <div class="file-drop" onclick="document.getElementById('galFoto').click()">
-                                <div style="font-size:1.5rem;margin-bottom:.35rem">📁</div>
-                                <div id="galFotoTxt" style="font-size:.85rem;color:var(--muted)">Klik atau seret foto (bisa multiple)</div>
+                                <svg class="file-drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <div class="file-drop-text" id="galFotoTxt">Klik atau seret foto (bisa multiple)</div>
                                 <input type="file" id="galFoto" accept=".jpg,.jpeg,.png,.webp" multiple style="display:none">
                             </div>
-                            <p id="galErr" style="font-size:.75rem;color:var(--primary);margin-top:.35rem;display:none"></p>
+                            <p id="galErr" style="font-size:.73rem;color:var(--primary);margin-top:.35rem;display:none"></p>
                         </div>
-                        <button class="btn btn-primary" onclick="uploadFotoGaleri()">📤 Upload ke Galeri</button>
+                        <button class="btn btn-primary" onclick="uploadFotoGaleri()">Upload ke Galeri</button>
                     </div>
                 </div>
 
                 <div class="panel">
                     <div class="panel-head"><span class="panel-title">Preview Galeri</span></div>
                     <div class="panel-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem" id="galPreview">
-                            <div style="aspect-ratio:1;background:linear-gradient(135deg,#7f1d1d,#b91c1c);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.75rem">🏛️</div>
-                            <div style="aspect-ratio:1;background:linear-gradient(135deg,#b45309,#d97706);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.75rem">🎙️</div>
-                            <div style="aspect-ratio:1;background:linear-gradient(135deg,#1e293b,#334155);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.75rem">🏫</div>
-                            <div style="aspect-ratio:1;background:linear-gradient(135deg,#be123c,#e11d48);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.75rem">🎭</div>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem" id="galPreview">
+                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)"></div>
+                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#b45309,#d97706)"></div>
+                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#1e293b,#334155)"></div>
+                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#be123c,#e11d48)"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ======== KOMENTAR ======== -->
         <div id="section-komentar" style="display:none">
             <div class="page-header">
                 <div>
@@ -843,7 +934,7 @@
             <div class="panel">
                 <div class="panel-head">
                     <span class="panel-title">Komentar Pending</span>
-                    <span id="cntCmt" style="font-size:.82rem;color:var(--muted)"></span>
+                    <span id="cntCmt" style="font-size:.75rem;color:var(--muted)"></span>
                 </div>
                 <div style="overflow-x:auto">
                     <table class="data-table">
@@ -863,7 +954,6 @@
             </div>
         </div>
 
-        <!-- ======== FOTO TAMU ======== -->
         <div id="section-foto" style="display:none">
             <div class="page-header">
                 <div>
@@ -875,7 +965,7 @@
             <div class="panel">
                 <div class="panel-head">
                     <span class="panel-title">Foto Pending</span>
-                    <span id="cntFoto" style="font-size:.82rem;color:var(--muted)"></span>
+                    <span id="cntFoto" style="font-size:.75rem;color:var(--muted)"></span>
                 </div>
                 <div style="overflow-x:auto">
                     <table class="data-table">
@@ -897,6 +987,24 @@
     </div>
 </main>
 
+<div class="logout-overlay" id="logoutModal">
+    <div class="logout-modal">
+        <div class="logout-icon">
+            <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </div>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: .5rem;">Keluar Sistem?</h3>
+        <p style="font-size: .85rem; color: var(--gray); margin-bottom: 1.75rem; line-height: 1.5;">Anda akan mengakhiri sesi administrasi. Anda harus masuk kembali untuk mengakses panel ini.</p>
+        <div style="display: flex; gap: .75rem; justify-content: center;">
+            <button class="btn btn-outline" style="flex: 1; justify-content: center;" onclick="closeLogoutModal()">Batal</button>
+            <button class="btn btn-primary" style="flex: 1; justify-content: center;" onclick="confirmLogout()">Ya, Keluar</button>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -917,15 +1025,18 @@
 // DATA
 // ============================================
 let comments = [
-    { id:1, nama:'Budi S.',     teks:'Sangat informatif. Terima kasih Pak Hakim!',           artikel:'Forum Diskusi Kebangsaan',   tgl:'12 Feb 2026', status:'pending' },
-    { id:2, nama:'Siti Aminah', teks:'Apakah besok ada jadwal diskusi publik? Saya ingin hadir.',  artikel:'Forum Diskusi Kebangsaan',   tgl:'11 Feb 2026', status:'pending' },
-    { id:3, nama:'Wahyu R.',    teks:'Artikel ini sangat menginspirasi generasi muda.',       artikel:'Pentingnya Literasi Hukum',  tgl:'14 Feb 2026', status:'pending' },
+    { id:1, nama:'Budi S.',     teks:'Sangat informatif. Terima kasih Pak Hakim!',                artikel:'Forum Diskusi Kebangsaan',  tgl:'12 Feb 2026', status:'pending' },
+    { id:2, nama:'Siti Aminah', teks:'Apakah besok ada jadwal diskusi publik? Saya ingin hadir.', artikel:'Forum Diskusi Kebangsaan',  tgl:'11 Feb 2026', status:'pending' },
+    { id:3, nama:'Wahyu R.',    teks:'Artikel ini sangat menginspirasi generasi muda.',            artikel:'Pentingnya Literasi Hukum', tgl:'14 Feb 2026', status:'pending' },
 ];
 
 let photos = [
     { id:1, nama:'Ahmad Z.', ket:'Kunjungan bersama mahasiswa Poliwangi', tgl:'10 Feb 2026', status:'pending' },
     { id:2, nama:'Dewi K.',  ket:'Seminar hukum Feb 2026',                tgl:'14 Feb 2026', status:'pending' },
 ];
+
+// SVG checkmark for empty states
+const ICON_CHECK = `<svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
 
 // ============================================
 // RENDER KOMENTAR
@@ -934,48 +1045,48 @@ function renderKomentar() {
     const pending = comments.filter(c => c.status === 'pending');
     const count   = pending.length;
 
-    // Update badge & stats
     const badge = document.getElementById('badgeCmt');
     badge.textContent    = count;
     badge.style.display  = count ? 'inline-flex' : 'none';
     document.getElementById('statCmt').textContent = count;
     document.getElementById('cntCmt').textContent  = count + ' menunggu';
 
-    // Full table
     const tbody = document.getElementById('komentarTable');
     tbody.innerHTML = pending.length
         ? pending.map(c => `
             <tr>
-                <td><strong>${escHtml(c.nama)}</strong></td>
-                <td style="max-width:220px;font-size:.85rem">${escHtml(c.teks)}</td>
-                <td style="font-size:.8rem;color:var(--muted)">${escHtml(c.artikel)}</td>
-                <td style="font-size:.8rem;color:var(--muted)">${c.tgl}</td>
-                <td><span class="status-badge badge-pending">⏳ Pending</span></td>
+                <td><div class="td-name">${escHtml(c.nama)}</div></td>
+                <td style="max-width:220px;font-size:.82rem;color:var(--gray)">${escHtml(c.teks)}</td>
+                <td><div class="td-sub">${escHtml(c.artikel)}</div></td>
+                <td><div class="td-sub">${c.tgl}</div></td>
+                <td><span class="status-badge badge-pending">Pending</span></td>
                 <td>
-                    <button class="action-btn approve" onclick="approveKomentar(${c.id})">✓ Setujui</button>
-                    <button class="action-btn reject"  onclick="rejectKomentar(${c.id})">✗ Tolak</button>
+                    <button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button>
+                    <button class="action-btn reject"  onclick="rejectKomentar(${c.id})">Tolak</button>
                 </td>
             </tr>`).join('')
-        : `<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Semua komentar sudah dimoderasi.</div></div></td></tr>`;
+        : `<tr><td colspan="6"><div class="empty-state">${ICON_CHECK}<div class="empty-text">Semua komentar sudah dimoderasi.</div></div></td></tr>`;
 
-    // Dashboard preview
     const pv = document.getElementById('previewCmt');
     pv.innerHTML = pending.length
         ? `<table class="data-table">
             <thead><tr><th>Pengirim</th><th>Komentar</th><th>Status</th><th>Aksi</th></tr></thead>
             <tbody>${pending.slice(0, 2).map(c => `
                 <tr>
-                    <td><strong>${escHtml(c.nama)}</strong><br><span style="font-size:.75rem;color:var(--muted)">${c.tgl}</span></td>
-                    <td style="font-size:.85rem">${escHtml(c.teks.substring(0, 55))}...</td>
+                    <td>
+                        <div class="td-name">${escHtml(c.nama)}</div>
+                        <div class="td-sub">${c.tgl}</div>
+                    </td>
+                    <td style="font-size:.82rem;color:var(--gray)">${escHtml(c.teks.substring(0, 55))}…</td>
                     <td><span class="status-badge badge-pending">Pending</span></td>
                     <td>
-                        <button class="action-btn approve" onclick="approveKomentar(${c.id})">✓</button>
-                        <button class="action-btn reject"  onclick="rejectKomentar(${c.id})">✗</button>
+                        <button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button>
+                        <button class="action-btn reject"  onclick="rejectKomentar(${c.id})">Tolak</button>
                     </td>
                 </tr>`).join('')}
             </tbody>
            </table>`
-        : `<div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Tidak ada komentar pending.</div></div>`;
+        : `<div class="empty-state">${ICON_CHECK}<div class="empty-text">Tidak ada komentar pending.</div></div>`;
 }
 
 function approveKomentar(id) {
@@ -983,7 +1094,7 @@ function approveKomentar(id) {
     if (c) {
         c.status = 'approved';
         renderKomentar();
-        showToast('✓ Komentar ' + c.nama + ' disetujui.', 'success');
+        showToast('Komentar ' + c.nama + ' disetujui.', 'success');
     }
 }
 
@@ -1013,16 +1124,16 @@ function renderFoto() {
     tbody.innerHTML = pending.length
         ? pending.map(p => `
             <tr>
-                <td><strong>${escHtml(p.nama)}</strong></td>
-                <td style="font-size:.875rem">${escHtml(p.ket)}</td>
-                <td style="font-size:.8rem;color:var(--muted)">${p.tgl}</td>
-                <td><span class="status-badge badge-pending">⏳ Pending</span></td>
+                <td><div class="td-name">${escHtml(p.nama)}</div></td>
+                <td style="font-size:.83rem;color:var(--gray)">${escHtml(p.ket)}</td>
+                <td><div class="td-sub">${p.tgl}</div></td>
+                <td><span class="status-badge badge-pending">Pending</span></td>
                 <td>
-                    <button class="action-btn approve" onclick="approveFoto(${p.id})">✓ Setujui</button>
-                    <button class="action-btn reject"  onclick="rejectFoto(${p.id})">✗ Tolak</button>
+                    <button class="action-btn approve" onclick="approveFoto(${p.id})">Setujui</button>
+                    <button class="action-btn reject"  onclick="rejectFoto(${p.id})">Tolak</button>
                 </td>
             </tr>`).join('')
-        : `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">✅</div><div class="empty-text">Tidak ada foto pending.</div></div></td></tr>`;
+        : `<tr><td colspan="5"><div class="empty-state">${ICON_CHECK}<div class="empty-text">Tidak ada foto pending.</div></div></td></tr>`;
 }
 
 function approveFoto(id) {
@@ -1030,7 +1141,7 @@ function approveFoto(id) {
     if (p) {
         p.status = 'approved';
         renderFoto();
-        showToast('✓ Foto ' + p.nama + ' disetujui ke galeri.', 'success');
+        showToast('Foto ' + p.nama + ' disetujui ke galeri.', 'success');
     }
 }
 
@@ -1064,7 +1175,7 @@ document.getElementById('artFoto').addEventListener('change', function() {
         this.value = '';
         return;
     }
-    if (f) document.getElementById('artFotoTxt').textContent = '✓ ' + f.name;
+    if (f) document.getElementById('artFotoTxt').textContent = f.name + ' dipilih';
 });
 
 function saveDraft() {
@@ -1081,7 +1192,7 @@ function publishArtikel() {
     if (confirm('Terbitkan artikel "' + judul + '"?')) {
         document.getElementById('artJudul').value = '';
         document.getElementById('artIsi').innerHTML = '';
-        showToast('Artikel "' + judul + '" berhasil diterbitkan!', 'success');
+        showToast('Artikel "' + judul + '" berhasil diterbitkan.', 'success');
     }
 }
 
@@ -1110,13 +1221,13 @@ document.getElementById('galFoto').addEventListener('change', function() {
 
     errEl.style.display = 'none';
     document.getElementById('galFotoTxt').textContent =
-        files.length > 1 ? files.length + ' foto dipilih' : '✓ ' + files[0].name;
+        files.length > 1 ? files.length + ' foto dipilih' : files[0].name + ' dipilih';
 });
 
 function uploadFotoGaleri() {
     const files = document.getElementById('galFoto').files;
     if (!files.length) { showToast('Pilih foto terlebih dahulu.', 'warning'); return; }
-    showToast('✓ ' + files.length + ' foto berhasil diupload ke galeri!', 'success');
+    showToast(files.length + ' foto berhasil diupload ke galeri.', 'success');
     document.getElementById('galFoto').value = '';
     document.getElementById('galFotoTxt').textContent = 'Klik atau seret foto (bisa multiple)';
     document.getElementById('galKet').value = '';
@@ -1145,15 +1256,31 @@ function showSectionByName(name) {
 }
 
 // ============================================
-// LOGOUT + TOAST + HELPERS
+// LOGOUT SYSTEM
 // ============================================
 function logout() {
-    if (confirm('Yakin ingin keluar?')) {
-        sessionStorage.clear();
-        window.location.replace('login.html');
+    document.getElementById('logoutModal').classList.add('open');
+    if (window.innerWidth < 769) {
+        document.getElementById('sidebar').classList.remove('open');
     }
 }
 
+function closeLogoutModal() {
+    document.getElementById('logoutModal').classList.remove('open');
+}
+
+function confirmLogout() {
+    sessionStorage.clear();
+    window.location.replace('login.html');
+}
+
+document.getElementById('logoutModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLogoutModal();
+});
+
+// ============================================
+// HELPERS
+// ============================================
 function escHtml(str) {
     return String(str)
         .replace(/&/g, '&amp;')
