@@ -14,12 +14,12 @@
             --accent: #D97706;
             --dark: #0C0A09;
             --mid: #1C1917;
-            --gray: #57534E;
-            --muted: #A8A29E;
-            --light-gray: #F5F5F4;
-            --border: #E7E5E4;
-            --white: #FFFBF8;
-            --radius: 14px;
+            --gray: #4B5563;
+            --muted: #9CA3AF;
+            --light-gray: #F3F4F6;
+            --border: #E5E7EB;
+            --white: #FFFFFF;
+            --radius: 12px;
             --container: 1100px;
         }
 
@@ -28,11 +28,16 @@
         body {
             font-family: 'DM Sans', sans-serif;
             color: var(--dark);
-            background: var(--white);
+            background: #FAFAFA;
             line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
         }
 
-        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; line-height: 1.2; color: var(--mid); }
+        h1, h2, h3 { 
+            font-family: 'Cormorant Garamond', serif; 
+            line-height: 1.2; 
+            color: var(--dark); 
+        }
 
         .container {
             width: 100%;
@@ -41,73 +46,254 @@
             padding: 0 24px;
         }
 
-        /* ============ NAVBAR (Sama dengan Index) ============ */
+        /* ============ NAVBAR ============ */
         .navbar {
             padding: 1rem 0;
-            background: white;
+            background: var(--white);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.03);
         }
         .nav-inner { display: flex; justify-content: space-between; align-items: center; }
-        .nav-logo { display: flex; align-items: center; gap: .85rem; font-weight: 700; color: var(--dark); }
+        .nav-logo { display: flex; align-items: center; gap: .85rem; font-weight: 700; color: var(--dark); font-size: 1.1rem; text-decoration: none;}
         .logo-mark { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
         .nav-links { display: flex; gap: 2rem; }
-        .nav-link { font-size: .9rem; font-weight: 500; color: var(--gray); text-decoration: none; }
+        .nav-link { font-size: .9rem; font-weight: 500; color: var(--gray); text-decoration: none; transition: color 0.2s;}
         .nav-link:hover { color: var(--primary); }
 
         /* ============ ARTICLE HEADER ============ */
-        .article-header { padding: 3rem 0 2rem; }
-        .breadcrumb { font-size: .8rem; color: var(--muted); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
-        .breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 600; }
-        .category-badge { display: inline-block; background: var(--primary-dark); color: white; padding: 4px 12px; border-radius: 4px; font-size: .75rem; font-weight: 700; margin-bottom: 1rem; }
-        .article-title { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 1.5rem; }
-        .article-meta { display: flex; align-items: center; gap: 1.5rem; color: var(--gray); font-size: .9rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
-        .meta-item { display: flex; align-items: center; gap: .5rem; }
+        .article-header { padding: 3.5rem 0 2.5rem; }
+        .breadcrumb { 
+            font-size: .8rem; 
+            color: var(--muted); 
+            margin-bottom: 1.5rem; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            font-weight: 500;
+        }
+        .breadcrumb a { color: var(--primary); text-decoration: none; font-weight: 700; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--primary-dark); }
+        
+        .category-badge { 
+            display: inline-block; 
+            background: var(--primary-light); 
+            color: var(--primary); 
+            padding: 6px 14px; 
+            border-radius: 6px; 
+            font-size: .75rem; 
+            font-weight: 700; 
+            margin-bottom: 1.25rem; 
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .article-title { 
+            font-size: clamp(2.5rem, 5vw, 3.5rem); 
+            font-weight: 700; 
+            margin-bottom: 1.5rem; 
+            letter-spacing: -0.02em;
+        }
+        
+        .article-meta { 
+            display: flex; 
+            align-items: center; 
+            gap: 1.5rem; 
+            color: var(--gray); 
+            font-size: .875rem; 
+            border-top: 1px solid var(--border); 
+            padding-top: 1.5rem; 
+            flex-wrap: wrap;
+        }
+        .meta-item { 
+            display: flex; 
+            align-items: center; 
+            gap: .4rem; 
+            font-weight: 500;
+        }
+        .meta-item svg {
+            color: var(--muted);
+        }
 
         /* ============ MAIN CONTENT ============ */
-        .main-grid { display: grid; grid-template-columns: 1fr 320px; gap: 4rem; padding-bottom: 5rem; }
-        
-        .featured-image-wrapper { margin-bottom: 2.5rem; }
-        .featured-image { width: 100%; border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .image-caption { font-size: .85rem; color: var(--muted); text-align: center; margin-top: 1rem; font-style: italic; }
-
-        .article-body p { margin-bottom: 1.5rem; font-size: 1.1rem; color: #374151; text-align: justify; }
-        
-        .quote-box {
-            background: var(--light-gray);
-            border-left: 4px solid var(--primary);
-            padding: 2rem;
-            margin: 2.5rem 0;
-            border-radius: 0 12px 12px 0;
+        .main-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 340px; 
+            gap: 4.5rem; 
+            padding-bottom: 5rem; 
         }
-        .quote-text { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-style: italic; color: var(--mid); line-height: 1.5; }
-        .quote-author { display: block; margin-top: 1rem; font-weight: 700; font-size: .9rem; color: var(--primary); text-transform: uppercase; }
 
-        .sub-heading { font-size: 1.8rem; font-weight: 700; margin: 2.5rem 0 1.25rem; }
+        .article-content {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .featured-image-wrapper { margin-bottom: 2.5rem; }
+        .featured-image { 
+            width: 100%; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+        }
+        .image-caption { 
+            font-size: .85rem; 
+            color: var(--muted); 
+            text-align: center; 
+            margin-top: 1rem; 
+            font-style: italic; 
+        }
+
+        .article-body p { 
+            margin-bottom: 1.5rem; 
+            font-size: 1.125rem; 
+            color: #374151; 
+            text-align: justify; 
+            line-height: 1.85;
+        }
+
+        .quote-box {
+            background: #F9FAFB;
+            border-left: 4px solid var(--primary);
+            padding: 2rem 2.5rem;
+            margin: 2.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .quote-text { 
+            font-family: 'Cormorant Garamond', serif; 
+            font-size: 1.6rem; 
+            font-style: italic; 
+            color: var(--dark); 
+            line-height: 1.4; 
+        }
+        .quote-author { 
+            display: block; 
+            margin-top: 1.25rem; 
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700; 
+            font-size: .85rem; 
+            color: var(--gray); 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+
+        .sub-heading { 
+            font-size: 2rem; 
+            font-weight: 700; 
+            margin: 3rem 0 1.25rem; 
+            color: var(--dark);
+        }
 
         /* ============ SIDEBAR ============ */
-        .sidebar-section { margin-bottom: 3rem; }
-        .sidebar-title { font-size: 1.2rem; font-weight: 700; border-bottom: 2px solid var(--primary); display: inline-block; margin-bottom: 1.5rem; padding-bottom: 4px; }
-        .related-card { display: flex; gap: 1rem; margin-bottom: 1.5rem; text-decoration: none; align-items: center; }
-        .related-img { width: 80px; height: 80px; border-radius: 8px; background: #eee; flex-shrink: 0; object-fit: cover; }
-        .related-info h4 { font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 600; line-height: 1.4; color: var(--dark); }
-        .related-info span { font-size: .75rem; color: var(--muted); }
+        .sidebar-section { 
+            margin-bottom: 3.5rem; 
+            background: var(--white);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        .sidebar-title { 
+            font-size: 1.1rem; 
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700; 
+            border-bottom: 2px solid var(--primary); 
+            display: inline-block; 
+            margin-bottom: 1.5rem; 
+            padding-bottom: 6px; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .related-card { 
+            display: flex; 
+            gap: 1rem; 
+            margin-bottom: 1.5rem; 
+            text-decoration: none; 
+            align-items: center; 
+            group: hover;
+            transition: transform 0.2s;
+        }
+        .related-card:hover {
+            transform: translateX(4px);
+        }
+        .related-card:last-child {
+            margin-bottom: 0;
+        }
+        .related-img { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 6px; 
+            background: #eee; 
+            flex-shrink: 0; 
+            object-fit: cover; 
+        }
+        .related-info h4 { 
+            font-family: 'DM Sans', sans-serif; 
+            font-size: .95rem; 
+            font-weight: 600; 
+            line-height: 1.4; 
+            color: var(--dark); 
+            transition: color 0.2s;
+            margin-bottom: 0.3rem;
+        }
+        .related-card:hover .related-info h4 {
+            color: var(--primary);
+        }
+        .related-info span { 
+            font-size: .75rem; 
+            color: var(--muted); 
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
 
         .tags-wrap { display: flex; flex-wrap: wrap; gap: .5rem; }
-        .tag-item { background: var(--light-gray); padding: 5px 12px; border-radius: 4px; font-size: .8rem; color: var(--gray); text-decoration: none; transition: .2s; }
-        .tag-item:hover { background: var(--primary); color: white; }
+        .tag-item { 
+            background: var(--light-gray); 
+            padding: 6px 14px; 
+            border-radius: 6px; 
+            font-size: .8rem; 
+            font-weight: 500;
+            color: var(--gray); 
+            text-decoration: none; 
+            transition: all .2s; 
+            border: 1px solid transparent;
+        }
+        .tag-item:hover { 
+            background: var(--primary-light); 
+            color: var(--primary); 
+            border-color: rgba(185,28,28,0.2);
+        }
 
         /* ============ FOOTER ============ */
-        footer { background: var(--mid); color: rgba(255,255,255,.6); padding: 4rem 0 2rem; margin-top: 5rem; }
-        .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 2rem; text-align: center; font-size: .8rem; }
+        footer { 
+            background: var(--mid); 
+            color: rgba(255,255,255,.6); 
+            padding: 4rem 0 2rem; 
+            margin-top: 2rem; 
+        }
+        .footer-brand {
+            color: white; 
+            margin-bottom: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .footer-bottom { 
+            border-top: 1px solid rgba(255,255,255,.1); 
+            padding-top: 2rem; 
+            margin-top: 2rem;
+            text-align: center; 
+            font-size: .85rem; 
+        }
 
         @media (max-width: 1024px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .article-title { font-size: 2.5rem; }
+            .main-grid { grid-template-columns: 1fr; gap: 2.5rem;}
+            .article-content { padding: 1.5rem; }
+            .article-title { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -139,9 +325,29 @@
         <h1 class="article-title">Hadiri Buka Bersama Lintas Elemen, Bupati Ipuk Panen Apresiasi</h1>
         
         <div class="article-meta">
-            <div class="meta-item">👤 <strong>Aflahul Abidin</strong></div>
-            <div class="meta-item">📅 27 Februari 2026</div>
-            <div class="meta-item">📍 Karangrejo, Banyuwangi</div>
+            <div class="meta-item">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <strong style="color: var(--dark);">Aflahul Abidin</strong>
+            </div>
+            <div class="meta-item">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                27 Februari 2026
+            </div>
+            <div class="meta-item">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                Karangrejo, Banyuwangi
+            </div>
         </div>
     </header>
 
@@ -190,18 +396,24 @@
                 <h3 class="sidebar-title">Berita Terkait</h3>
                 
                 <a href="#" class="related-card">
-                    <img src="images/berita-1.png" class="related-img">
+                    <img src="images/berita-1.png" class="related-img" alt="Thumbnail">
                     <div class="related-info">
                         <h4>Audiensi RK Banyuwangi Soroti Tambang Ilegal</h4>
-                        <span>24 Jan 2026</span>
+                        <span>
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            24 Jan 2026
+                        </span>
                     </div>
                 </a>
 
                 <a href="#" class="related-card">
-                    <img src="images/berita-3.png" class="related-img">
+                    <img src="images/berita-3.png" class="related-img" alt="Thumbnail">
                     <div class="related-info">
                         <h4>Mengurai Peran Panti Rehabilitasi Swasta</h4>
-                        <span>5 Apr 2026</span>
+                        <span>
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            5 Apr 2026
+                        </span>
                     </div>
                 </a>
             </div>
@@ -223,8 +435,8 @@
 
 <footer>
     <div class="container">
-        <div style="text-align: center; margin-bottom: 2rem;">
-            <h3 style="color: white; margin-bottom: 1rem;">Rumah Kebangsaan Banyuwangi</h3>
+        <div style="text-align: center;">
+            <h3 class="footer-brand">Rumah Kebangsaan Banyuwangi</h3>
             <p>Wadah Pemersatu & Aspirasi Masyarakat Banyuwangi</p>
         </div>
         <div class="footer-bottom">
