@@ -171,7 +171,7 @@
             letter-spacing: 0.01em;
         }
 
-        /* Demo hint - Pro Styling */
+        /* Demo hint */
         .demo-hint {
             background: var(--light-gray);
             border: 1px solid var(--border);
@@ -201,9 +201,7 @@
             align-items: center;
         }
 
-        .demo-grid span {
-            color: var(--gray);
-        }
+        .demo-grid span { color: var(--gray); }
 
         .demo-grid code {
             background: white;
@@ -217,7 +215,7 @@
             display: inline-block;
         }
 
-        /* Error Message - Pro Styling */
+        /* Error Message */
         .error-box {
             display: none;
             background: var(--error-bg);
@@ -340,9 +338,7 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(185,28,28,.3);
         }
-        .btn-submit:active:not(:disabled) {
-            transform: translateY(0);
-        }
+        .btn-submit:active:not(:disabled) { transform: translateY(0); }
         .btn-submit:disabled { opacity: .7; cursor: not-allowed; transform: none; box-shadow: none; }
 
         .spinner {
@@ -404,7 +400,7 @@
             .right-panel { padding: 2rem 1.5rem; }
         }
     </style>
-    
+
     <script>
         if (sessionStorage.getItem('rk_logged_in') === 'true') {
             const role = sessionStorage.getItem('rk_role');
@@ -430,7 +426,7 @@
     </div>
 
     <div class="left-footer">
-        &copy; 2026 Rumah Kebangsaan Banyuwangi — PBL Poliwangi
+        &copy; 2026 Rumah Kebangsaan Banyuwangi &mdash; PBL Poliwangi
     </div>
 </div>
 
@@ -448,9 +444,9 @@
                 Informasi Akses Demo
             </div>
             <div class="demo-grid">
-                <span>Super Admin:</span> 
+                <span>Super Admin:</span>
                 <div><code>superadmin</code> / <code>super123</code></div>
-                <span>Admin Konten:</span> 
+                <span>Admin Konten:</span>
                 <div><code>admin</code> / <code>admin123</code></div>
             </div>
         </div>
@@ -473,7 +469,7 @@
             <div class="form-group">
                 <label class="form-label">Kata Sandi</label>
                 <div class="input-wrap">
-                    <input type="password" id="password" class="form-control" placeholder="••••••••" autocomplete="current-password">
+                    <input type="password" id="password" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password">
                     <span class="toggle-pw" id="togglePw">LIHAT</span>
                 </div>
             </div>
@@ -508,7 +504,7 @@
 
         <div class="copyright">
             <p>&copy; 2026 Rumah Kebangsaan Banyuwangi</p>
-            <p style="margin-top:.4rem;font-style:italic;color:var(--accent)">"Hidup Harus Bahagia"</p>
+            <p style="margin-top:.4rem;font-style:italic;color:var(--accent)">&ldquo;Hidup Harus Bahagia&rdquo;</p>
         </div>
     </div>
 </div>
@@ -518,13 +514,13 @@
 // AKUN TERDAFTAR
 // ============================================
 const ACCOUNTS = [
-    { username: 'superadmin',             password: 'super123',  role: 'superadmin', redirect: 'superadmin.html' },
-    { username: 'admin',                  password: 'admin123',  role: 'admin',      redirect: 'admin.html' },
+    { username: 'superadmin',               password: 'super123',  role: 'superadmin', redirect: 'superadmin.html' },
+    { username: 'admin',                    password: 'admin123',  role: 'admin',      redirect: 'admin.html' },
     { username: 'hakim@rumahkebangsaan.id', password: 'hakim123',  role: 'admin',      redirect: 'admin.html' },
     { username: 'developer@poli.edu',       password: 'dev123',    role: 'superadmin', redirect: 'superadmin.html' },
 ];
 
-// Restore "remember me" jika ada
+// Restore "remember me"
 (function restoreRemember() {
     const saved = localStorage.getItem('rk_remember');
     if (saved) {

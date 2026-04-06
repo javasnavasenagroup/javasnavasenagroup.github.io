@@ -746,6 +746,7 @@
 
     <div class="content">
 
+        <!-- DASHBOARD -->
         <div id="section-dashboard">
             <div class="page-header">
                 <div>
@@ -803,6 +804,7 @@
             </div>
         </div>
 
+        <!-- ARTIKEL -->
         <div id="section-artikel" style="display:none">
             <div class="page-header">
                 <div>
@@ -880,6 +882,7 @@
             </div>
         </div>
 
+        <!-- GALERI -->
         <div id="section-galeri" style="display:none">
             <div class="page-header">
                 <div>
@@ -923,6 +926,7 @@
             </div>
         </div>
 
+        <!-- KOMENTAR -->
         <div id="section-komentar" style="display:none">
             <div class="page-header">
                 <div>
@@ -954,6 +958,7 @@
             </div>
         </div>
 
+        <!-- FOTO TAMU -->
         <div id="section-foto" style="display:none">
             <div class="page-header">
                 <div>
@@ -987,6 +992,7 @@
     </div>
 </main>
 
+<!-- MODAL LOGOUT -->
 <div class="logout-overlay" id="logoutModal">
     <div class="logout-modal">
         <div class="logout-icon">
@@ -1009,7 +1015,7 @@
 
 <script>
 // ============================================
-// AUTH GUARD (US-8, US-10)
+// AUTH GUARD
 // ============================================
 (function() {
     if (sessionStorage.getItem('rk_logged_in') !== 'true') {
@@ -1035,7 +1041,6 @@ let photos = [
     { id:2, nama:'Dewi K.',  ket:'Seminar hukum Feb 2026',                tgl:'14 Feb 2026', status:'pending' },
 ];
 
-// SVG checkmark for empty states
 const ICON_CHECK = `<svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
 
 // ============================================
@@ -1077,7 +1082,7 @@ function renderKomentar() {
                         <div class="td-name">${escHtml(c.nama)}</div>
                         <div class="td-sub">${c.tgl}</div>
                     </td>
-                    <td style="font-size:.82rem;color:var(--gray)">${escHtml(c.teks.substring(0, 55))}…</td>
+                    <td style="font-size:.82rem;color:var(--gray)">${escHtml(c.teks.substring(0, 55))}...</td>
                     <td><span class="status-badge badge-pending">Pending</span></td>
                     <td>
                         <button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button>

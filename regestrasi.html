@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* ============ VARIABLES ============ */
         :root {
             --primary: #B91C1C;
             --primary-dark: #7F1D1D;
@@ -26,12 +25,7 @@
             --success-light: #DCFCE7;
         }
 
-        /* ============ RESET ============ */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'DM Sans', sans-serif;
@@ -41,7 +35,7 @@
             grid-template-columns: 1fr 1fr;
         }
 
-        /* ============ LEFT PANEL (DISAMAKAN DENGAN LOGIN) ============ */
+        /* LEFT PANEL */
         .left-panel {
             position: relative;
             background: linear-gradient(160deg, #1c1917 0%, var(--primary-dark) 60%, #450a0a 100%);
@@ -87,22 +81,17 @@
         }
 
         .logo-icon {
-            width: 44px; 
-            height: 44px;
-            background: transparent; 
+            width: 44px; height: 44px;
+            background: transparent;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 15px rgba(185,28,28,.4);
-            overflow: hidden; 
+            overflow: hidden;
         }
 
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-        }
+        .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 
         .logo-name {
             font-family: 'Cormorant Garamond', serif;
@@ -153,8 +142,7 @@
         }
 
         .step-num {
-            width: 26px;
-            height: 26px;
+            width: 26px; height: 26px;
             background: rgba(255,255,255,.1);
             border: 1px solid rgba(255,255,255,.15);
             border-radius: 50%;
@@ -175,7 +163,7 @@
             font-size: 0.8rem;
         }
 
-        /* ============ RIGHT PANEL ============ */
+        /* RIGHT PANEL */
         .right-panel {
             background: var(--white);
             display: flex;
@@ -206,10 +194,8 @@
             margin-bottom: 2rem;
         }
 
-        /* ============ FORM ELEMENTS ============ */
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
+        /* FORM */
+        .form-group { margin-bottom: 1.2rem; }
 
         .form-label {
             display: block;
@@ -220,13 +206,9 @@
             letter-spacing: 0.2px;
         }
 
-        .form-label .req {
-            color: var(--primary);
-        }
+        .form-label .req { color: var(--primary); }
 
-        .input-wrap {
-            position: relative;
-        }
+        .input-wrap { position: relative; }
 
         .form-control {
             width: 100%;
@@ -257,9 +239,7 @@
             background: #F0FDF4;
         }
 
-        .form-control::placeholder {
-            color: var(--muted);
-        }
+        .form-control::placeholder { color: var(--muted); }
 
         .toggle-pw {
             position: absolute;
@@ -273,10 +253,7 @@
             user-select: none;
             letter-spacing: 0.5px;
         }
-
-        .toggle-pw:hover {
-            color: var(--primary);
-        }
+        .toggle-pw:hover { color: var(--primary); }
 
         /* Field hint */
         .field-hint {
@@ -285,7 +262,6 @@
             display: none;
             padding-left: 2px;
         }
-
         .field-hint.show { display: block; }
         .field-hint.error { color: var(--primary); }
         .field-hint.success { color: var(--success); }
@@ -295,10 +271,7 @@
             margin-top: 0.6rem;
             display: none;
         }
-
-        .strength-wrap.show {
-            display: block;
-        }
+        .strength-wrap.show { display: block; }
 
         .strength-bar {
             height: 4px;
@@ -354,8 +327,7 @@
         }
 
         .spinner {
-            width: 18px;
-            height: 18px;
+            width: 18px; height: 18px;
             border: 2px solid rgba(255,255,255,.35);
             border-top-color: white;
             border-radius: 50%;
@@ -366,9 +338,7 @@
         .btn-submit.loading .spinner { display: block; }
         .btn-submit.loading .btn-text { display: none; }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Login Link */
         .login-prompt {
@@ -377,15 +347,8 @@
             font-size: 0.875rem;
             color: var(--gray);
         }
-
-        .login-prompt a {
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .login-prompt a:hover {
-            text-decoration: underline;
-        }
+        .login-prompt a { color: var(--primary); font-weight: 700; }
+        .login-prompt a:hover { text-decoration: underline; }
 
         /* Success State */
         .success-card {
@@ -393,21 +356,16 @@
             text-align: center;
             padding: 2rem 0;
         }
-
-        .success-card.show {
-            display: block;
-        }
+        .success-card.show { display: block; }
 
         .success-icon {
-            width: 72px;
-            height: 72px;
+            width: 72px; height: 72px;
             background: var(--success-light);
             color: var(--success);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
             margin: 0 auto 1.25rem;
         }
 
@@ -435,7 +393,6 @@
             font-size: 0.95rem;
             transition: 0.25s;
         }
-
         .btn-to-login:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
@@ -450,17 +407,10 @@
             color: var(--muted);
         }
 
-        /* ============ RESPONSIVE ============ */
         @media (max-width: 768px) {
-            body {
-                grid-template-columns: 1fr;
-            }
-            .left-panel {
-                display: none;
-            }
-            .right-panel {
-                padding: 2rem 1.5rem;
-            }
+            body { grid-template-columns: 1fr; }
+            .left-panel { display: none; }
+            .right-panel { padding: 2rem 1.5rem; }
         }
     </style>
 </head>
@@ -497,7 +447,7 @@
         </div>
 
         <div class="left-footer">
-            &copy; 2026 Rumah Kebangsaan Banyuwangi — PBL Poliwangi
+            &copy; 2026 Rumah Kebangsaan Banyuwangi &mdash; PBL Poliwangi
         </div>
     </div>
 
@@ -553,7 +503,9 @@
             </form>
 
             <div class="success-card" id="successCard">
-                <div class="success-icon">✓</div>
+                <div class="success-icon">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
                 <h3>Pendaftaran Berhasil!</h3>
                 <p>Akun Anda telah dibuat dan sedang menunggu verifikasi Super Admin. Silakan login untuk melanjutkan.</p>
                 <a href="login.html" class="btn-to-login">Masuk Sekarang</a>
@@ -565,7 +517,7 @@
 
             <div class="copyright">
                 <p>&copy; 2026 Rumah Kebangsaan Banyuwangi</p>
-                <p style="margin-top: 0.3rem; font-style: italic; color: var(--accent);">"Hidup Harus Bahagia"</p>
+                <p style="margin-top: 0.3rem; font-style: italic; color: var(--accent);">&ldquo;Hidup Harus Bahagia&rdquo;</p>
             </div>
         </div>
     </div>
@@ -577,7 +529,6 @@
         function setupToggle(inputId, btnId) {
             const input = document.getElementById(inputId);
             const btn   = document.getElementById(btnId);
-
             btn.addEventListener('click', function() {
                 const show      = input.type === 'password';
                 input.type      = show ? 'text' : 'password';
@@ -645,12 +596,12 @@
             }
 
             if (pass === confirm) {
-                hint.textContent = '✓ Kata sandi cocok';
+                hint.textContent = '\u2713 Kata sandi cocok';
                 hint.className   = 'field-hint show success';
                 input.classList.remove('error');
                 input.classList.add('valid');
             } else {
-                hint.textContent = '✗ Kata sandi tidak cocok';
+                hint.textContent = '\u2717 Kata sandi tidak cocok';
                 hint.className   = 'field-hint show error';
                 input.classList.remove('valid');
                 input.classList.add('error');
@@ -693,19 +644,17 @@
             const confirm  = document.getElementById('regConfirm').value;
 
             const results = [
-                setField('regNama', 'hintNama', nama.length >= 3, 'Nama minimal 3 karakter.'),
-                setField('regEmail', 'hintEmail', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email), 'Format email tidak valid.'),
-                setField('regPassword', 'hintPassword', password.length >= 8, 'Kata sandi minimal 8 karakter.'),
-                setField('regConfirm', 'hintConfirm', password === confirm && confirm.length > 0, 'Konfirmasi kata sandi tidak cocok.'),
+                setField('regNama',     'hintNama',     nama.length >= 3,                                  'Nama minimal 3 karakter.'),
+                setField('regEmail',    'hintEmail',    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),          'Format email tidak valid.'),
+                setField('regPassword', 'hintPassword', password.length >= 8,                              'Kata sandi minimal 8 karakter.'),
+                setField('regConfirm',  'hintConfirm',  password === confirm && confirm.length > 0,        'Konfirmasi kata sandi tidak cocok.'),
             ];
 
             const valid = results.every(Boolean);
 
             if (!valid) {
                 const firstErr = document.querySelector('.form-control.error');
-                if (firstErr) {
-                    firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
+                if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 

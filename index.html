@@ -1168,7 +1168,7 @@
                     <div class="hero-card-icon">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
                     </div>
-                    <h3 style="color:white;font-size:1.25rem;margin-bottom:.7rem">"Hidup Harus Bahagia"</h3>
+                    <h3 style="color:white;font-size:1.25rem;margin-bottom:.7rem">&ldquo;Hidup Harus Bahagia&rdquo;</h3>
                     <p style="font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.68">Kebahagiaan lahir dari masyarakat yang terinformasi, harmonis, dan peduli satu sama lain.</p>
                     <div style="margin-top:1.65rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.09);font-size:.68rem;font-weight:700;letter-spacing:2px;color:var(--accent)">MOH. HAKIM SAID, S.H.</div>
                 </div>
@@ -1324,7 +1324,7 @@
                     <h3 style="color:white;font-size:1.5rem;margin-bottom:.35rem;text-align:center">Moh. Hakim Said, S.H.</h3>
                     <span style="font-size:.68rem;letter-spacing:2px;opacity:.65;text-transform:uppercase">Founder &amp; Ketua</span>
                     <div style="margin-top:1.75rem;padding:1.1rem 1.35rem;background:rgba(255,255,255,.07);border-radius:9px;max-width:85%;text-align:left">
-                        <p style="font-size:.82rem;opacity:.7;line-height:1.68;font-style:italic">"Hidup harus bahagia — kebahagiaan sejati lahir ketika kita hidup rukun, sadar hukum, dan peduli sesama."</p>
+                        <p style="font-size:.82rem;opacity:.7;line-height:1.68;font-style:italic">&ldquo;Hidup harus bahagia &mdash; kebahagiaan sejati lahir ketika kita hidup rukun, sadar hukum, dan peduli sesama.&rdquo;</p>
                     </div>
                 </div>
             </div>
@@ -1333,7 +1333,7 @@
                 <div class="badge">Tentang Kami</div>
                 <h2 class="section-title">Wadah Pemersatu Banyuwangi</h2>
                 <div class="profile-quote">
-                    "Hidup harus bahagia. Dan kebahagiaan sejati hanya bisa dicapai ketika kita hidup rukun, sadar hukum, dan peduli sesama."
+                    &ldquo;Hidup harus bahagia. Dan kebahagiaan sejati hanya bisa dicapai ketika kita hidup rukun, sadar hukum, dan peduli sesama.&rdquo;
                 </div>
                 <p style="color:var(--gray);margin-bottom:1rem;line-height:1.75;font-size:.95rem">
                     Rumah Kebangsaan Banyuwangi didirikan pada 12 Januari 2019 oleh Hakim Said, S.H. sebagai respons atas kebutuhan ruang publik yang netral dan edukatif. Pada 2022, diresmikan bersama Badan Kesatuan Bangsa dan Politik Kabupaten Banyuwangi.
@@ -1581,6 +1581,11 @@ function confirmCaptcha() {
     if (pendingSubmitAction) pendingSubmitAction();
 }
 
+// Close modal on backdrop click
+document.getElementById('captchaModal').addEventListener('click', function(e) {
+    if (e.target === this) closeCaptchaModal();
+});
+
 // ============================================
 // KOMENTAR
 // ============================================
@@ -1654,7 +1659,7 @@ document.getElementById('fotoFile').addEventListener('change', function() {
 
     err.classList.remove('show');
     box.style.borderColor = '#15803D';
-    txt.textContent = f.name.substring(0, 28) + (f.name.length > 28 ? '…' : '') + ' dipilih';
+    txt.textContent = f.name.substring(0, 28) + (f.name.length > 28 ? '...' : '') + ' dipilih';
 });
 
 document.getElementById('formFoto').addEventListener('submit', function(e) {
@@ -1677,7 +1682,7 @@ document.getElementById('formFoto').addEventListener('submit', function(e) {
 });
 
 // ============================================
-// ANIMASI & TOAST
+// ANIMASI REVEAL & TOAST
 // ============================================
 const observer = new IntersectionObserver(
     (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }),
