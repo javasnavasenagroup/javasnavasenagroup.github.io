@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rumah Kebangsaan — Figma Mobile Web Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#B91C1C;--primary-light:#FEF2F2;--primary-dark:#7F1D1D;
+  --accent:#D97706;--dark:#0C0A09;--mid:#1C1917;
+  --gray:#44403C;--muted:#78716C;--light:#F7F5F3;
+  --border:#E8E3DD;--white:#FEFCFA;
+  --success:#15803D;--success-light:#F0FDF4;
+  --warning:#B45309;--warning-light:#FFFBEB;
+  --danger:#DC2626;--danger-light:#FEF2F2;
+  --purple:#5B21B6;--purple-mid:#7C3AED;--purple-light:#EDE9FE;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 4px 20px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 40px rgba(0,0,0,.14);
+  --radius:10px;--sidebar-w:240px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Figtree',sans-serif;background:#16213E;min-height:100vh;font-size:14px;line-height:1.5;overflow-x:hidden}
+
+/* ====== FIGMA CHROME ====== */
+.figma-bar{position:fixed;top:0;left:0;right:0;height:48px;background:#1F1F2E;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:9999}
+.figma-logo{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.88);font-size:.78rem;font-weight:700;letter-spacing:.4px}
+.figma-icon{width:26px;height:26px;background:linear-gradient(135deg,#B91C1C,#DC2626);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.figma-pages{display:flex;align-items:center;gap:2px;flex-wrap:wrap}
+.fpage{padding:4px 11px;border-radius:5px;font-size:.7rem;font-weight:600;color:rgba(255,255,255,.38);cursor:pointer;transition:.15s;border:none;background:none;font-family:'Figtree',sans-serif}
+.fpage:hover{color:rgba(255,255,255,.78);background:rgba(255,255,255,.07)}
+.fpage.active{color:#fff;background:rgba(185,28,28,.38);border:1px solid rgba(185,28,28,.45)}
+.figma-tools{display:flex;align-items:center;gap:8px}
+.figma-zoom{color:rgba(255,255,255,.4);font-size:.7rem;font-weight:600;background:rgba(255,255,255,.07);padding:3px 9px;border-radius:4px}
+.figma-present{background:var(--primary);color:#fff;padding:4px 13px;border-radius:5px;font-size:.72rem;font-weight:700;border:none;cursor:pointer;font-family:'Figtree',sans-serif}
+
+/* ====== CANVAS ====== */
+.canvas{margin-top:48px;padding:40px 60px;display:flex;flex-direction:column;gap:60px;min-height:calc(100vh - 48px)}
+.frame-wrap{position:relative}
+.frame-label{font-size:.65rem;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.28);margin-bottom:10px;text-transform:uppercase;font-family:'Figtree',sans-serif}
+.frame-badge{margin-left:8px;font-size:.58rem;padding:2px 7px;border-radius:3px;background:rgba(185,28,28,.2);color:#FCA5A5;border:1px solid rgba(185,28,28,.3);font-weight:700;letter-spacing:.5px;vertical-align:middle;display:inline-block}
+
+/* ====== DEVICE FRAME — 390px iPhone 16 viewport ====== */
+.device{width:430px;background:linear-gradient(160deg,#2A2A2A,#1A1A1A);border-radius:50px;padding:10px;box-shadow:0 0 0 1px rgba(255,255,255,.1),0 0 0 3px #0d0d0d,0 28px 70px rgba(0,0,0,.7);flex-shrink:0}
+.device::before{content:'';position:absolute;right:-3px;top:100px;width:3px;height:60px;background:#252525;border-radius:0 3px 3px 0}
+.device::after{content:'';position:absolute;left:-3px;top:85px;width:3px;height:38px;background:#252525;border-radius:3px 0 0 3px}
+.screen{width:410px;height:870px;border-radius:40px;overflow:hidden;background:var(--light);position:relative;display:flex;flex-direction:column}
+.notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:110px;height:28px;background:#000;border-radius:18px;z-index:60;display:flex;align-items:center;justify-content:center;gap:8px}
+.notch-dot{width:4px;height:4px;background:#1a1a1a;border-radius:50%}
+.notch-cam{width:10px;height:10px;background:#1a1a1a;border-radius:50%;border:1px solid rgba(255,255,255,.05)}
+.status-bar{height:50px;display:flex;align-items:flex-end;padding:0 20px 10px;justify-content:space-between;flex-shrink:0;position:relative;z-index:50}
+.status-time{font-size:13px;font-weight:700;letter-spacing:-.2px}
+.status-icons{display:flex;align-items:center;gap:5px}
+.bat-icon{display:flex;align-items:center;gap:1px}
+.bat-body{width:22px;height:11px;border:1.5px solid currentColor;border-radius:2.5px;position:relative;padding:1.5px}
+.bat-body::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:2px;height:5px;background:currentColor;border-radius:0 1px 1px 0}
+.bat-fill{height:100%;background:currentColor;border-radius:1px;width:70%}
+.sb-white{color:rgba(255,255,255,.9)}
+.sb-dark{color:var(--dark)}
+.page-scroll{flex:1;overflow-y:auto;overflow-x:hidden}
+.page-scroll::-webkit-scrollbar{display:none}
+
+/* ====== SHARED WEBSITE COMPONENTS ====== */
+
+/* NAVBAR */
+.site-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0;position:sticky;top:0;z-index:40}
+.site-nav.dark{background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-logo{display:flex;align-items:center;gap:8px;font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--dark)}
+.site-nav.dark .nav-logo{color:rgba(255,255,255,.92)}
+.logo-mark{width:28px;height:28px;background:var(--primary-light);border:1px solid rgba(185,28,28,.2);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.58rem;font-weight:800;color:var(--primary);flex-shrink:0}
+.site-nav.dark .logo-mark{background:rgba(185,28,28,.3);border-color:rgba(185,28,28,.4);color:#FCA5A5}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-login-btn{background:var(--accent);color:#fff;padding:5px 13px;border-radius:6px;font-size:.65rem;font-weight:700}
+.ham-icon{width:18px;height:18px;fill:none;stroke:var(--dark);stroke-width:2;stroke-linecap:round}
+.site-nav.dark .ham-icon{stroke:rgba(255,255,255,.85)}
+
+/* SIDEBAR (desktop-style drawer on mobile) */
+.sidebar{width:var(--sidebar-w);background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;height:100%;overflow-y:auto}
+.sidebar.dark{background:#130E0A;border-right:1px solid rgba(255,255,255,.05)}
+.sidebar-head{padding:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;flex-shrink:0}
+.sidebar.dark .sidebar-head{border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar-logo{width:30px;height:30px;background:var(--primary-light);border:1px solid rgba(185,28,28,.2);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;color:var(--primary);flex-shrink:0}
+.sidebar.dark .sidebar-logo{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+.sidebar-title{font-family:'Playfair Display',serif;font-size:.82rem;font-weight:700;color:var(--dark);line-height:1.2}
+.sidebar.dark .sidebar-title{color:rgba(255,255,255,.9)}
+.sidebar-nav{padding:10px 8px;flex:1}
+.nav-group-label{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);padding:10px 8px 4px}
+.sidebar.dark .nav-group-label{color:rgba(255,255,255,.22)}
+.nav-link-item{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:6px;color:var(--gray);font-weight:500;font-size:.78rem;cursor:pointer;margin-bottom:1px;letter-spacing:.01em;position:relative}
+.sidebar.dark .nav-link-item{color:rgba(255,255,255,.45)}
+.nav-link-item.active{background:var(--primary);color:#fff;font-weight:600}
+.sidebar.dark .nav-link-item.active{background:rgba(255,255,255,.1);color:rgba(255,255,255,.95)}
+.nav-link-icon{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.nav-badge{margin-left:auto;background:var(--primary);color:#fff;padding:1px 6px;border-radius:20px;font-size:.6rem;font-weight:700;min-width:18px;text-align:center}
+.nav-link-item.active .nav-badge{background:rgba(255,255,255,.25)}
+.sidebar-footer{padding:10px 14px;border-top:1px solid var(--border);flex-shrink:0}
+.sidebar.dark .sidebar-footer{border-top:1px solid rgba(255,255,255,.06)}
+.root-badge{display:inline-block;font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(124,58,237,.2);color:#C4B5FD;border:1px solid rgba(124,58,237,.3);padding:1px 5px;border-radius:3px;margin-top:3px}
+.priv-box{background:var(--primary-light);border:1px solid rgba(185,28,28,.12);border-radius:6px;padding:8px 10px;font-size:.65rem;line-height:1.55;color:var(--gray)}
+.priv-box strong{color:var(--primary-dark);display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.sidebar-logout-btn{width:100%;padding:7px 10px;background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);border-radius:6px;font-family:'Figtree',sans-serif;font-weight:500;font-size:.72rem;cursor:pointer;text-align:left}
+
+/* ADMIN LAYOUT (sidebar + main) */
+.admin-layout{display:flex;height:100%;overflow:hidden}
+.admin-main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.admin-topbar{height:52px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0}
+.admin-topbar.dark{background:#1a1510;border-bottom:1px solid rgba(255,255,255,.06)}
+.topbar-title{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--dark);letter-spacing:.01em}
+.admin-topbar.dark .topbar-title{color:rgba(255,255,255,.9)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7F1D1D,#B91C1C);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.6rem;flex-shrink:0}
+.user-avatar.purple{background:linear-gradient(135deg,#5B21B6,#7C3AED)}
+.user-name-sm{font-weight:700;font-size:.72rem;color:var(--dark);line-height:1.2}
+.admin-topbar.dark .user-name-sm{color:rgba(255,255,255,.9)}
+.user-role-sm{font-size:.58rem;font-weight:600;color:var(--primary);text-transform:uppercase;letter-spacing:.4px}
+.user-role-sm.purple{color:var(--purple-mid)}
+.logout-btn-sm{padding:4px 8px;border:1.5px solid var(--border);background:var(--white);border-radius:5px;font-size:.62rem;font-weight:600;cursor:pointer;font-family:'Figtree',sans-serif;color:var(--gray)}
+.admin-content{flex:1;overflow-y:auto;padding:14px 16px;background:var(--light)}
+
+/* CONTENT BLOCKS */
+.page-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:3px}
+.page-sub{color:var(--muted);font-size:.68rem;margin-bottom:14px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.stat-label{font-size:.58rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;line-height:1;color:var(--dark)}
+.panel{background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px}
+.panel-head{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-bottom:1px solid var(--border)}
+.panel-title{font-weight:700;font-size:.75rem;color:var(--dark)}
+.panel-link{font-size:.65rem;color:var(--primary);font-weight:600;background:none;border:none;cursor:pointer;font-family:'Figtree',sans-serif}
+.panel-body{padding:10px 12px}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:.65rem}
+.data-table th{padding:6px 10px;text-align:left;font-size:.55rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;background:#FAFAF8;border-bottom:1px solid var(--border)}
+.data-table td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--gray)}
+.data-table tr:last-child td{border-bottom:none}
+.td-name{font-weight:600;color:var(--dark);font-size:.68rem}
+.td-sub{font-size:.6rem;color:var(--muted);margin-top:1px}
+
+/* BADGES */
+.badge{display:inline-flex;padding:2px 7px;border-radius:3px;font-size:.58rem;font-weight:700}
+.badge-pending{background:var(--warning-light);color:var(--warning);border:1px solid rgba(180,83,9,.15)}
+.badge-published,.badge-approved{background:var(--success-light);color:var(--success);border:1px solid rgba(21,128,61,.15)}
+.badge-draft{background:var(--warning-light);color:var(--warning);border:1px solid rgba(180,83,9,.15)}
+.badge-rejected{background:var(--light);color:var(--muted);border:1px solid var(--border)}
+.role-admin{background:var(--danger-light);color:#991B1B;border:1px solid #FEE2E2}
+.role-super{background:var(--purple-light);color:var(--purple);border:1px solid #DDD6FE}
+
+/* ACTION BUTTONS */
+.action-btn{background:none;border:none;cursor:pointer;font-family:'Figtree',sans-serif;font-size:.68rem;font-weight:700;padding:0}
+.action-btn.approve{color:var(--success)}
+.action-btn.reject{color:var(--primary)}
+.action-btn+.action-btn{margin-left:8px}
+
+/* ARTICLE ITEMS */
+.article-item{padding:8px 0;border-bottom:1px solid var(--border)}
+.article-item:last-child{border-bottom:none;padding-bottom:0}
+.article-item:first-child{padding-top:0}
+.article-name{font-weight:600;font-size:.75rem;color:var(--dark);margin-bottom:3px;line-height:1.35}
+.article-meta-sm{font-size:.62rem;color:var(--muted);margin-bottom:4px}
+
+/* FORM ELEMENTS */
+.form-group{margin-bottom:10px}
+.form-label{display:block;font-size:.63rem;font-weight:700;margin-bottom:3px;color:var(--gray);text-transform:uppercase;letter-spacing:.4px}
+.form-control{width:100%;padding:7px 9px;border:1.5px solid var(--border);border-radius:6px;font-family:'Figtree',sans-serif;font-size:.78rem;background:var(--light);color:var(--dark)}
+.form-control:focus{outline:none;border-color:var(--primary);background:#fff}
+select.form-control{cursor:pointer}
+.wysiwyg-bar{display:flex;gap:3px;flex-wrap:wrap;padding:5px;background:var(--light);border:1.5px solid var(--border);border-bottom:none;border-radius:6px 6px 0 0}
+.toolbar-btn{padding:2px 6px;border:1px solid var(--border);background:var(--white);border-radius:4px;font-size:.65rem;font-weight:700;color:var(--gray);cursor:pointer;font-family:'Figtree',sans-serif}
+.wysiwyg-area{min-height:80px;padding:7px 9px;border:1.5px solid var(--border);border-radius:0 0 6px 6px;font-size:.72rem;line-height:1.6;background:#fff;color:var(--muted)}
+.file-drop{border:1.5px dashed var(--border);padding:14px;text-align:center;border-radius:6px;cursor:pointer;background:var(--light)}
+.file-drop-icon{width:20px;height:20px;margin:0 auto 5px;color:var(--muted);fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.file-drop-text{font-size:.68rem;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:7px 14px;border-radius:6px;font-weight:600;font-size:.72rem;cursor:pointer;border:none;font-family:'Figtree',sans-serif}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-outline{border:1.5px solid var(--border);background:var(--white);color:var(--gray)}
+.btn-purple{background:var(--purple);color:#fff}
+.btn-danger-soft{background:var(--danger-light);color:var(--danger);border:1px solid #FECACA}
+.btn-sm{padding:4px 9px;font-size:.65rem}
+
+/* BUTTONS ROW */
+.btn-row{display:flex;gap:7px;margin-top:8px}
+.btn-row .btn{flex:1;justify-content:center}
+
+/* LOG ITEMS */
+.log-item{display:flex;gap:8px;align-items:flex-start;padding:8px 12px;border-bottom:1px solid var(--border)}
+.log-item:last-child{border-bottom:none}
+.log-dot-wrap{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.log-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.log-info h4{font-size:.7rem;font-weight:700;color:var(--dark);margin-bottom:2px}
+.log-info p{font-size:.63rem;color:var(--muted);line-height:1.4;margin-bottom:2px}
+.log-time{font-size:.58rem;font-weight:600;letter-spacing:.3px}
+
+/* ANALYTICS */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.analytics-card{background:var(--light);border-radius:7px;padding:10px;border:1px solid var(--border)}
+.analytics-num{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;line-height:1}
+.analytics-label{font-size:.58rem;font-weight:600;color:var(--muted);margin-top:4px}
+.chart-bars-row{display:flex;align-items:flex-end;gap:4px;height:70px;padding:0 2px}
+.chart-bar{flex:1;border-radius:3px 3px 0 0}
+.traffic-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.traffic-label{font-size:.62rem;color:var(--muted)}
+.traffic-val{font-size:.62rem;font-weight:700;color:var(--dark)}
+.traffic-bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-bottom:9px}
+.traffic-bar-fill{height:100%;border-radius:2px}
+
+/* SETTINGS */
+.settings-section{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px}
+.settings-title{font-weight:700;font-size:.72rem;color:var(--dark);padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:10px}
+
+/* MODAL (inline overlay simulation) */
+.modal-overlay-sim{background:rgba(12,10,9,.5);position:absolute;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;padding:20px}
+.modal-box{background:var(--white);border-radius:16px 16px 10px 10px;padding:20px;width:100%;border:1px solid var(--border)}
+.modal-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--dark);text-align:center;margin-bottom:6px}
+.modal-sub{font-size:.68rem;color:var(--gray);text-align:center;margin-bottom:14px;line-height:1.5}
+.modal-icon{width:50px;height:50px;background:var(--primary-light);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.modal-btns{display:flex;gap:8px}
+.modal-btns .btn{flex:1;justify-content:center}
+.modal-hint{font-size:.62rem;color:var(--muted);margin-top:3px;line-height:1.4}
+
+/* MODE TAG */
+.mode-tag{display:inline-block;background:var(--warning-light);color:var(--warning);padding:3px 8px;border-radius:4px;font-size:.6rem;font-weight:700;border:1px solid rgba(180,83,9,.15)}
+
+/* GALLERY PREVIEW */
+.gal-grid-admin{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.gal-item-admin{aspect-ratio:1;border-radius:6px;position:relative}
+.gal-del-btn{position:absolute;top:4px;right:4px;width:16px;height:16px;background:rgba(185,28,28,.85);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.48rem;color:#fff;font-weight:700}
+
+/* STATUS DOT */
+.status-dot{width:6px;height:6px;background:var(--success);border-radius:50%;display:inline-block;margin-right:3px}
+.status-active{font-size:.65rem;font-weight:600;color:var(--success);display:flex;align-items:center;gap:3px}
+
+/* PUBLIC PORTAL COMPONENTS */
+.hero-section{background:var(--mid);padding:22px 18px 0;position:relative;overflow:hidden}
+.hero-section::before{content:'';position:absolute;top:-30%;right:-20%;width:80%;height:80%;background:radial-gradient(circle,rgba(185,28,28,.28) 0%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px}
+.eyebrow{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:4px 10px;border-radius:100px;font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:11px;position:relative;z-index:2}
+.eyebrow-dot{width:4px;height:4px;background:var(--accent);border-radius:50%}
+.hero-title{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;line-height:1.1;color:#fff;margin-bottom:10px;position:relative;z-index:2}
+.hero-title em{font-style:italic;color:var(--accent)}
+.hero-desc{font-size:.72rem;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:16px;position:relative;z-index:2}
+.hero-btns{display:flex;gap:8px;position:relative;z-index:2;flex-wrap:wrap}
+.hero-btn-primary{padding:9px 16px;background:var(--primary);color:#fff;border-radius:6px;font-size:.72rem;font-weight:700;display:inline-flex;align-items:center;gap:5px}
+.hero-btn-ghost{padding:9px 16px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:6px;font-size:.72rem;font-weight:700}
+.hero-stats{display:flex;gap:18px;margin-top:18px;padding:14px 0;border-top:1px solid rgba(255,255,255,.1);position:relative;z-index:2}
+.hero-stat-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;line-height:1}
+.hero-stat-label{font-size:.57rem;color:rgba(255,255,255,.38);margin-top:2px;letter-spacing:.3px}
+.marquee-strip{background:var(--primary);padding:8px 0;overflow:hidden;white-space:nowrap;flex-shrink:0}
+.marquee-inner{display:inline-flex}
+.marquee-text{font-size:.57rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:0 14px}
+.marquee-dot{font-size:.45rem;color:rgba(255,255,255,.4);padding:0 2px}
+.news-section{padding:18px}
+.section-badge{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--primary);display:flex;align-items:center;gap:5px;margin-bottom:4px}
+.section-badge::before{content:'';width:12px;height:1.5px;background:var(--primary)}
+.section-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--dark);margin-bottom:12px}
+.news-card{background:#fff;border-radius:9px;border:1px solid var(--border);overflow:hidden;margin-bottom:10px}
+.news-thumb{height:130px;width:100%}
+.news-body{padding:11px}
+.news-tag{font-size:.55rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px}
+.news-title{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:5px;line-height:1.3}
+.news-excerpt{font-size:.67rem;color:var(--gray);line-height:1.6;margin-bottom:7px}
+.news-meta{font-size:.6rem;color:var(--muted);padding-top:7px;border-top:1px solid var(--border);display:flex;gap:5px}
+.read-more-link{font-size:.63rem;font-weight:700;color:var(--primary);display:inline-flex;align-items:center;gap:2px;margin-top:5px}
+.comment-section{margin-top:9px;padding-top:9px;border-top:1px solid var(--border)}
+.comment-title{font-size:.6rem;font-weight:700;color:var(--dark);text-transform:uppercase;letter-spacing:.3px;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.comment-item{background:var(--light);border-radius:6px;padding:6px 8px;border-left:2px solid var(--border);margin-bottom:4px}
+.comment-author{font-weight:700;font-size:.58rem;color:var(--dark);margin-bottom:1px}
+.comment-text{font-size:.65rem;color:var(--gray);line-height:1.4}
+.comment-pending-msg{background:var(--warning-light);border-radius:6px;padding:5px 8px;font-size:.65rem;color:#92400E;border-left:2px solid var(--accent);font-style:italic}
+.cmt-input{width:100%;padding:6px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:'Figtree',sans-serif;font-size:.68rem;background:#FAFAF8;color:var(--dark);resize:none;margin-bottom:3px}
+.captcha-box{display:flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--border);border-radius:5px;padding:6px 9px;margin:4px 0}
+.captcha-check{width:16px;height:16px;border:2px solid #CBD5E1;border-radius:3px;flex-shrink:0}
+.captcha-label{font-size:.65rem;color:var(--gray);font-weight:500}
+.captcha-logo{margin-left:auto;font-size:.5rem;color:var(--muted)}
+.cmt-send-btn{padding:5px 12px;background:var(--primary);color:#fff;border:none;border-radius:5px;font-size:.62rem;font-weight:700;font-family:'Figtree',sans-serif;cursor:pointer}
+.site-footer{background:var(--mid);padding:20px 18px 16px}
+.footer-brand{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:#fff;margin-bottom:6px}
+.footer-desc{font-size:.67rem;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:14px}
+.footer-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.footer-col-title{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:#fff;margin-bottom:7px}
+.footer-link{display:block;font-size:.67rem;color:rgba(255,255,255,.4);margin-bottom:4px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding-top:12px;font-size:.6rem;color:rgba(255,255,255,.25)}
+
+/* PROFIL SECTION */
+.profile-card{background:linear-gradient(160deg,#7f1d1d,#b91c1c);border-radius:10px;padding:18px;text-align:center;color:#fff;position:relative;overflow:hidden;margin-bottom:14px}
+.profile-card::before{content:'';position:absolute;top:-30%;right:-20%;width:70%;height:70%;background:radial-gradient(circle,rgba(255,255,255,.07) 0%,transparent 70%)}
+.profile-avatar{width:56px;height:56px;background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 9px}
+.profile-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin-bottom:2px}
+.profile-role{font-size:.52rem;letter-spacing:2px;opacity:.65;text-transform:uppercase;margin-bottom:10px}
+.profile-quote-card{background:rgba(255,255,255,.08);border-radius:7px;padding:9px 11px;font-size:.67rem;font-style:italic;opacity:.85;line-height:1.6;text-align:left;position:relative;z-index:1}
+.block-quote{border-left:3px solid var(--primary);padding-left:12px;font-family:'Playfair Display',serif;font-size:.88rem;font-style:italic;line-height:1.5;color:var(--dark);margin:10px 0}
+.info-box{background:var(--white);border:1px solid var(--border);border-radius:7px;padding:11px 13px;margin-top:12px}
+.info-box-title{font-weight:700;font-size:.7rem;color:var(--dark);display:flex;align-items:center;gap:5px;margin-bottom:4px}
+.info-box-text{font-size:.65rem;color:var(--gray);line-height:1.6}
+
+/* GALLERY PUBLIC */
+.gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.gallery-item{height:100px;border-radius:7px;position:relative;overflow:hidden}
+.gallery-item.wide{grid-column:span 2;height:115px}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.62) 0%,transparent 55%);display:flex;align-items:flex-end;padding:7px 9px;opacity:0}
+.gallery-label{color:#fff;font-size:.63rem;font-weight:600}
+
+/* PARTISIPASI */
+.form-card{background:#fff;padding:14px;border-radius:8px;border:1px solid var(--border);margin-bottom:12px}
+.form-card-title{font-size:.72rem;font-weight:700;color:var(--dark);padding-bottom:9px;border-bottom:1px solid var(--border);margin-bottom:12px}
+
+/* LOGIN / REGISTER */
+.auth-hero-bg{background:linear-gradient(160deg,#16213E 0%,var(--primary-dark) 65%,#450a0a 100%);padding:24px 20px;position:relative;overflow:hidden}
+.auth-hero-bg::before{content:'';position:absolute;top:-30%;right:-20%;width:80%;height:80%;background:radial-gradient(circle,rgba(185,28,28,.28) 0%,transparent 70%)}
+.auth-hero-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:36px 36px}
+.auth-logo-row{display:flex;align-items:center;gap:9px;margin-bottom:16px;position:relative;z-index:1}
+.auth-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,#B91C1C,#DC2626);border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.78rem;font-weight:700;color:#fff;box-shadow:0 4px 14px rgba(185,28,28,.4)}
+.auth-logo-name{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:#fff;line-height:1.2}
+.auth-hero-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;line-height:1.1;position:relative;z-index:1}
+.auth-hero-title em{font-style:italic;color:var(--accent)}
+.auth-hero-sub{font-size:.68rem;color:rgba(255,255,255,.6);margin-top:6px;line-height:1.6;position:relative;z-index:1}
+.reg-steps{display:flex;flex-direction:column;gap:8px;margin-top:12px;position:relative;z-index:1}
+.reg-step{display:flex;align-items:flex-start;gap:8px;color:rgba(255,255,255,.68);font-size:.68rem}
+.step-num{width:22px;height:22px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
+.auth-form-area{background:var(--white);border-radius:20px 20px 0 0;padding:20px;flex:1;overflow-y:auto}
+.auth-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--dark);margin-bottom:3px}
+.auth-subtitle{font-size:.68rem;color:var(--muted);margin-bottom:14px}
+.demo-hint-box{background:var(--light);border:1px solid var(--border);border-radius:7px;padding:10px;margin-bottom:13px}
+.demo-hint-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--dark);margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.demo-grid{display:grid;grid-template-columns:auto 1fr;gap:4px 8px;font-size:.63rem;align-items:center}
+.demo-grid span{color:var(--gray)}
+.demo-grid code{background:#fff;border:1px solid var(--border);border-radius:3px;padding:1px 5px;font-size:.6rem;color:var(--primary-dark);font-weight:700}
+.auth-input{width:100%;padding:9px 12px;background:var(--light);border:1.5px solid var(--border);border-radius:7px;font-family:'Figtree',sans-serif;font-size:.8rem;color:var(--dark);margin-bottom:10px}
+.auth-form-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.remember-check{display:flex;align-items:center;gap:5px;font-size:.65rem;color:var(--gray);font-weight:500}
+.forgot-link{color:var(--primary);font-size:.65rem;font-weight:600}
+.auth-submit-btn{width:100%;padding:11px;background:var(--primary);color:#fff;border:none;border-radius:7px;font-family:'Figtree',sans-serif;font-weight:700;font-size:.82rem;box-shadow:0 4px 12px rgba(185,28,28,.22);cursor:pointer}
+.auth-footer-text{text-align:center;font-size:.65rem;color:var(--gray);margin-top:12px}
+.auth-footer-text a{color:var(--primary);font-weight:700}
+.back-to-portal{display:flex;align-items:center;justify-content:center;gap:3px;font-size:.63rem;color:var(--gray);font-weight:600;margin-top:7px;cursor:pointer}
+.strength-bar-wrap{height:3px;background:var(--border);border-radius:2px;margin-top:4px;margin-bottom:2px}
+.strength-bar-fill{height:100%;width:55%;background:var(--warning);border-radius:2px}
+.strength-label{font-size:.57rem;color:var(--warning);font-weight:700}
+.confirm-hint{font-size:.6rem;color:var(--success);margin-top:2px;font-weight:600}
+
+/* DETAIL BERITA */
+.detail-nav{background:#fff;border-bottom:1px solid var(--border);padding:9px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.back-btn{display:flex;align-items:center;gap:4px;font-size:.65rem;font-weight:600;color:var(--gray)}
+.detail-hero{height:170px;position:relative;flex-shrink:0}
+.detail-content{padding:14px 16px 20px}
+.breadcrumb{font-size:.57rem;color:var(--muted);margin-bottom:7px;text-transform:uppercase;letter-spacing:.8px}
+.breadcrumb a{color:var(--primary);font-weight:700}
+.category-badge{display:inline-block;background:var(--primary-light);color:var(--primary);padding:3px 9px;border-radius:4px;font-size:.57rem;font-weight:700;margin-bottom:7px;text-transform:uppercase}
+.article-title-big{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);line-height:1.25;margin-bottom:9px}
+.article-meta-row{display:flex;flex-wrap:wrap;gap:8px;font-size:.6rem;color:var(--gray);padding-top:9px;border-top:1px solid var(--border);margin-bottom:12px}
+.meta-item{display:flex;align-items:center;gap:3px;font-weight:500}
+.article-body p{font-size:.72rem;color:#374151;line-height:1.78;margin-bottom:9px}
+.quote-box{background:#F9FAFB;border-left:3px solid var(--primary);padding:10px 12px;margin:12px 0;border-radius:0 6px 6px 0}
+.quote-text{font-family:'Playfair Display',serif;font-size:.88rem;font-style:italic;color:var(--dark);line-height:1.4}
+.quote-author{display:block;margin-top:5px;font-size:.58rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.8px}
+.sub-heading{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--dark);margin:12px 0 7px}
+.sidebar-widget{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px;margin-top:12px}
+.widget-title{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--primary);display:inline-block;padding-bottom:3px;margin-bottom:9px}
+.related-item{display:flex;gap:8px;margin-bottom:9px;align-items:center}
+.related-item:last-child{margin-bottom:0}
+.related-thumb{width:55px;height:55px;border-radius:5px;flex-shrink:0}
+.related-title{font-size:.67rem;font-weight:600;color:var(--dark);line-height:1.3;margin-bottom:2px}
+.related-date{font-size:.57rem;color:var(--muted)}
+.tags-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.tag-item{background:var(--light);padding:3px 8px;border-radius:4px;font-size:.6rem;font-weight:500;color:var(--gray);border:1px solid var(--border)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:18px 10px}
+.empty-icon{width:26px;height:26px;margin:0 auto 6px;color:var(--success);fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.empty-text{font-size:.68rem;color:var(--muted);font-weight:500}
+
+/* MODERASI CARD */
+.mod-card{background:var(--white);border:1px solid var(--border);border-radius:7px;padding:10px 11px;margin-bottom:8px}
+.mod-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px}
+.mod-name{font-weight:700;font-size:.68rem;color:var(--dark)}
+.mod-date{font-size:.58px;color:var(--muted)}
+.mod-text{font-size:.67rem;color:var(--gray);line-height:1.5;margin-bottom:7px}
+.mod-article-tag{font-size:.57rem;color:var(--muted);background:var(--light);padding:2px 6px;border-radius:3px;display:inline-block;margin-bottom:7px}
+.mod-actions{display:flex;gap:6px}
+.mod-btn{padding:4px 11px;border-radius:5px;font-size:.62rem;font-weight:700;border:none;font-family:'Figtree',sans-serif;cursor:pointer}
+.mod-btn-ok{background:var(--success-light);color:var(--success);border:1px solid rgba(21,128,61,.2)}
+.mod-btn-no{background:var(--primary-light);color:var(--primary);border:1px solid rgba(185,28,28,.15)}
+.photo-preview-mod{height:80px;border-radius:6px;margin-bottom:7px;display:flex;align-items:center;justify-content:center}
+
+/* SUPER ADMIN SPECIFIC */
+.sa-dark-screen{background:#100D09}
+</style>
+</head>
+<body>
+
+<!-- FIGMA TOOLBAR -->
+<div class="figma-bar">
+  <div class="figma-logo">
+    <div class="figma-icon">
+      <svg width="12" height="15" viewBox="0 0 14 18" fill="none">
+        <path d="M3.5 18C5.43 18 7 16.43 7 14.5V11H3.5C1.57 11 0 12.57 0 14.5C0 16.43 1.57 18 3.5 18Z" fill="#0ACF83"/>
+        <path d="M0 9C0 7.07 1.57 5.5 3.5 5.5H7V12.5H3.5C1.57 12.5 0 10.93 0 9Z" fill="#A259FF"/>
+        <path d="M0 3.5C0 1.57 1.57 0 3.5 0H7V7H3.5C1.57 7 0 5.43 0 3.5Z" fill="#F24E1E"/>
+        <path d="M7 0H10.5C12.43 0 14 1.57 14 3.5C14 5.43 12.43 7 10.5 7H7V0Z" fill="#FF7262"/>
+        <path d="M14 9C14 10.93 12.43 12.5 10.5 12.5C8.57 12.5 7 10.93 7 9C7 7.07 8.57 5.5 10.5 5.5C12.43 5.5 14 7.07 14 9Z" fill="#1ABCFE"/>
+      </svg>
+    </div>
+    Rumah Kebangsaan — Mobile Web (Responsive) Prototype
+  </div>
+  <div class="figma-pages">
+    <button class="fpage active" onclick="go('f1',this)">Dashboard Publik</button>
+    <button class="fpage" onclick="go('f2',this)">Login</button>
+    <button class="fpage" onclick="go('f3',this)">Registrasi</button>
+    <button class="fpage" onclick="go('f4',this)">Admin – Dashboard</button>
+    <button class="fpage" onclick="go('f5',this)">Admin – Berita</button>
+    <button class="fpage" onclick="go('f6',this)">Admin – Galeri</button>
+    <button class="fpage" onclick="go('f7',this)">Admin – Mod. Komentar</button>
+    <button class="fpage" onclick="go('f8',this)">Admin – Mod. Foto</button>
+    <button class="fpage" onclick="go('f9',this)">SA – Dashboard</button>
+    <button class="fpage" onclick="go('f10',this)">SA – Pengguna</button>
+    <button class="fpage" onclick="go('f11',this)">SA – Log</button>
+    <button class="fpage" onclick="go('f12',this)">SA – Analitik</button>
+    <button class="fpage" onclick="go('f13',this)">SA – Settings</button>
+  </div>
+  <div class="figma-tools">
+    <span class="figma-zoom">390px</span>
+    <button class="figma-present">▶ Present</button>
+  </div>
+</div>
+
+<div class="canvas">
+
+<!-- ========================================
+     F1 — DASHBOARD PUBLIK (ALL SECTIONS)
+     ======================================== -->
+<div class="frame-wrap" id="f1">
+  <div class="frame-label">Frame 1 — Dashboard Publik (Beranda + Berita + Profil + Galeri + Partisipasi) <span class="frame-badge">390 × 844 Mobile Web</span></div>
+  <div style="position:relative">
+    <div class="device" style="position:relative">
+      <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+      <div class="screen" style="background:var(--mid)">
+        <!-- Status Bar -->
+        <div class="status-bar" style="background:var(--mid)">
+          <span class="status-time sb-white">9:41</span>
+          <div class="status-icons sb-white">
+            <svg width="14" height="10" fill="rgba(255,255,255,.9)" viewBox="0 0 24 18"><rect x="0" y="6" width="3" height="12" rx="1"/><rect x="5" y="3" width="3" height="15" rx="1"/><rect x="10" y="0" width="3" height="18" rx="1"/><rect x="15" y="3" width="3" height="15" rx="1" opacity=".3"/></svg>
+            <svg width="14" height="10" viewBox="0 0 24 18" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linecap="round"><path d="M1.5 5.5C5.5 1.5 10.5 0 12 0s6.5 1.5 10.5 5.5"/><path d="M5 9.5C7.5 7 9.5 6 12 6s4.5 1 7 3.5"/><circle cx="12" cy="16" r="1.5" fill="rgba(255,255,255,.9)"/></svg>
+            <div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div>
+          </div>
+        </div>
+        <!-- Navbar -->
+        <div class="site-nav dark" style="flex-shrink:0">
+          <div class="nav-logo"><div class="logo-mark">RK</div>Rumah Kebangsaan</div>
+          <div class="nav-right"><span class="nav-login-btn">Login</span><svg class="ham-icon" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+        </div>
+        <!-- Scrollable content -->
+        <div class="page-scroll">
+          <!-- HERO -->
+          <div class="hero-section">
+            <div class="hero-grid"></div>
+            <div class="eyebrow" style="position:relative;z-index:2"><span class="eyebrow-dot"></span>Portal Resmi Banyuwangi</div>
+            <h1 class="hero-title">Rumah Bersama<br><em>Masyarakat</em><br>Banyuwangi</h1>
+            <p class="hero-desc">Wadah inklusif untuk dialog, berita terkini, dan aspirasi publik. Mari bersatu membangun harmoni dan kemajuan daerah.</p>
+            <div class="hero-btns">
+              <span class="hero-btn-primary"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>Baca Berita</span>
+              <span class="hero-btn-ghost">Tentang Kami</span>
+            </div>
+            <div class="hero-stats">
+              <div><div class="hero-stat-num">5+</div><div class="hero-stat-label">Tahun Berdiri</div></div>
+              <div><div class="hero-stat-num">200+</div><div class="hero-stat-label">Kegiatan</div></div>
+              <div><div class="hero-stat-num">10k+</div><div class="hero-stat-label">Anggota</div></div>
+            </div>
+          </div>
+          <!-- MARQUEE -->
+          <div class="marquee-strip">
+            <div class="marquee-inner">
+              <span class="marquee-text">Rumah Kebangsaan Banyuwangi</span><span class="marquee-dot">●</span>
+              <span class="marquee-text">Informasi Terpercaya</span><span class="marquee-dot">●</span>
+              <span class="marquee-text">Ruang Publik Inklusif</span><span class="marquee-dot">●</span>
+              <span class="marquee-text">Hidup Harus Bahagia</span><span class="marquee-dot">●</span>
+              <span class="marquee-text">3KO Banyuwangi</span><span class="marquee-dot">●</span>
+            </div>
+          </div>
+          <!-- BERITA -->
+          <div class="news-section" style="background:#fff">
+            <div class="section-badge">Berita Terkini</div>
+            <div class="section-title">Kabar Banyuwangi</div>
+            <div class="news-card">
+              <div class="news-thumb" style="background:linear-gradient(135deg,#1c1917,#44403c)"></div>
+              <div class="news-body">
+                <div class="news-tag">Opini Hukum</div>
+                <div class="news-title">Dari Niat Baik ke Risiko Hukum: Mengurai Peran Panti Rehabilitasi Swasta</div>
+                <p class="news-excerpt">Tumbuhnya panti rehabilitasi swasta patut diapresiasi, namun tanpa pengawasan berpotensi menimbulkan penyimpangan hukum.</p>
+                <div class="news-meta"><span>5 Apr 2026</span><span>·</span><span>Hakim Said, S.H.</span></div>
+                <div class="comment-section">
+                  <div class="comment-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.75" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Komentar (2)</div>
+                  <div class="comment-item"><div class="comment-author">Ahmad Z. — 5 Apr 2026</div><div class="comment-text">Tulisan yang sangat mencerahkan, perlu pengawasan lebih ketat.</div></div>
+                  <div class="comment-item"><div class="comment-author">Bu Sri — 5 Apr 2026</div><div class="comment-text">Terima kasih infonya Pak Hakim.</div></div>
+                  <input type="text" class="cmt-input" placeholder="Nama Anda" style="margin-top:6px">
+                  <textarea class="cmt-input" rows="2" placeholder="Tulis komentar..."></textarea>
+                  <div class="captcha-box"><div class="captcha-check"></div><span class="captcha-label">Saya bukan robot</span><span class="captcha-logo">reCAPTCHA</span></div>
+                  <button class="cmt-send-btn" style="margin-top:4px">Kirim Komentar</button>
+                </div>
+              </div>
+            </div>
+            <div class="news-card">
+              <div class="news-thumb" style="background:linear-gradient(135deg,#0c4a6e,#1e40af)"></div>
+              <div class="news-body">
+                <div class="news-tag">Berita Daerah</div>
+                <div class="news-title">Hadiri Buka Bersama Lintas Elemen, Bupati Ipuk Panen Apresiasi</div>
+                <p class="news-excerpt">Bupati Ipuk berdialog dengan lebih dari seratus tokoh lintas elemen di Rumah Kebangsaan, wujudkan sinergi 3KO untuk Banyuwangi.</p>
+                <div class="news-meta"><span>27 Feb 2026</span><span>·</span><span>Tim Redaksi</span></div>
+                <span class="read-more-link">Baca Selengkapnya →</span>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:4px"><span style="font-size:.65rem;font-weight:700;color:var(--primary)">Lihat Semua Berita →</span></div>
+          </div>
+          <!-- PROFIL -->
+          <div style="padding:18px;background:var(--light)">
+            <div class="section-badge">Tentang Kami</div>
+            <div class="section-title">Wadah Pemersatu Banyuwangi</div>
+            <div class="profile-card">
+              <div class="profile-avatar"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="1.5" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <div class="profile-name">Moh. Hakim Said, S.H.</div>
+              <div class="profile-role">Founder & Ketua</div>
+              <div class="profile-quote-card">"Hidup harus bahagia — kebahagiaan sejati lahir ketika kita hidup rukun, sadar hukum, dan peduli sesama."</div>
+            </div>
+            <div class="block-quote">"Hidup harus bahagia. Dan kebahagiaan sejati hanya bisa dicapai ketika kita hidup rukun, sadar hukum, dan peduli sesama."</div>
+            <p style="font-size:.7rem;color:var(--gray);line-height:1.72;margin-bottom:8px">Rumah Kebangsaan Banyuwangi didirikan <strong>12 Januari 2019</strong> oleh Hakim Said, S.H. Pada 2022 diresmikan bersama Bakesbangpol Banyuwangi.</p>
+            <p style="font-size:.7rem;color:var(--gray);line-height:1.72">Kami mempertemukan berbagai elemen dalam semangat <strong>3KO: Komunikasi, Koordinasi, dan Kolaborasi</strong>.</p>
+            <div class="info-box">
+              <div class="info-box-title"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Lokasi Kami</div>
+              <p class="info-box-text">Jl. Piere Tendean No.1, Karangrejo, Banyuwangi 68411</p>
+              <p class="info-box-text" style="margin-top:2px">+62 823-3835-5251 · remapenta@gmail.com</p>
+            </div>
+          </div>
+          <!-- GALERI -->
+          <div style="padding:18px;background:#fff">
+            <div class="section-badge" style="justify-content:center">Arsip Digital</div>
+            <div class="section-title" style="text-align:center">Jejak Kegiatan</div>
+            <p style="font-size:.68rem;color:var(--muted);text-align:center;margin-bottom:12px">Dokumentasi visual perjalanan Rumah Kebangsaan dalam merawat persatuan bangsa.</p>
+            <div class="gallery-grid">
+              <div class="gallery-item wide" style="background:linear-gradient(135deg,#1c1917,#44403c)"><div class="gallery-overlay"><span class="gallery-label">Kunjungan Tokoh</span></div></div>
+              <div class="gallery-item" style="background:linear-gradient(135deg,#78350f,#b45309)"><div class="gallery-overlay"><span class="gallery-label">Seminar</span></div></div>
+              <div class="gallery-item" style="background:linear-gradient(135deg,#292524,#44403c)"><div class="gallery-overlay"><span class="gallery-label">Bakti Sosial</span></div></div>
+              <div class="gallery-item" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)"><div class="gallery-overlay"><span class="gallery-label">Seni Budaya</span></div></div>
+              <div class="gallery-item" style="background:linear-gradient(135deg,#0c4a6e,#075985)"><div class="gallery-overlay"><span class="gallery-label">Pojok Baca</span></div></div>
+            </div>
+          </div>
+          <!-- PARTISIPASI -->
+          <div style="padding:18px;background:var(--light)">
+            <div class="section-badge" style="justify-content:center">Suara Warga</div>
+            <div class="section-title" style="text-align:center">Partisipasi Publik</div>
+            <p style="font-size:.68rem;color:var(--muted);text-align:center;margin-bottom:14px">Bagikan pengalaman kunjungan Anda melalui form di bawah ini.</p>
+            <div class="form-card">
+              <div class="form-card-title">Tulis Ulasan Kunjungan</div>
+              <div class="form-group"><label class="form-label">Nama Lengkap</label><input type="text" class="form-control" placeholder="Masukkan nama Anda"></div>
+              <div class="form-group"><label class="form-label">Ulasan</label><textarea class="form-control" rows="3" placeholder="Ceritakan pengalaman kunjungan Anda..."></textarea></div>
+              <div class="captcha-box"><div class="captcha-check"></div><span class="captcha-label">Saya bukan robot</span><span class="captcha-logo">reCAPTCHA</span></div>
+              <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:7px">Kirim Ulasan</button>
+            </div>
+            <div class="form-card">
+              <div class="form-card-title">Upload Foto Kunjungan</div>
+              <div class="form-group"><label class="form-label">Nama Pengunjung</label><input type="text" class="form-control" placeholder="Nama Anda"></div>
+              <div class="form-group">
+                <label class="form-label">Upload Foto — Maks 5MB (JPG / PNG / WEBP)</label>
+                <div class="file-drop"><svg class="file-drop-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="file-drop-text">Klik untuk pilih foto</div></div>
+              </div>
+              <div class="captcha-box"><div class="captcha-check"></div><span class="captcha-label">Saya bukan robot</span><span class="captcha-logo">reCAPTCHA</span></div>
+              <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:7px">Kirim Foto</button>
+            </div>
+          </div>
+          <!-- FOOTER -->
+          <div class="site-footer">
+            <div class="footer-brand">Rumah Kebangsaan Banyuwangi</div>
+            <p class="footer-desc">Tempat lahirnya gagasan strategis melalui Komunikasi, Koordinasi, dan Kolaborasi (3KO).</p>
+            <div class="footer-cols">
+              <div><div class="footer-col-title">Navigasi</div><a class="footer-link">Beranda</a><a class="footer-link">Berita</a><a class="footer-link">Profil</a><a class="footer-link">Galeri</a></div>
+              <div><div class="footer-col-title">Kontak</div><a class="footer-link">+62 823-3835-5251</a><a class="footer-link">remapenta@gmail.com</a><a class="footer-link">Panel Admin</a></div>
+            </div>
+            <div class="footer-bottom"><p>© 2026 Rumah Kebangsaan Banyuwangi</p><p style="color:var(--accent);font-style:italic;margin-top:3px">"Hidup Harus Bahagia"</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · iPhone 16 · Mobile Web — All Sections Unified</div>
+</div>
+
+<!-- ========================================
+     F2 — LOGIN
+     ======================================== -->
+<div class="frame-wrap" id="f2">
+  <div class="frame-label">Frame 2 — Login Admin <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="display:flex;flex-direction:column">
+      <div class="status-bar" style="background:#16213E"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="auth-hero-bg">
+        <div class="auth-logo-row"><div class="auth-logo-icon">RK</div><div class="auth-logo-name">Rumah<br>Kebangsaan</div></div>
+        <h2 class="auth-hero-title">Portal Admin<br><em>Rumah Kebangsaan</em><br>Banyuwangi</h2>
+        <p class="auth-hero-sub">Kelola konten, moderasi interaksi warga, dan pantau aktivitas sistem dari satu panel terintegrasi.</p>
+      </div>
+      <div class="auth-form-area">
+        <div class="auth-title">Selamat Datang</div>
+        <div class="auth-subtitle">Masuk ke Panel Administrasi</div>
+        <div class="demo-hint-box">
+          <div class="demo-hint-title"><svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Informasi Akses Demo</div>
+          <div class="demo-grid"><span>Super Admin:</span><div><code>superadmin</code> / <code>super123</code></div><span>Admin:</span><div><code>admin</code> / <code>admin123</code></div></div>
+        </div>
+        <label style="font-size:.62rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px">Email atau Username</label>
+        <input type="text" class="auth-input" placeholder="Masukkan akun Anda">
+        <label style="font-size:.62rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px">Kata Sandi</label>
+        <input type="password" class="auth-input" placeholder="••••••••">
+        <div class="auth-form-row">
+          <label class="remember-check"><input type="checkbox" style="accent-color:var(--primary)"> Ingat Saya</label>
+          <span class="forgot-link">Lupa Sandi?</span>
+        </div>
+        <button class="auth-submit-btn">Masuk Sekarang</button>
+        <div class="auth-footer-text">Belum punya akun? <a>Daftar di sini</a></div>
+        <div class="back-to-portal"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>Kembali ke Portal Publik</div>
+        <div style="margin-top:14px;text-align:center;font-size:.6rem;color:var(--muted)">© 2026 Rumah Kebangsaan Banyuwangi<br><span style="color:var(--accent);font-style:italic">"Hidup Harus Bahagia"</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Login Admin</div>
+</div>
+
+<!-- ========================================
+     F3 — REGISTRASI
+     ======================================== -->
+<div class="frame-wrap" id="f3">
+  <div class="frame-label">Frame 3 — Registrasi Admin <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="display:flex;flex-direction:column">
+      <div class="status-bar" style="background:#16213E"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="auth-hero-bg">
+        <div class="auth-logo-row"><div class="auth-logo-icon">RK</div><div class="auth-logo-name">Rumah<br>Kebangsaan</div></div>
+        <h2 class="auth-hero-title">Bergabung<br>Bersama Kami<br><em>Banyuwangi</em></h2>
+        <div class="reg-steps">
+          <div class="reg-step"><div class="step-num">1</div><span>Isi formulir pendaftaran dengan data yang valid</span></div>
+          <div class="reg-step"><div class="step-num">2</div><span>Akun akan diverifikasi oleh Super Admin</span></div>
+          <div class="reg-step"><div class="step-num">3</div><span>Login dan mulai mengelola konten portal</span></div>
+        </div>
+      </div>
+      <div class="auth-form-area">
+        <div class="auth-title">Buat Akun Baru</div>
+        <div class="auth-subtitle">Lengkapi data di bawah ini untuk mendaftar</div>
+        <label style="font-size:.62rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px">Nama Lengkap <span style="color:var(--primary)">*</span></label>
+        <input type="text" class="auth-input" placeholder="Masukkan nama lengkap Anda">
+        <label style="font-size:.62rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px">Alamat Email <span style="color:var(--primary)">*</span></label>
+        <input type="email" class="auth-input" placeholder="nama@email.com">
+        <label style="font-size:.62rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px">Kata Sandi <span style="color:var(--primary)">*</span></label>
+        <input type="password" class="auth-input" placeholder="Minimal 8 karakter">
+        <div class="strength-bar-wrap"><div class="strength-bar-fill"></div></div>
+        <div class="strength-label" style="margin-bottom:10px">Kekuatan: Cukup</div>
+        <label style="font-size:.62rem;font-weight:700;color:var(--dark);display:block;margin-bottom:3px">Konfirmasi Kata Sandi <span style="color:var(--primary)">*</span></label>
+        <input type="password" class="auth-input" placeholder="Ulangi kata sandi">
+        <div class="confirm-hint">✓ Kata sandi cocok</div>
+        <button class="auth-submit-btn" style="margin-top:14px">Daftar Sekarang</button>
+        <div class="auth-footer-text">Sudah punya akun? <a>Masuk di sini</a></div>
+        <div style="margin-top:12px;text-align:center;font-size:.6rem;color:var(--muted)">© 2026 Rumah Kebangsaan Banyuwangi</div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Registrasi Admin</div>
+</div>
+
+<!-- ========================================
+     F4 — ADMIN DASHBOARD
+     ======================================== -->
+<div class="frame-wrap" id="f4">
+  <div class="frame-label">Frame 4 — Admin Konten: Dashboard <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:var(--white)"><span class="status-time sb-dark">9:41</span><div class="status-icons sb-dark"><div class="bat-icon sb-dark"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+          <div class="sidebar-head"><div class="sidebar-logo">RK</div><div class="sidebar-title">Rumah<br>Kebangsaan</div></div>
+          <div class="sidebar-nav">
+            <div class="nav-group-label">Menu Utama</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Konten Web</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>Manajemen Berita</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Galeri Dokumentasi</div>
+            <div class="nav-group-label">Interaksi Warga</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Mod. Komentar<span class="nav-badge">3</span></div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>Mod. Foto<span class="nav-badge">2</span></div>
+          </div>
+          <div class="sidebar-footer">
+            <div class="priv-box"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna (Least Privilege).</div>
+          </div>
+        </div>
+        <!-- MAIN -->
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <div class="topbar-title">Dashboard Admin</div>
+            <div class="topbar-right">
+              <div><div class="user-name-sm">Admin</div><div class="user-role-sm">Admin Konten</div></div>
+              <div class="user-avatar">AD</div>
+              <button class="logout-btn-sm">Keluar</button>
+            </div>
+          </div>
+          <div class="admin-content">
+            <div class="page-title">Dashboard Admin</div>
+            <div class="page-sub">Selamat datang kembali. Ringkasan sistem hari ini.</div>
+            <button class="btn btn-primary" style="margin-bottom:12px;font-size:.68rem">+ Tulis Artikel Baru</button>
+            <div class="stats-grid">
+              <div class="stat-card"><div class="stat-label">Total Pengunjung</div><div class="stat-num">12,450</div></div>
+              <div class="stat-card"><div class="stat-label">Komentar Pending</div><div class="stat-num" style="color:var(--warning)">3</div></div>
+              <div class="stat-card"><div class="stat-label">Foto Pending</div><div class="stat-num" style="color:var(--warning)">2</div></div>
+              <div class="stat-card"><div class="stat-label">Artikel Terbit</div><div class="stat-num" style="color:var(--success)">45</div></div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Antrean Moderasi Komentar</span><button class="panel-link">Lihat Semua</button></div>
+              <table class="data-table">
+                <thead><tr><th>Pengirim</th><th>Komentar</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="td-name">Budi S.</div><div class="td-sub">12 Feb</div></td><td style="font-size:.6rem;max-width:80px;color:var(--gray)">Sangat informatif...</td><td><span class="badge badge-pending">Pending</span></td><td><button class="action-btn approve">✓</button><button class="action-btn reject">✕</button></td></tr>
+                  <tr><td><div class="td-name">Siti A.</div><div class="td-sub">11 Feb</div></td><td style="font-size:.6rem;max-width:80px;color:var(--gray)">Ada jadwal diskusi...</td><td><span class="badge badge-pending">Pending</span></td><td><button class="action-btn approve">✓</button><button class="action-btn reject">✕</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Draft Artikel</span></div>
+              <div class="panel-body">
+                <div class="article-item"><div class="article-name">Peran Pemuda dalam Demokrasi Lokal</div><div class="article-meta-sm">Diperbarui 1 jam lalu</div><span class="badge badge-draft">Draft</span></div>
+                <div class="article-item"><div class="article-name">Catatan Akhir Tahun Rumah Kebangsaan</div><div class="article-meta-sm">Diperbarui 2 hari lalu</div><span class="badge badge-draft">Draft</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Admin Konten Dashboard · Sidebar + Main Layout</div>
+</div>
+
+<!-- ========================================
+     F5 — ADMIN MANAJEMEN BERITA
+     ======================================== -->
+<div class="frame-wrap" id="f5">
+  <div class="frame-label">Frame 5 — Admin Konten: Manajemen Berita <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:var(--white)"><span class="status-time sb-dark">9:41</span><div class="status-icons sb-dark"><div class="bat-icon sb-dark"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout">
+        <div class="sidebar">
+          <div class="sidebar-head"><div class="sidebar-logo">RK</div><div class="sidebar-title">Rumah<br>Kebangsaan</div></div>
+          <div class="sidebar-nav">
+            <div class="nav-group-label">Menu Utama</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Konten Web</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>Manajemen Berita</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Galeri Dokumentasi</div>
+            <div class="nav-group-label">Interaksi Warga</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Mod. Komentar<span class="nav-badge">3</span></div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>Mod. Foto<span class="nav-badge">2</span></div>
+          </div>
+          <div class="sidebar-footer"><div class="priv-box"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna (Least Privilege).</div></div>
+        </div>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <div class="topbar-title">Manajemen Berita</div>
+            <div class="topbar-right"><div class="user-avatar">AD</div></div>
+          </div>
+          <div class="admin-content">
+            <div class="page-title">Editor Artikel</div>
+            <div class="page-sub">Tulis, edit, dan terbitkan artikel.</div>
+            <div class="panel" style="margin-bottom:10px">
+              <div class="panel-head"><span class="panel-title">Editor Artikel</span></div>
+              <div class="panel-body">
+                <div class="form-group"><label class="form-label">Judul Artikel</label><input type="text" class="form-control" placeholder="Masukkan judul artikel..."></div>
+                <div class="form-group"><label class="form-label">Kategori</label><select class="form-control"><option>Utama</option><option>Opini Hukum</option><option>Agenda</option><option>Berita Daerah</option></select></div>
+                <div class="form-group">
+                  <label class="form-label">Isi Artikel</label>
+                  <div class="wysiwyg-bar"><button class="toolbar-btn"><b>B</b></button><button class="toolbar-btn"><i>I</i></button><button class="toolbar-btn"><u>U</u></button><button class="toolbar-btn">Bullets</button><button class="toolbar-btn">Nomor</button><button class="toolbar-btn">Kiri</button><button class="toolbar-btn">Tengah</button></div>
+                  <div class="wysiwyg-area">Tulis isi artikel di sini...</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Foto Artikel (JPG/PNG/WEBP, maks 5MB)</label>
+                  <div class="file-drop"><svg class="file-drop-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="file-drop-text">Klik untuk pilih gambar sampul</div></div>
+                </div>
+                <div class="btn-row"><button class="btn btn-outline">Simpan Draft</button><button class="btn btn-primary">Terbitkan</button></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Artikel Terbit</span></div>
+              <div class="panel-body">
+                <div class="article-item"><div class="article-name">Forum Diskusi Kebangsaan</div><div class="article-meta-sm">16 Feb 2026 · Utama</div><span class="badge badge-published">Terbit</span></div>
+                <div class="article-item"><div class="article-name">Pentingnya Literasi Hukum</div><div class="article-meta-sm">14 Feb 2026 · Opini Hukum</div><span class="badge badge-published">Terbit</span></div>
+                <div class="article-item"><div class="article-name">Peran Pemuda dalam Demokrasi</div><div class="article-meta-sm">Draft</div><span class="badge badge-draft">Draft</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Admin Konten Manajemen Berita</div>
+</div>
+
+<!-- ========================================
+     F6 — ADMIN GALERI
+     ======================================== -->
+<div class="frame-wrap" id="f6">
+  <div class="frame-label">Frame 6 — Admin Konten: Galeri Dokumentasi <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:var(--white)"><span class="status-time sb-dark">9:41</span><div class="status-icons sb-dark"><div class="bat-icon sb-dark"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout">
+        <div class="sidebar">
+          <div class="sidebar-head"><div class="sidebar-logo">RK</div><div class="sidebar-title">Rumah<br>Kebangsaan</div></div>
+          <div class="sidebar-nav">
+            <div class="nav-group-label">Menu Utama</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Konten Web</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg>Manajemen Berita</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>Galeri Dokumentasi</div>
+            <div class="nav-group-label">Interaksi Warga</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Mod. Komentar<span class="nav-badge">3</span></div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>Mod. Foto<span class="nav-badge">2</span></div>
+          </div>
+          <div class="sidebar-footer"><div class="priv-box"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+        </div>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <div class="topbar-title">Galeri Dokumentasi</div>
+            <div class="topbar-right"><div class="user-avatar">AD</div></div>
+          </div>
+          <div class="admin-content">
+            <div class="page-title">Galeri Dokumentasi</div>
+            <div class="page-sub">Upload dan kelola foto kegiatan.</div>
+            <div class="panel" style="margin-bottom:10px">
+              <div class="panel-head"><span class="panel-title">Upload Foto Baru</span></div>
+              <div class="panel-body">
+                <div class="form-group"><label class="form-label">Keterangan Foto</label><input type="text" class="form-control" placeholder="Contoh: Seminar Kebangsaan Feb 2026"></div>
+                <div class="form-group">
+                  <label class="form-label">File Foto (JPG/PNG/WEBP, maks 5MB per file)</label>
+                  <div class="file-drop"><svg class="file-drop-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><div class="file-drop-text">Klik atau seret foto (bisa multiple)</div></div>
+                </div>
+                <button class="btn btn-primary" style="margin-top:6px">Upload ke Galeri</button>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Preview Galeri</span></div>
+              <div class="panel-body">
+                <div class="gal-grid-admin">
+                  <div class="gal-item-admin" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)"><div class="gal-del-btn">✕</div></div>
+                  <div class="gal-item-admin" style="background:linear-gradient(135deg,#b45309,#d97706)"><div class="gal-del-btn">✕</div></div>
+                  <div class="gal-item-admin" style="background:linear-gradient(135deg,#1e293b,#334155)"><div class="gal-del-btn">✕</div></div>
+                  <div class="gal-item-admin" style="background:linear-gradient(135deg,#be123c,#e11d48)"><div class="gal-del-btn">✕</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Admin Konten Galeri Dokumentasi</div>
+</div>
+
+<!-- ========================================
+     F7 — ADMIN MODERASI KOMENTAR
+     ======================================== -->
+<div class="frame-wrap" id="f7">
+  <div class="frame-label">Frame 7 — Admin Konten: Moderasi Komentar <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:var(--white)"><span class="status-time sb-dark">9:41</span><div class="status-icons sb-dark"><div class="bat-icon sb-dark"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout">
+        <div class="sidebar">
+          <div class="sidebar-head"><div class="sidebar-logo">RK</div><div class="sidebar-title">Rumah<br>Kebangsaan</div></div>
+          <div class="sidebar-nav">
+            <div class="nav-group-label">Menu Utama</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Konten Web</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg>Manajemen Berita</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>Galeri Dokumentasi</div>
+            <div class="nav-group-label">Interaksi Warga</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Mod. Komentar<span class="nav-badge">3</span></div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>Mod. Foto<span class="nav-badge">2</span></div>
+          </div>
+          <div class="sidebar-footer"><div class="priv-box"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten.</div></div>
+        </div>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <div class="topbar-title">Mod. Komentar</div>
+            <div class="topbar-right"><div class="user-avatar">AD</div></div>
+          </div>
+          <div class="admin-content">
+            <div class="page-title">Moderasi Komentar</div>
+            <div class="page-sub">Tinjau dan setujui komentar masuk dari warga.</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+              <span style="font-size:.68rem;font-weight:700;color:var(--dark)">Komentar Pending</span>
+              <span class="badge badge-pending">3 menunggu</span>
+            </div>
+            <div class="mod-card">
+              <div class="mod-head"><div><div class="mod-name">Budi S.</div><div class="mod-date" style="font-size:.58rem;color:var(--muted)">12 Feb 2026</div></div><span class="badge badge-pending">Pending</span></div>
+              <div class="mod-text">Sangat informatif. Terima kasih Pak Hakim!</div>
+              <div class="mod-article-tag">Forum Diskusi Kebangsaan</div>
+              <div class="mod-actions"><button class="mod-btn mod-btn-ok">Setujui</button><button class="mod-btn mod-btn-no">Tolak</button></div>
+            </div>
+            <div class="mod-card">
+              <div class="mod-head"><div><div class="mod-name">Siti Aminah</div><div class="mod-date" style="font-size:.58rem;color:var(--muted)">11 Feb 2026</div></div><span class="badge badge-pending">Pending</span></div>
+              <div class="mod-text">Apakah besok ada jadwal diskusi publik? Saya ingin hadir.</div>
+              <div class="mod-article-tag">Forum Diskusi Kebangsaan</div>
+              <div class="mod-actions"><button class="mod-btn mod-btn-ok">Setujui</button><button class="mod-btn mod-btn-no">Tolak</button></div>
+            </div>
+            <div class="mod-card">
+              <div class="mod-head"><div><div class="mod-name">Wahyu R.</div><div class="mod-date" style="font-size:.58rem;color:var(--muted)">14 Feb 2026</div></div><span class="badge badge-pending">Pending</span></div>
+              <div class="mod-text">Artikel ini sangat menginspirasi generasi muda.</div>
+              <div class="mod-article-tag">Pentingnya Literasi Hukum</div>
+              <div class="mod-actions"><button class="mod-btn mod-btn-ok">Setujui</button><button class="mod-btn mod-btn-no">Tolak</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Admin Konten Moderasi Komentar</div>
+</div>
+
+<!-- ========================================
+     F8 — ADMIN MODERASI FOTO TAMU
+     ======================================== -->
+<div class="frame-wrap" id="f8">
+  <div class="frame-label">Frame 8 — Admin Konten: Moderasi Foto Tamu <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:var(--white)"><span class="status-time sb-dark">9:41</span><div class="status-icons sb-dark"><div class="bat-icon sb-dark"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout">
+        <div class="sidebar">
+          <div class="sidebar-head"><div class="sidebar-logo">RK</div><div class="sidebar-title">Rumah<br>Kebangsaan</div></div>
+          <div class="sidebar-nav">
+            <div class="nav-group-label">Menu Utama</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Konten Web</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></svg>Manajemen Berita</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/></svg>Galeri Dokumentasi</div>
+            <div class="nav-group-label">Interaksi Warga</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Mod. Komentar<span class="nav-badge">3</span></div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>Mod. Foto<span class="nav-badge">2</span></div>
+          </div>
+          <div class="sidebar-footer"><div class="priv-box"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten.</div></div>
+        </div>
+        <div class="admin-main">
+          <div class="admin-topbar">
+            <div class="topbar-title">Mod. Foto Tamu</div>
+            <div class="topbar-right"><div class="user-avatar">AD</div></div>
+          </div>
+          <div class="admin-content">
+            <div class="page-title">Moderasi Foto Tamu</div>
+            <div class="page-sub">Tinjau foto kunjungan yang diunggah pengunjung.</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+              <span style="font-size:.68rem;font-weight:700;color:var(--dark)">Foto Pending</span>
+              <span class="badge badge-pending">2 menunggu</span>
+            </div>
+            <div class="mod-card">
+              <div class="mod-head"><div><div class="mod-name">Ahmad Z.</div><div class="mod-date" style="font-size:.58rem;color:var(--muted)">10 Feb 2026</div></div><span class="badge badge-pending">Pending</span></div>
+              <div class="photo-preview-mod" style="background:linear-gradient(135deg,#0c4a6e,#1e40af)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div>
+              <div class="mod-text">Kunjungan bersama mahasiswa Poliwangi</div>
+              <div class="mod-actions"><button class="mod-btn mod-btn-ok">Setujui ke Galeri</button><button class="mod-btn mod-btn-no">Tolak</button></div>
+            </div>
+            <div class="mod-card">
+              <div class="mod-head"><div><div class="mod-name">Dewi K.</div><div class="mod-date" style="font-size:.58rem;color:var(--muted)">14 Feb 2026</div></div><span class="badge badge-pending">Pending</span></div>
+              <div class="photo-preview-mod" style="background:linear-gradient(135deg,#78350f,#b45309)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div>
+              <div class="mod-text">Seminar hukum Feb 2026</div>
+              <div class="mod-actions"><button class="mod-btn mod-btn-ok">Setujui ke Galeri</button><button class="mod-btn mod-btn-no">Tolak</button></div>
+            </div>
+            <!-- Logout Modal Simulation -->
+            <div style="position:relative;margin-top:12px">
+              <div style="font-size:.65rem;font-weight:700;color:var(--muted);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Simulasi: Konfirmasi Logout</div>
+              <div style="background:rgba(12,10,9,.35);border-radius:10px;padding:12px">
+                <div style="background:var(--white);border-radius:10px;padding:14px;border:1px solid var(--border);text-align:center">
+                  <div style="width:42px;height:42px;background:var(--primary-light);color:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 9px"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+                  <div style="font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;color:var(--dark);margin-bottom:5px">Keluar Sistem?</div>
+                  <div style="font-size:.65rem;color:var(--gray);margin-bottom:11px;line-height:1.5">Anda akan mengakhiri sesi administrasi. Anda harus masuk kembali untuk mengakses panel ini.</div>
+                  <div style="display:flex;gap:7px"><button class="btn btn-outline" style="flex:1;justify-content:center">Batal</button><button class="btn btn-primary" style="flex:1;justify-content:center">Ya, Keluar</button></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Admin Konten Moderasi Foto Tamu + Logout Modal</div>
+</div>
+
+<!-- ========================================
+     F9 — SUPER ADMIN DASHBOARD
+     ======================================== -->
+<div class="frame-wrap" id="f9">
+  <div class="frame-label">Frame 9 — Super Admin: Dashboard <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:#130E0A"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout" style="height:100%">
+        <!-- DARK SIDEBAR -->
+        <div class="sidebar dark">
+          <div class="sidebar-head">
+            <div class="sidebar-logo" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5)">RK</div>
+            <div><div class="sidebar-title">Rumah Kebangsaan</div><div class="root-badge">Root Access</div></div>
+          </div>
+          <div class="sidebar-nav">
+            <div class="nav-link-item active" style="background:rgba(255,255,255,.1);color:rgba(255,255,255,.95)"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Administrator</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Manajemen Pengguna</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log Keamanan</div>
+            <div class="nav-group-label">Tools</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>Pengaturan Sistem</div>
+            <div class="nav-group-label">Navigasi</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Portal Publik</div>
+          </div>
+          <div class="sidebar-footer">
+            <button class="sidebar-logout-btn">Keluar dari Sistem</button>
+          </div>
+        </div>
+        <!-- MAIN -->
+        <div class="admin-main" style="background:#1a1510">
+          <div class="admin-topbar dark">
+            <div class="topbar-title">Sistem Kontrol Utama</div>
+            <div class="topbar-right">
+              <div><div class="user-name-sm">Super Admin</div><div class="user-role-sm purple">Root Access</div></div>
+              <div class="user-avatar purple">SA</div>
+            </div>
+          </div>
+          <div class="admin-content" style="background:#100D09">
+            <div class="page-title" style="color:rgba(255,255,255,.9)">Sistem Kontrol Utama</div>
+            <div class="page-sub" style="color:rgba(255,255,255,.4)">Pantau sistem, otorisasi pengguna, dan integritas data.</div>
+            <span class="mode-tag" style="margin-bottom:10px;display:inline-block">Mode Prototype — Bypass Active</span>
+            <div class="stats-grid">
+              <div class="stat-card" style="background:#1F1812;border-color:rgba(255,255,255,.08)"><div class="stat-label" style="color:rgba(255,255,255,.38)">Total Admin Aktif</div><div class="stat-num" style="color:rgba(255,255,255,.9)">3</div></div>
+              <div class="stat-card" style="background:#1F1812;border-color:rgba(255,255,255,.08)"><div class="stat-label" style="color:rgba(255,255,255,.38)">Status Keamanan</div><div style="margin-top:4px;font-size:.7rem;font-weight:600;color:var(--success);display:flex;align-items:center;gap:4px"><span class="status-dot" style="animation:pulse 2s infinite"></span>Sistem Aman</div></div>
+              <div class="stat-card" style="background:#1F1812;border-color:rgba(255,255,255,.08);grid-column:span 2"><div class="stat-label" style="color:rgba(255,255,255,.38)">Ancaman Diblokir</div><div class="stat-num" style="color:var(--danger)">12</div></div>
+            </div>
+            <div class="panel" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="panel-head" style="border-bottom-color:rgba(255,255,255,.06)">
+                <span class="panel-title" style="color:rgba(255,255,255,.85)">Daftar Pengelola</span>
+                <button class="btn btn-outline btn-sm" style="background:transparent;border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.55)">Kelola</button>
+              </div>
+              <table class="data-table">
+                <thead><tr style="background:#2A1E15"><th style="color:rgba(255,255,255,.3)">Pengguna</th><th style="color:rgba(255,255,255,.3)">Role</th><th style="color:rgba(255,255,255,.3)">Status</th></tr></thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid rgba(255,255,255,.06)"><td><div class="td-name" style="color:rgba(255,255,255,.8)">Bapak Hakim</div><div class="td-sub">hakim@rumahkebangsaan.id</div></td><td><span class="badge role-admin">Admin</span></td><td><div class="status-active">● Aktif</div></td></tr>
+                  <tr style="border-bottom:1px solid rgba(255,255,255,.06)"><td><div class="td-name" style="color:rgba(255,255,255,.8)">Tim IT TRPL</div><div class="td-sub">developer@poli.edu</div></td><td><span class="badge role-super">Super</span></td><td><div class="status-active">● Aktif</div></td></tr>
+                  <tr><td><div class="td-name" style="color:rgba(255,255,255,.8)">Staf Internal</div><div class="td-sub">staf@rumahkebangsaan.id</div></td><td><span class="badge role-admin">Admin</span></td><td><div class="status-active">● Aktif</div></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="panel" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="panel-head" style="border-bottom-color:rgba(255,255,255,.06)"><span class="panel-title" style="color:rgba(255,255,255,.85)">Log Terbaru</span></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#2D1515"><span class="log-dot" style="background:var(--danger)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Akses Ditolak (Bypass URL)</h4><p>Tamu mencoba akses langsung halaman admin.</p><span class="log-time" style="color:var(--danger)">Peringatan — 10 menit lalu</span></div></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#152D1A"><span class="log-dot" style="background:var(--success)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Login Berhasil</h4><p>Super Admin berhasil masuk ke sistem.</p><span class="log-time" style="color:var(--success)">Berhasil — 2 jam lalu</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Super Admin Dashboard · Dark Sidebar</div>
+</div>
+
+<!-- ========================================
+     F10 — SUPER ADMIN MANAJEMEN PENGGUNA
+     ======================================== -->
+<div class="frame-wrap" id="f10">
+  <div class="frame-label">Frame 10 — Super Admin: Manajemen Pengguna <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen" style="background:var(--light)">
+      <div class="status-bar" style="background:#130E0A"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout" style="height:100%">
+        <div class="sidebar dark">
+          <div class="sidebar-head"><div class="sidebar-logo" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5)">RK</div><div><div class="sidebar-title">Rumah Kebangsaan</div><div class="root-badge">Root Access</div></div></div>
+          <div class="sidebar-nav">
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Administrator</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Manajemen Pengguna</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log Keamanan</div>
+            <div class="nav-group-label">Tools</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>Pengaturan Sistem</div>
+          </div>
+          <div class="sidebar-footer"><button class="sidebar-logout-btn">Keluar dari Sistem</button></div>
+        </div>
+        <div class="admin-main" style="background:#1a1510">
+          <div class="admin-topbar dark">
+            <div class="topbar-title">Manajemen Pengguna</div>
+            <div class="topbar-right"><div class="user-avatar purple">SA</div></div>
+          </div>
+          <div class="admin-content" style="background:#100D09">
+            <div class="page-title" style="color:rgba(255,255,255,.9)">Manajemen Pengguna</div>
+            <div class="page-sub" style="color:rgba(255,255,255,.4)">Kelola akun admin. Hanya Super Admin yang dapat membuat akun baru.</div>
+            <button class="btn btn-purple" style="margin-bottom:12px;font-size:.68rem">+ Tambah Admin</button>
+            <div class="panel" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="panel-head" style="border-bottom-color:rgba(255,255,255,.06)"><span class="panel-title" style="color:rgba(255,255,255,.85)">Daftar Pengelola</span><span style="font-size:.62rem;color:rgba(255,255,255,.3)">3 pengguna</span></div>
+              <div style="padding:0 12px">
+                <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div><div class="td-name" style="color:rgba(255,255,255,.8)">Bapak Hakim</div><div class="td-sub">hakim@rumahkebangsaan.id</div></div><span class="badge role-admin">Admin Konten</span></div>
+                  <div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" style="background:transparent;border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.55)">Edit</button><button class="btn btn-danger-soft btn-sm">Hapus</button></div>
+                </div>
+                <div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><div><div class="td-name" style="color:rgba(255,255,255,.8)">Tim IT TRPL (Jevon dkk)</div><div class="td-sub">developer@poli.edu</div></div><span class="badge role-super">Super Admin</span></div>
+                  <span style="font-size:.58rem;color:rgba(255,255,255,.3)">Terkunci — tidak dapat dihapus</span>
+                </div>
+                <div style="padding:10px 0">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div><div class="td-name" style="color:rgba(255,255,255,.8)">Staf Internal</div><div class="td-sub">staf@rumahkebangsaan.id</div></div><span class="badge role-admin">Admin Konten</span></div>
+                  <div style="display:flex;gap:6px"><button class="btn btn-outline btn-sm" style="background:transparent;border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.55)">Edit</button><button class="btn btn-danger-soft btn-sm">Hapus</button></div>
+                </div>
+              </div>
+            </div>
+            <!-- MODAL TAMBAH ADMIN (inline) -->
+            <div style="margin-top:12px">
+              <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.25);text-align:center;margin-bottom:7px">Simulasi: Modal Tambah Admin</div>
+              <div style="background:rgba(255,255,255,.05);border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,.08)">
+                <div style="font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.08)">Tambah Akun Admin</div>
+                <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.5)">Nama Lengkap</label><input type="text" class="form-control" placeholder="Nama pengelola" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+                <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.5)">Alamat Email</label><input type="email" class="form-control" placeholder="email@contoh.com" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+                <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.5)">Role / Hak Akses</label><select class="form-control" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"><option>Admin Konten (Artikel &amp; UGC)</option><option>Super Admin (Akses Penuh)</option></select></div>
+                <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.5)">Password Default</label><input type="text" class="form-control" value="RumahKebangsaan2026" disabled style="background:#2A1E15;border-color:rgba(255,255,255,.08);color:rgba(255,255,255,.35)"><div class="modal-hint">Password otomatis digenerate. Admin harus menggantinya saat pertama login.</div></div>
+                <div class="btn-row"><button class="btn btn-purple" style="justify-content:center">Simpan</button><button class="btn btn-outline" style="justify-content:center;background:transparent;border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.55)">Batal</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Super Admin Manajemen Pengguna + Modal</div>
+</div>
+
+<!-- ========================================
+     F11 — SUPER ADMIN LOG KEAMANAN
+     ======================================== -->
+<div class="frame-wrap" id="f11">
+  <div class="frame-label">Frame 11 — Super Admin: Log Keamanan <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen">
+      <div class="status-bar" style="background:#130E0A"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout" style="height:100%">
+        <div class="sidebar dark">
+          <div class="sidebar-head"><div class="sidebar-logo" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5)">RK</div><div><div class="sidebar-title">Rumah Kebangsaan</div><div class="root-badge">Root Access</div></div></div>
+          <div class="sidebar-nav">
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Administrator</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manajemen Pengguna</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log Keamanan</div>
+            <div class="nav-group-label">Tools</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>Pengaturan Sistem</div>
+          </div>
+          <div class="sidebar-footer"><button class="sidebar-logout-btn">Keluar dari Sistem</button></div>
+        </div>
+        <div class="admin-main" style="background:#1a1510">
+          <div class="admin-topbar dark">
+            <div class="topbar-title">Log Keamanan</div>
+            <div class="topbar-right"><div class="user-avatar purple">SA</div></div>
+          </div>
+          <div class="admin-content" style="background:#100D09">
+            <div class="page-title" style="color:rgba(255,255,255,.9)">Log Keamanan &amp; Akses</div>
+            <div class="page-sub" style="color:rgba(255,255,255,.4)">Rekam jejak seluruh aktivitas sistem.</div>
+            <div class="panel" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="panel-head" style="border-bottom-color:rgba(255,255,255,.06)"><span class="panel-title" style="color:rgba(255,255,255,.85)">Log Sistem</span></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#2D1515"><span class="log-dot" style="background:var(--danger)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Akses Ditolak (Bypass URL)</h4><p>Tamu mencoba akses langsung halaman admin melalui URL.</p><span class="log-time" style="color:var(--danger)">Peringatan — 10 menit lalu</span></div></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#152D1A"><span class="log-dot" style="background:var(--success)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Sistem Filter Bekerja</h4><p>Menolak file .exe pada form UGC pengunjung.</p><span class="log-time" style="color:var(--success)">Berhasil — 1 jam lalu</span></div></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#152D1A"><span class="log-dot" style="background:var(--success)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Login Berhasil</h4><p>Super Admin berhasil masuk ke sistem.</p><span class="log-time" style="color:var(--success)">Berhasil — 2 jam lalu</span></div></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#2D2510"><span class="log-dot" style="background:var(--warning)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Percobaan Login Gagal</h4><p>Gagal 3 kali dari IP 192.168.1.105.</p><span class="log-time" style="color:var(--warning)">Perhatian — 3 jam lalu</span></div></div>
+              <div class="log-item" style="border-bottom-color:rgba(255,255,255,.06)"><div class="log-dot-wrap" style="background:#2D1515"><span class="log-dot" style="background:var(--danger)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Akses Endpoint Tidak Sah</h4><p>Permintaan ke /api/admin/users tanpa token valid.</p><span class="log-time" style="color:var(--danger)">Peringatan — 5 jam lalu</span></div></div>
+              <div class="log-item"><div class="log-dot-wrap" style="background:#152D1A"><span class="log-dot" style="background:var(--success)"></span></div><div class="log-info"><h4 style="color:rgba(255,255,255,.8)">Backup Data Selesai</h4><p>Backup otomatis berhasil disimpan ke server sekunder.</p><span class="log-time" style="color:var(--success)">Berhasil — 6 jam lalu</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Super Admin Log Keamanan</div>
+</div>
+
+<!-- ========================================
+     F12 — SUPER ADMIN ANALITIK
+     ======================================== -->
+<div class="frame-wrap" id="f12">
+  <div class="frame-label">Frame 12 — Super Admin: Analitik Pengunjung <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen">
+      <div class="status-bar" style="background:#130E0A"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout" style="height:100%">
+        <div class="sidebar dark">
+          <div class="sidebar-head"><div class="sidebar-logo" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5)">RK</div><div><div class="sidebar-title">Rumah Kebangsaan</div><div class="root-badge">Root Access</div></div></div>
+          <div class="sidebar-nav">
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Administrator</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manajemen Pengguna</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Log Keamanan</div>
+            <div class="nav-group-label">Tools</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>Pengaturan Sistem</div>
+          </div>
+          <div class="sidebar-footer"><button class="sidebar-logout-btn">Keluar dari Sistem</button></div>
+        </div>
+        <div class="admin-main" style="background:#1a1510">
+          <div class="admin-topbar dark">
+            <div class="topbar-title">Analitik Pengunjung</div>
+            <div class="topbar-right"><div class="user-avatar purple">SA</div></div>
+          </div>
+          <div class="admin-content" style="background:#100D09">
+            <div class="page-title" style="color:rgba(255,255,255,.9)">Analitik Pengunjung</div>
+            <div class="page-sub" style="color:rgba(255,255,255,.4)">Statistik kunjungan portal publik Rumah Kebangsaan.</div>
+            <div class="analytics-grid">
+              <div class="analytics-card" style="background:#1F1812;border-color:rgba(255,255,255,.08)"><div class="analytics-num" style="color:var(--primary)">12,450</div><div class="analytics-label">Total Pengunjung</div></div>
+              <div class="analytics-card" style="background:#1F1812;border-color:rgba(255,255,255,.08)"><div class="analytics-num" style="color:var(--success)">84</div><div class="analytics-label">Aktif Sekarang</div></div>
+              <div class="analytics-card" style="background:#1F1812;border-color:rgba(255,255,255,.08)"><div class="analytics-num" style="color:var(--purple-mid)">03:45</div><div class="analytics-label">Rata-rata Durasi</div></div>
+              <div class="analytics-card" style="background:#1F1812;border-color:rgba(255,255,255,.08)"><div class="analytics-num" style="color:var(--warning)">42.5%</div><div class="analytics-label">Rasio Pantulan</div></div>
+            </div>
+            <div class="panel" style="background:#1F1812;border-color:rgba(255,255,255,.08);margin-bottom:10px">
+              <div class="panel-head" style="border-bottom-color:rgba(255,255,255,.06)"><span class="panel-title" style="color:rgba(255,255,255,.85)">Trafik Mingguan</span></div>
+              <div class="panel-body">
+                <div class="chart-bars-row">
+                  <div class="chart-bar" style="height:55%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                  <div class="chart-bar" style="height:70%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                  <div class="chart-bar" style="height:45%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                  <div class="chart-bar" style="height:80%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                  <div class="chart-bar" style="height:65%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                  <div class="chart-bar" style="height:90%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                  <div class="chart-bar" style="height:75%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.15))"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:.52rem;color:rgba(255,255,255,.28);margin-top:5px"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
+              </div>
+            </div>
+            <div class="panel" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="panel-head" style="border-bottom-color:rgba(255,255,255,.06)"><span class="panel-title" style="color:rgba(255,255,255,.85)">Sumber Trafik</span></div>
+              <div class="panel-body">
+                <div class="traffic-row"><span class="traffic-label">Organik</span><span class="traffic-val" style="color:rgba(255,255,255,.7)">58%</span></div>
+                <div class="traffic-bar-wrap"><div class="traffic-bar-fill" style="width:58%;background:var(--success)"></div></div>
+                <div class="traffic-row"><span class="traffic-label">Langsung</span><span class="traffic-val" style="color:rgba(255,255,255,.7)">28%</span></div>
+                <div class="traffic-bar-wrap"><div class="traffic-bar-fill" style="width:28%;background:var(--purple-mid)"></div></div>
+                <div class="traffic-row"><span class="traffic-label">Referral</span><span class="traffic-val" style="color:rgba(255,255,255,.7)">14%</span></div>
+                <div class="traffic-bar-wrap"><div class="traffic-bar-fill" style="width:14%;background:var(--accent)"></div></div>
+              </div>
+            </div>
+            <p style="font-size:.6rem;color:rgba(255,255,255,.22);text-align:center;margin-top:6px">Data analitik bersifat simulasi untuk keperluan prototype.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Super Admin Analitik Pengunjung</div>
+</div>
+
+<!-- ========================================
+     F13 — SUPER ADMIN PENGATURAN SISTEM
+     ======================================== -->
+<div class="frame-wrap" id="f13">
+  <div class="frame-label">Frame 13 — Super Admin: Pengaturan Sistem <span class="frame-badge">390 × 844</span></div>
+  <div class="device" style="position:relative">
+    <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+    <div class="screen">
+      <div class="status-bar" style="background:#130E0A"><span class="status-time sb-white">9:41</span><div class="status-icons sb-white"><div class="bat-icon sb-white"><div class="bat-body"><div class="bat-fill"></div></div></div></div></div>
+      <div class="admin-layout" style="height:100%">
+        <div class="sidebar dark">
+          <div class="sidebar-head"><div class="sidebar-logo" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.5)">RK</div><div><div class="sidebar-title">Rumah Kebangsaan</div><div class="root-badge">Root Access</div></div></div>
+          <div class="sidebar-nav">
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+            <div class="nav-group-label">Administrator</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manajemen Pengguna</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Log Keamanan</div>
+            <div class="nav-group-label">Tools</div>
+            <div class="nav-link-item"><svg class="nav-link-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+            <div class="nav-link-item active"><svg class="nav-link-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>Pengaturan Sistem</div>
+          </div>
+          <div class="sidebar-footer"><button class="sidebar-logout-btn">Keluar dari Sistem</button></div>
+        </div>
+        <div class="admin-main" style="background:#1a1510">
+          <div class="admin-topbar dark">
+            <div class="topbar-title">Pengaturan Sistem</div>
+            <div class="topbar-right"><div class="user-avatar purple">SA</div></div>
+          </div>
+          <div class="admin-content" style="background:#100D09">
+            <div class="page-title" style="color:rgba(255,255,255,.9)">Pengaturan Sistem</div>
+            <div class="page-sub" style="color:rgba(255,255,255,.4)">Konfigurasi global portal Rumah Kebangsaan.</div>
+            <div class="settings-section" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="settings-title" style="color:rgba(255,255,255,.75);border-bottom-color:rgba(255,255,255,.06)">Informasi Lembaga</div>
+              <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.4)">Nama Lembaga</label><input type="text" class="form-control" value="Rumah Kebangsaan Banyuwangi" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+              <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.4)">Email Resmi</label><input type="email" class="form-control" value="remapenta@gmail.com" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+              <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.4)">Nomor Telepon</label><input type="text" class="form-control" value="+62 823-3835-5251" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+              <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.4)">Alamat</label><input type="text" class="form-control" value="Jl. Piere Tendean No.1, Banyuwangi 68411" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+            </div>
+            <div class="settings-section" style="background:#1F1812;border-color:rgba(255,255,255,.08)">
+              <div class="settings-title" style="color:rgba(255,255,255,.75);border-bottom-color:rgba(255,255,255,.06)">Keamanan Sistem</div>
+              <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.4)">Maks. Percobaan Login</label><input type="number" class="form-control" value="5" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+              <div class="form-group"><label class="form-label" style="color:rgba(255,255,255,.4)">Durasi Sesi (menit)</label><input type="number" class="form-control" value="120" style="background:#2A1E15;border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.8)"></div>
+            </div>
+            <button class="btn btn-purple" style="width:100%;justify-content:center;font-size:.75rem">Simpan Pengaturan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:.58rem;color:rgba(255,255,255,.18);text-align:center;margin-top:8px">390 × 844px · Super Admin Pengaturan Sistem</div>
+</div>
+
+<div style="height:60px"></div>
+</div>
+
+<script>
+function go(id, btn) {
+  document.querySelectorAll('.fpage').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const el = document.getElementById(id);
+  if (el) {
+    const y = el.getBoundingClientRect().top + window.scrollY - 68;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+const frameIds = ['f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11','f12','f13'];
+const btns = document.querySelectorAll('.fpage');
+window.addEventListener('scroll', () => {
+  let active = 0;
+  frameIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.5) active = i;
+  });
+  btns.forEach((b, i) => b.classList.toggle('active', i === active));
+}, { passive: true });
+</script>
+</body>
+</html>

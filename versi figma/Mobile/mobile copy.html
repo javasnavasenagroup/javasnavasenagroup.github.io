@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Admin Mobile — Rumah Kebangsaan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#B91C1C;--red2:#991B1B;--red-bg:#FEF2F2;--red-mid:#DC2626;
+  --amber:#D97706;--amber-bg:#FFFBEB;
+  --dark:#0F0D0B;--mid:#1C1917;
+  --gray:#57534E;--muted:#A8A29E;--light:#F5F2EE;
+  --border:#E7E2DB;--white:#FDFAF7;
+  --green:#15803D;--green-bg:#F0FDF4;
+  --purple:#5B21B6;--purple2:#7C3AED;--purple-bg:#EDE9FE;
+  --warn:#92400E;--warn-bg:#FFFBEB;
+  --danger:#DC2626;
+  --r:10px;--r-lg:14px;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.08);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:#0D1117;
+  min-height:100vh;font-size:14px;line-height:1.5;
+  overflow-x:hidden;color:var(--dark)
+}
+
+/* ── FIGMA BAR ── */
+.figma-bar{
+  position:fixed;top:0;left:0;right:0;height:46px;
+  background:#161B22;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;z-index:9999;gap:12px
+}
+.figma-left{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.figma-icon{width:24px;height:24px;background:linear-gradient(135deg,#5B21B6,#7C3AED);border-radius:5px;display:flex;align-items:center;justify-content:center}
+.figma-name{color:rgba(255,255,255,.8);font-size:.72rem;font-weight:600;letter-spacing:.3px;white-space:nowrap}
+.figma-pages{display:flex;align-items:center;gap:2px;overflow-x:auto;flex:1;scrollbar-width:none}
+.figma-pages::-webkit-scrollbar{display:none}
+.fpage{
+  padding:4px 11px;border-radius:5px;font-size:.67rem;font-weight:600;
+  color:rgba(255,255,255,.35);cursor:pointer;border:none;background:none;
+  font-family:'DM Sans',sans-serif;white-space:nowrap;transition:.15s
+}
+.fpage:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.06)}
+.fpage.active{color:#C4B5FD;background:rgba(109,40,217,.3);border:1px solid rgba(109,40,217,.45)}
+.figma-right{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.figma-chip{color:rgba(255,255,255,.38);font-size:.65rem;font-weight:600;background:rgba(255,255,255,.07);padding:3px 8px;border-radius:4px}
+
+/* ── CANVAS ── */
+.canvas{margin-top:46px;padding:32px 40px;display:flex;flex-wrap:wrap;gap:56px;min-height:calc(100vh - 46px)}
+.frame-section{width:100%}
+.frame-row{display:flex;gap:48px;flex-wrap:wrap;align-items:flex-start}
+.frame-wrap{position:relative}
+.frame-label{font-size:.6rem;font-weight:700;letter-spacing:1.4px;color:rgba(255,255,255,.28);margin-bottom:8px;text-transform:uppercase;font-family:'DM Sans',sans-serif}
+.frame-sub{font-size:.58rem;color:rgba(255,255,255,.15);text-align:center;margin-top:8px}
+.fbadge{margin-left:8px;font-size:.55rem;padding:2px 6px;border-radius:3px;background:rgba(109,40,217,.18);color:#C4B5FD;border:1px solid rgba(109,40,217,.28);font-weight:700;letter-spacing:.4px;vertical-align:middle;display:inline-block}
+
+/* ── DEVICE ── */
+.device{
+  width:390px;
+  background:linear-gradient(160deg,#2a2a2a,#151515);
+  border-radius:48px;padding:10px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 0 3px #0a0a0a,0 30px 80px rgba(0,0,0,.8);
+  flex-shrink:0;position:relative
+}
+.screen{
+  width:370px;height:844px;border-radius:38px;
+  overflow:hidden;background:#100C08;
+  position:relative;display:flex;flex-direction:column
+}
+.notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:108px;height:27px;background:#000;border-radius:16px;z-index:60;display:flex;align-items:center;justify-content:center;gap:7px}
+.notch-cam{width:10px;height:10px;background:#111;border-radius:50%;border:1px solid rgba(255,255,255,.04)}
+.notch-dot{width:4px;height:4px;background:#111;border-radius:50%}
+.status{height:48px;display:flex;align-items:flex-end;padding:0 20px 9px;justify-content:space-between;flex-shrink:0;position:relative;z-index:50;background:#0D0A07}
+.s-time{font-size:13px;font-weight:700;letter-spacing:-.2px;color:rgba(255,255,255,.9)}
+.s-icons{display:flex;align-items:center;gap:5px}
+.bat{display:flex;align-items:center}
+.bat-body{width:21px;height:10px;border:1.5px solid rgba(255,255,255,.8);border-radius:2px;padding:1.5px;position:relative}
+.bat-body::after{content:'';position:absolute;right:-3.5px;top:50%;transform:translateY(-50%);width:2px;height:5px;background:rgba(255,255,255,.8);border-radius:0 1px 1px 0}
+.bat-fill{height:100%;background:rgba(255,255,255,.8);border-radius:1px;width:65%}
+.scr-scroll{flex:1;overflow-y:auto;overflow-x:hidden}
+.scr-scroll::-webkit-scrollbar{display:none}
+
+/* ── TOPBAR ── */
+.topbar{
+  height:54px;background:#1A1410;border-bottom:1px solid rgba(255,255,255,.07);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;flex-shrink:0;position:sticky;top:0;z-index:40;
+  box-shadow:0 1px 8px rgba(0,0,0,.3)
+}
+.tb-left{display:flex;align-items:center;gap:10px}
+.ham-btn{
+  width:32px;height:32px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:7px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:4px;cursor:pointer;flex-shrink:0
+}
+.ham-line{width:14px;height:1.5px;background:rgba(255,255,255,.7);border-radius:2px}
+.tb-title{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:rgba(255,255,255,.9);letter-spacing:.01em}
+.tb-right{display:flex;align-items:center;gap:8px}
+.tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#5B21B6,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 0 0 2px rgba(124,58,237,.3)}
+.tb-notif{width:32px;height:32px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:7px;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;flex-shrink:0}
+.tb-notif-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--red);border-radius:50%;border:1.5px solid #1A1410}
+
+/* ── PAGE BODY ── */
+.page-body{flex:1;overflow-y:auto;padding:14px 14px 24px;background:#100C08}
+.page-body::-webkit-scrollbar{display:none}
+.pg-head{margin-bottom:14px}
+.pg-title{font-family:'Playfair Display',serif;font-size:1.12rem;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:3px;line-height:1.2}
+.pg-sub{color:rgba(255,255,255,.32);font-size:.65rem}
+.mode-tag{display:inline-block;background:rgba(146,64,14,.18);color:#FCD34D;padding:3px 9px;border-radius:4px;font-size:.57rem;font-weight:700;border:1px solid rgba(217,119,6,.2);margin-bottom:12px;letter-spacing:.3px}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.stat-card{background:#1F1812;border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:12px 13px;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.stat-icon-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.stat-icon-box{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.stat-label{font-size:.57rem;font-weight:700;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;line-height:1;color:rgba(255,255,255,.9)}
+.stat-trend{font-size:.58rem;font-weight:600;display:flex;align-items:center;gap:3px;margin-top:3px}
+.status-ok{font-size:.67rem;font-weight:600;color:#4ADE80;display:flex;align-items:center;gap:4px;margin-top:5px}
+.status-dot{width:6px;height:6px;background:#4ADE80;border-radius:50%;animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ── PANELS ── */
+.panel{background:#1F1812;border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);overflow:hidden;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.06)}
+.panel-title{font-weight:700;font-size:.76rem;color:rgba(255,255,255,.82)}
+.panel-action{font-size:.62rem;color:#C4B5FD;font-weight:600;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+.panel-body{padding:11px 13px}
+.panel-badge{font-size:.58rem;color:rgba(255,255,255,.28)}
+
+/* ── TABLE ── */
+.data-table{width:100%;border-collapse:collapse;font-size:.65rem}
+.data-table th{padding:7px 11px;text-align:left;font-size:.54rem;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:1px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
+.data-table td{padding:9px 11px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;color:rgba(255,255,255,.5)}
+.data-table tr:last-child td{border-bottom:none}
+.td-name{font-weight:600;color:rgba(255,255,255,.82);font-size:.68rem;line-height:1.3}
+.td-sub{font-size:.58rem;color:rgba(255,255,255,.3);margin-top:1px}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:.57rem;font-weight:700;letter-spacing:.2px}
+.b-admin{background:rgba(185,28,28,.2);color:#FCA5A5;border:1px solid rgba(185,28,28,.2)}
+.b-super{background:rgba(109,40,217,.2);color:#C4B5FD;border:1px solid rgba(109,40,217,.25)}
+.b-ok{background:rgba(21,128,61,.2);color:#4ADE80;border:1px solid rgba(21,128,61,.2)}
+.b-warn{background:rgba(146,64,14,.18);color:#FCD34D;border:1px solid rgba(217,119,6,.2)}
+.b-danger{background:rgba(220,38,38,.15);color:#F87171;border:1px solid rgba(220,38,38,.18)}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:7px 14px;border-radius:7px;font-weight:600;font-size:.7rem;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:.15s}
+.btn-purple{background:var(--purple);color:#fff;box-shadow:0 2px 8px rgba(91,33,182,.3)}
+.btn-purple:hover{background:#4C1D95}
+.btn-outline-dark{border:1.5px solid rgba(255,255,255,.14);background:transparent;color:rgba(255,255,255,.55)}
+.btn-danger-soft{background:rgba(220,38,38,.12);color:#F87171;border:1px solid rgba(220,38,38,.18)}
+.btn-sm{padding:4px 10px;font-size:.62rem;border-radius:6px}
+.btn-row{display:flex;gap:7px;margin-top:10px}
+.btn-row .btn{flex:1}
+
+/* ── LOG ITEMS ── */
+.log-item{display:flex;gap:10px;align-items:flex-start;padding:10px 13px;border-bottom:1px solid rgba(255,255,255,.05);transition:background .15s}
+.log-item:last-child{border-bottom:none}
+.log-item:hover{background:rgba(255,255,255,.02)}
+.log-dot-box{width:24px;height:24px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.log-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.log-title{font-size:.7rem;font-weight:600;color:rgba(255,255,255,.82);margin-bottom:2px;line-height:1.3}
+.log-body{font-size:.62rem;color:rgba(255,255,255,.35);line-height:1.45;margin-bottom:3px}
+.log-time{font-size:.57rem;font-weight:600;letter-spacing:.2px}
+
+/* ── USER ENTRY ── */
+.user-entry{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.user-entry:last-child{border-bottom:none;padding-bottom:0}
+.user-entry:first-child{padding-top:0}
+.user-entry-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px}
+.user-actions{display:flex;gap:5px}
+.locked-note{font-size:.57rem;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:4px}
+
+/* ── ANALYTICS ── */
+.an-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.an-card{background:#1F1812;border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:12px 13px}
+.an-num{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;line-height:1}
+.an-label{font-size:.57rem;font-weight:600;color:rgba(255,255,255,.28);margin-top:4px;text-transform:uppercase;letter-spacing:.6px}
+.an-change{font-size:.57rem;font-weight:600;margin-top:3px}
+.chart-wrap{padding:13px}
+.chart-bars{display:flex;align-items:flex-end;gap:5px;height:72px}
+.chart-bar{flex:1;border-radius:4px 4px 0 0;transition:.3s}
+.chart-days{display:flex;justify-content:space-between;font-size:.5rem;color:rgba(255,255,255,.22);margin-top:5px;padding:0 1px}
+.tr-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.tr-label{font-size:.62rem;color:rgba(255,255,255,.4)}
+.tr-val{font-size:.62rem;font-weight:700;color:rgba(255,255,255,.72)}
+.tr-track{height:4px;background:rgba(255,255,255,.08);border-radius:2px;margin-bottom:10px;overflow:hidden}
+.tr-fill{height:100%;border-radius:2px;transition:width .5s ease}
+
+/* ── SETTINGS ── */
+.sett-sec{background:#1F1812;border:1px solid rgba(255,255,255,.07);border-radius:var(--r-lg);padding:13px;margin-bottom:10px}
+.sett-title{font-weight:700;font-size:.72rem;color:rgba(255,255,255,.6);padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:11px;display:flex;align-items:center;gap:6px}
+.form-group{margin-bottom:10px}
+.form-label{display:block;font-size:.6rem;font-weight:700;margin-bottom:4px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px}
+.form-ctrl{width:100%;padding:8px 10px;border:1.5px solid rgba(255,255,255,.1);border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.75rem;background:#2A1E14;color:rgba(255,255,255,.8);outline:none;transition:.15s;-webkit-appearance:none}
+.form-ctrl:focus{border-color:rgba(124,58,237,.6);background:#2F2318;box-shadow:0 0 0 3px rgba(124,58,237,.1)}
+.form-ctrl:disabled{opacity:.4;cursor:not-allowed}
+.form-hint{font-size:.58rem;color:rgba(255,255,255,.25);margin-top:3px;line-height:1.5}
+
+/* ── MODAL (Add User) ── */
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(3px)}
+.modal-box{background:#1C1511;border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.modal-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:rgba(255,255,255,.88);margin-bottom:13px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.08)}
+
+/* ── LOGOUT MODAL SIM ── */
+.modal-sim-wrap{background:rgba(0,0,0,.5);border-radius:12px;padding:10px;margin-top:12px}
+.modal-sim-label{font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.2);text-align:center;margin-bottom:8px}
+.modal-sim-box{background:#1F1812;border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:16px;text-align:center}
+.modal-icon{width:42px;height:42px;background:rgba(185,28,28,.18);color:#F87171;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.modal-sim-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:5px}
+.modal-sim-sub{font-size:.62rem;color:rgba(255,255,255,.38);margin-bottom:12px;line-height:1.55}
+
+/* ── OVERLAY SIDEBAR ── */
+.overlay{position:absolute;inset:0;z-index:80;background:rgba(0,0,0,.6);display:none;align-items:flex-start;justify-content:flex-start;backdrop-filter:blur(2px)}
+.overlay.show{display:flex}
+.overlay-sidebar{width:245px;height:100%;background:#0A0705;display:flex;flex-direction:column;box-shadow:8px 0 40px rgba(0,0,0,.7);animation:slideIn .25s cubic-bezier(.4,0,.2,1)}
+@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+.ov-header{padding:14px 13px;border-bottom:1px solid rgba(255,255,255,.06);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.ov-logo-row{display:flex;align-items:center;gap:8px}
+.ov-logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#5B21B6,#7C3AED);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.62rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(91,33,182,.4)}
+.ov-logo-name{font-family:'Playfair Display',serif;font-size:.82rem;font-weight:700;color:rgba(255,255,255,.88);line-height:1.2}
+.ov-close{width:24px;height:24px;background:rgba(255,255,255,.07);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.4);cursor:pointer;flex-shrink:0;transition:.15s}
+.ov-close:hover{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.ov-user-row{display:flex;align-items:center;gap:9px;padding:11px 13px;border-bottom:1px solid rgba(255,255,255,.05)}
+.ov-user-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#5B21B6,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:700;color:#fff;flex-shrink:0}
+.ov-user-name{font-size:.7rem;font-weight:600;color:rgba(255,255,255,.85)}
+.ov-user-role{font-size:.56rem;color:rgba(196,181,253,.4)}
+.root-badge{display:inline-block;font-size:.52rem;font-weight:700;letter-spacing:.8px;text-transform:uppercase;background:rgba(109,40,217,.18);color:#C4B5FD;border:1px solid rgba(109,40,217,.28);padding:1px 5px;border-radius:3px;margin-left:5px}
+.ov-nav{padding:8px 8px;flex:1;overflow-y:auto}
+.ov-nav::-webkit-scrollbar{display:none}
+.ov-sec-label{font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:rgba(255,255,255,.18);padding:9px 8px 4px}
+.ov-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;color:rgba(196,181,253,.45);font-weight:500;font-size:.72rem;cursor:pointer;margin-bottom:1px;transition:.12s;position:relative}
+.ov-item:hover{background:rgba(109,40,217,.12);color:rgba(196,181,253,.8)}
+.ov-item.active{background:rgba(109,40,217,.22);color:#C4B5FD;font-weight:600}
+.ov-icon{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ov-badge{margin-left:auto;background:rgba(109,40,217,.5);color:#C4B5FD;padding:1px 6px;border-radius:20px;font-size:.56rem;font-weight:700;min-width:17px;text-align:center}
+.ov-item.active .ov-badge{background:rgba(109,40,217,.7)}
+.ov-divider{height:1px;background:rgba(255,255,255,.05);margin:5px 10px}
+.ov-footer{padding:10px 12px;border-top:1px solid rgba(255,255,255,.05);flex-shrink:0}
+.ov-access-box{background:rgba(109,40,217,.1);border:1px solid rgba(109,40,217,.18);border-radius:7px;padding:8px 10px;font-size:.6rem;line-height:1.55;color:rgba(255,255,255,.32);margin-bottom:8px}
+.ov-access-box strong{display:block;font-size:.55rem;text-transform:uppercase;letter-spacing:.4px;color:#C4B5FD;margin-bottom:2px}
+.ov-logout{width:100%;padding:7px 10px;background:rgba(109,40,217,.1);border:1px solid rgba(109,40,217,.2);color:rgba(196,181,253,.5);border-radius:6px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.66rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:6px;transition:.15s}
+.ov-logout:hover{background:rgba(109,40,217,.18);color:#C4B5FD}
+.ov-logout svg{width:12px;height:12px;flex-shrink:0}
+
+/* ── SECTION DIVIDER ── */
+.sec-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.3),transparent);margin:4px 0 12px}
+
+/* ── INFO NOTE ── */
+.info-note{font-size:.58rem;color:rgba(255,255,255,.2);text-align:center;padding:10px 0;font-style:italic}
+
+/* ── SCROLLBAR for page body ── */
+.page-body::-webkit-scrollbar{width:2px}
+.page-body::-webkit-scrollbar-track{background:transparent}
+.page-body::-webkit-scrollbar-thumb{background:rgba(124,58,237,.25);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ═══ FIGMA TOOLBAR ═══ -->
+<div class="figma-bar">
+  <div class="figma-left">
+    <div class="figma-icon">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <span class="figma-name">Super Admin Mobile — Rumah Kebangsaan v2</span>
+  </div>
+  <div class="figma-pages">
+    <button class="fpage active" onclick="go('f9',this)">SA — Dashboard</button>
+    <button class="fpage" onclick="go('f10',this)">SA — Pengguna</button>
+    <button class="fpage" onclick="go('f11',this)">SA — Log Keamanan</button>
+    <button class="fpage" onclick="go('f12',this)">SA — Analitik</button>
+    <button class="fpage" onclick="go('f13',this)">SA — Pengaturan</button>
+  </div>
+  <div class="figma-right">
+    <span class="figma-chip">390×844</span>
+    <span class="figma-chip" style="color:#C4B5FD;background:rgba(109,40,217,.2);border:1px solid rgba(109,40,217,.25)">Root Access</span>
+  </div>
+</div>
+
+<div class="canvas">
+
+<!-- ═══════════════════════════════════════
+     F9 — SA DASHBOARD
+═══════════════════════════════════════ -->
+<div class="frame-section" id="f9">
+  <div class="frame-label">Frame 1 — Super Admin: Dashboard <span class="fbadge">390×844 · Dark</span></div>
+  <div class="frame-row">
+    <div class="frame-wrap">
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left">
+              <div class="ham-btn" onclick="toggleOverlay('ov-f9')">
+                <div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div>
+              </div>
+              <div class="tb-title">Kontrol Utama</div>
+            </div>
+            <div class="tb-right">
+              <div class="tb-notif">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.65)" stroke-width="1.75" stroke-linecap="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <div class="tb-notif-dot"></div>
+              </div>
+              <div class="tb-av">SA</div>
+            </div>
+          </div>
+          <div class="page-body">
+            <div class="pg-head">
+              <div class="pg-title">Sistem Kontrol Utama</div>
+              <div class="pg-sub">Pantau sistem, otorisasi pengguna, dan integritas data.</div>
+            </div>
+            <span class="mode-tag">⚠ Mode Prototype — Bypass Active</span>
+
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon-row">
+                  <div class="stat-icon-box" style="background:rgba(109,40,217,.2)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C4B5FD" stroke-width="1.75" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  </div>
+                </div>
+                <div class="stat-label">Admin Aktif</div>
+                <div class="stat-num" style="color:#C4B5FD">3</div>
+                <div class="stat-trend" style="color:#4ADE80">▲ 1 bulan ini</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-row">
+                  <div class="stat-icon-box" style="background:rgba(21,128,61,.18)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="1.75" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  </div>
+                </div>
+                <div class="stat-label">Status Sistem</div>
+                <div class="status-ok"><span class="status-dot"></span>Aman</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-row">
+                  <div class="stat-icon-box" style="background:rgba(220,38,38,.18)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F87171" stroke-width="1.75" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  </div>
+                </div>
+                <div class="stat-label">Ancaman Diblokir</div>
+                <div class="stat-num" style="color:#F87171">12</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-row">
+                  <div class="stat-icon-box" style="background:rgba(217,119,6,.18)">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FCD34D" stroke-width="1.75" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                  </div>
+                </div>
+                <div class="stat-label">Moderasi Pending</div>
+                <div class="stat-num" style="color:#FCD34D">5</div>
+              </div>
+            </div>
+
+            <!-- Daftar Pengelola -->
+            <div class="panel">
+              <div class="panel-head">
+                <span class="panel-title">Daftar Pengelola</span>
+                <button class="panel-action">Kelola →</button>
+              </div>
+              <table class="data-table">
+                <thead><tr><th>Pengguna</th><th>Role</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div class="td-name">Bapak Hakim</div><div class="td-sub">hakim@rk.id</div></td>
+                    <td><span class="badge b-admin">Admin</span></td>
+                    <td><div class="status-ok" style="font-size:.6rem"><span class="status-dot"></span>Aktif</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-name">Tim IT TRPL</div><div class="td-sub">developer@poli.edu</div></td>
+                    <td><span class="badge b-super">Super</span></td>
+                    <td><div class="status-ok" style="font-size:.6rem"><span class="status-dot"></span>Aktif</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="td-name">Staf Internal</div><div class="td-sub">staf@rk.id</div></td>
+                    <td><span class="badge b-admin">Admin</span></td>
+                    <td><div class="status-ok" style="font-size:.6rem"><span class="status-dot"></span>Aktif</div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Log Terbaru -->
+            <div class="panel">
+              <div class="panel-head">
+                <span class="panel-title">Log Terbaru</span>
+                <button class="panel-action">Semua →</button>
+              </div>
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(220,38,38,.15)"><span class="log-dot" style="background:#F87171"></span></div>
+                <div>
+                  <div class="log-title">Akses Ditolak (Bypass URL)</div>
+                  <div class="log-body">Tamu mencoba akses langsung halaman admin.</div>
+                  <span class="log-time" style="color:#F87171">Peringatan — 10 menit lalu</span>
+                </div>
+              </div>
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(21,128,61,.15)"><span class="log-dot" style="background:#4ADE80"></span></div>
+                <div>
+                  <div class="log-title">Login Berhasil</div>
+                  <div class="log-body">Super Admin masuk ke sistem.</div>
+                  <span class="log-time" style="color:#4ADE80">Berhasil — 2 jam lalu</span>
+                </div>
+              </div>
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(217,119,6,.15)"><span class="log-dot" style="background:#FCD34D"></span></div>
+                <div>
+                  <div class="log-title">Percobaan Login Gagal</div>
+                  <div class="log-body">Gagal 3× dari IP 192.168.1.105.</div>
+                  <span class="log-time" style="color:#FCD34D">Perhatian — 3 jam lalu</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Akses Cepat</span></div>
+              <div class="panel-body" style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+                <button class="btn btn-purple" style="flex-direction:column;gap:4px;padding:11px 8px;height:auto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                  <span style="font-size:.6rem">Tambah Admin</span>
+                </button>
+                <button class="btn btn-outline-dark" style="flex-direction:column;gap:4px;padding:11px 8px;height:auto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                  <span style="font-size:.6rem">Analitik</span>
+                </button>
+                <button class="btn btn-outline-dark" style="flex-direction:column;gap:4px;padding:11px 8px;height:auto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span style="font-size:.6rem">Lihat Log</span>
+                </button>
+                <button class="btn btn-outline-dark" style="flex-direction:column;gap:4px;padding:11px 8px;height:auto">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>
+                  <span style="font-size:.6rem">Pengaturan</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- SA OVERLAY SIDEBAR -->
+          <div class="overlay" id="ov-f9" onclick="closeOverlay('ov-f9',event)">
+            <div class="overlay-sidebar">
+              <div class="ov-header">
+                <div class="ov-logo-row"><div class="ov-logo-icon">RK</div><div><div class="ov-logo-name">Rumah<br>Kebangsaan</div><div class="root-badge">Root</div></div></div>
+                <div class="ov-close" onclick="closeOverlay('ov-f9',null)">✕</div>
+              </div>
+              <div class="ov-user-row"><div class="ov-user-av">SA</div><div><div class="ov-user-name">Super Admin</div><div class="ov-user-role">superadmin@rk.id</div></div></div>
+              <div class="ov-nav">
+                <div class="ov-item active"><svg class="ov-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+                <div class="ov-sec-label">Administrator</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Manajemen Pengguna</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Log Keamanan</div>
+                <div class="ov-divider"></div>
+                <div class="ov-sec-label">Tools</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>Pengaturan Sistem</div>
+                <div class="ov-divider"></div>
+                <div class="ov-sec-label">Navigasi</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Panel Admin Konten</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Portal Publik</div>
+              </div>
+              <div class="ov-footer">
+                <div class="ov-access-box"><strong>Hak Akses: Super Admin</strong>Akses penuh ke semua fitur dan konfigurasi sistem.</div>
+                <button class="ov-logout"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Keluar dari Sistem</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">390×844px · SA Dashboard · Ketuk ☰ untuk sidebar</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     F10 — SA MANAJEMEN PENGGUNA
+═══════════════════════════════════════ -->
+<div class="frame-section" id="f10">
+  <div class="frame-label">Frame 2 — Super Admin: Manajemen Pengguna <span class="fbadge">390×844</span></div>
+  <div class="frame-row">
+
+    <!-- MAIN VIEW -->
+    <div class="frame-wrap">
+      <div class="frame-label" style="font-size:.52rem;color:rgba(255,255,255,.2)">Tampilan Utama</div>
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left">
+              <div class="ham-btn" onclick="toggleOverlay('ov-f10')"><div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div></div>
+              <div class="tb-title">Manajemen Pengguna</div>
+            </div>
+            <div class="tb-right"><div class="tb-av">SA</div></div>
+          </div>
+          <div class="page-body">
+            <div class="pg-head">
+              <div class="pg-title">Manajemen Pengguna</div>
+              <div class="pg-sub">Hanya Super Admin yang dapat membuat atau menghapus akun.</div>
+            </div>
+            <button class="btn btn-purple" style="width:100%;margin-bottom:13px;font-size:.72rem">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              + Tambah Admin Baru
+            </button>
+            <div class="panel">
+              <div class="panel-head">
+                <span class="panel-title">Daftar Pengelola</span>
+                <span class="panel-badge">3 pengguna</span>
+              </div>
+              <div style="padding:12px 13px">
+
+                <div class="user-entry">
+                  <div class="user-entry-head">
+                    <div>
+                      <div class="td-name">Bapak Hakim</div>
+                      <div class="td-sub">hakim@rumahkebangsaan.id</div>
+                    </div>
+                    <span class="badge b-admin">Admin Konten</span>
+                  </div>
+                  <div class="user-actions">
+                    <button class="btn btn-outline-dark btn-sm">Edit</button>
+                    <button class="btn btn-danger-soft btn-sm">Hapus</button>
+                  </div>
+                </div>
+
+                <div class="user-entry">
+                  <div class="user-entry-head">
+                    <div>
+                      <div class="td-name">Tim IT TRPL (Jevon dkk)</div>
+                      <div class="td-sub">developer@poli.edu</div>
+                    </div>
+                    <span class="badge b-super">Super Admin</span>
+                  </div>
+                  <div class="locked-note">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Terkunci — tidak dapat dihapus
+                  </div>
+                </div>
+
+                <div class="user-entry">
+                  <div class="user-entry-head">
+                    <div>
+                      <div class="td-name">Staf Internal</div>
+                      <div class="td-sub">staf@rumahkebangsaan.id</div>
+                    </div>
+                    <span class="badge b-admin">Admin Konten</span>
+                  </div>
+                  <div class="user-actions">
+                    <button class="btn btn-outline-dark btn-sm">Edit</button>
+                    <button class="btn btn-danger-soft btn-sm">Hapus</button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="overlay" id="ov-f10" onclick="closeOverlay('ov-f10',event)">
+            <div class="overlay-sidebar">
+              <div class="ov-header"><div class="ov-logo-row"><div class="ov-logo-icon">RK</div><div><div class="ov-logo-name">Rumah Kebangsaan</div><div class="root-badge">Root</div></div></div><div class="ov-close" onclick="closeOverlay('ov-f10',null)">✕</div></div>
+              <div class="ov-user-row"><div class="ov-user-av">SA</div><div><div class="ov-user-name">Super Admin</div><div class="ov-user-role">superadmin@rk.id</div></div></div>
+              <div class="ov-nav">
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+                <div class="ov-sec-label">Administrator</div>
+                <div class="ov-item active"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>Manajemen Pengguna</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Log Keamanan</div>
+                <div class="ov-divider"></div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>Pengaturan Sistem</div>
+              </div>
+              <div class="ov-footer"><div class="ov-access-box"><strong>Hak Akses: Super Admin</strong>Akses penuh ke semua fitur sistem.</div><button class="ov-logout">Keluar dari Sistem</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">Tampilan Daftar Pengguna</div>
+    </div>
+
+    <!-- MODAL TAMBAH ADMIN -->
+    <div class="frame-wrap">
+      <div class="frame-label" style="font-size:.52rem;color:rgba(255,255,255,.2)">Modal Tambah / Edit Admin</div>
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left"><div class="ham-btn"><div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div></div><div class="tb-title">Manajemen Pengguna</div></div>
+            <div class="tb-right"><div class="tb-av">SA</div></div>
+          </div>
+          <div class="page-body" style="position:relative">
+            <!-- blurred bg -->
+            <div style="opacity:.3;pointer-events:none">
+              <div class="pg-head"><div class="pg-title">Manajemen Pengguna</div></div>
+              <button class="btn btn-purple" style="width:100%;margin-bottom:13px">+ Tambah Admin Baru</button>
+              <div class="panel" style="opacity:.5"><div class="panel-head"><span class="panel-title">Daftar Pengelola</span></div></div>
+            </div>
+            <!-- MODAL OVERLAY -->
+            <div class="modal-backdrop">
+              <div class="modal-box">
+                <div class="modal-title">Tambah Akun Admin</div>
+                <div class="form-group">
+                  <label class="form-label">Nama Lengkap</label>
+                  <input type="text" class="form-ctrl" placeholder="Nama pengelola baru">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Alamat Email</label>
+                  <input type="email" class="form-ctrl" placeholder="email@contoh.com">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Role / Hak Akses</label>
+                  <select class="form-ctrl">
+                    <option>Admin Konten (Artikel &amp; UGC)</option>
+                    <option>Super Admin (Akses Penuh)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Password Default</label>
+                  <input type="text" class="form-ctrl" value="RumahKebangsaan2026" disabled>
+                  <div class="form-hint">Password otomatis digenerate. Admin harus menggantinya saat pertama login.</div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-purple" style="justify-content:center">Simpan</button>
+                  <button class="btn btn-outline-dark" style="justify-content:center">Batal</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">Modal Tambah / Edit Admin</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     F11 — SA LOG KEAMANAN
+═══════════════════════════════════════ -->
+<div class="frame-section" id="f11">
+  <div class="frame-label">Frame 3 — Super Admin: Log Keamanan <span class="fbadge">390×844</span></div>
+  <div class="frame-row">
+    <div class="frame-wrap">
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left">
+              <div class="ham-btn" onclick="toggleOverlay('ov-f11')"><div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div></div>
+              <div class="tb-title">Log Keamanan</div>
+            </div>
+            <div class="tb-right">
+              <span class="badge b-danger" style="font-size:.58rem">2 Aktif</span>
+              <div class="tb-av">SA</div>
+            </div>
+          </div>
+          <div class="page-body">
+            <div class="pg-head">
+              <div class="pg-title">Log Keamanan &amp; Akses</div>
+              <div class="pg-sub">Rekam jejak seluruh aktivitas sistem secara real-time.</div>
+            </div>
+
+            <!-- Filter chips -->
+            <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:2px">
+              <button style="padding:4px 11px;border-radius:20px;font-size:.58rem;font-weight:700;background:rgba(109,40,217,.25);color:#C4B5FD;border:1px solid rgba(109,40,217,.35);white-space:nowrap;cursor:pointer;font-family:'DM Sans',sans-serif">Semua</button>
+              <button style="padding:4px 11px;border-radius:20px;font-size:.58rem;font-weight:700;background:rgba(220,38,38,.12);color:#F87171;border:1px solid rgba(220,38,38,.2);white-space:nowrap;cursor:pointer;font-family:'DM Sans',sans-serif">Peringatan</button>
+              <button style="padding:4px 11px;border-radius:20px;font-size:.58rem;font-weight:700;background:rgba(21,128,61,.12);color:#4ADE80;border:1px solid rgba(21,128,61,.2);white-space:nowrap;cursor:pointer;font-family:'DM Sans',sans-serif">Berhasil</button>
+              <button style="padding:4px 11px;border-radius:20px;font-size:.58rem;font-weight:700;background:rgba(146,64,14,.12);color:#FCD34D;border:1px solid rgba(217,119,6,.2);white-space:nowrap;cursor:pointer;font-family:'DM Sans',sans-serif">Perhatian</button>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Log Sistem</span><span class="panel-badge">6 entri hari ini</span></div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(220,38,38,.15)"><span class="log-dot" style="background:#F87171"></span></div>
+                <div>
+                  <div class="log-title">Akses Ditolak — Bypass URL</div>
+                  <div class="log-body">Tamu mencoba akses langsung ke /admin melalui URL tanpa sesi valid.</div>
+                  <span class="log-time" style="color:#F87171">⚠ Peringatan — 10 menit lalu</span>
+                </div>
+              </div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(21,128,61,.15)"><span class="log-dot" style="background:#4ADE80"></span></div>
+                <div>
+                  <div class="log-title">Sistem Filter File Bekerja</div>
+                  <div class="log-body">Menolak file .exe pada form UGC pengunjung. File diblokir otomatis.</div>
+                  <span class="log-time" style="color:#4ADE80">✓ Berhasil — 1 jam lalu</span>
+                </div>
+              </div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(21,128,61,.15)"><span class="log-dot" style="background:#4ADE80"></span></div>
+                <div>
+                  <div class="log-title">Login Berhasil</div>
+                  <div class="log-body">Super Admin berhasil masuk ke sistem admin.</div>
+                  <span class="log-time" style="color:#4ADE80">✓ Berhasil — 2 jam lalu</span>
+                </div>
+              </div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(217,119,6,.15)"><span class="log-dot" style="background:#FCD34D"></span></div>
+                <div>
+                  <div class="log-title">Percobaan Login Gagal (×3)</div>
+                  <div class="log-body">3 kali gagal dari IP 192.168.1.105. IP dimonitor.</div>
+                  <span class="log-time" style="color:#FCD34D">⚡ Perhatian — 3 jam lalu</span>
+                </div>
+              </div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(220,38,38,.15)"><span class="log-dot" style="background:#F87171"></span></div>
+                <div>
+                  <div class="log-title">Akses Endpoint Tidak Sah</div>
+                  <div class="log-body">Permintaan ke /api/admin/users tanpa bearer token.</div>
+                  <span class="log-time" style="color:#F87171">⚠ Peringatan — 5 jam lalu</span>
+                </div>
+              </div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(21,128,61,.15)"><span class="log-dot" style="background:#4ADE80"></span></div>
+                <div>
+                  <div class="log-title">Backup Data Otomatis Selesai</div>
+                  <div class="log-body">Backup berhasil disimpan ke server sekunder pukul 00:00.</div>
+                  <span class="log-time" style="color:#4ADE80">✓ Berhasil — 6 jam lalu</span>
+                </div>
+              </div>
+
+              <div class="log-item">
+                <div class="log-dot-box" style="background:rgba(109,40,217,.18)"><span class="log-dot" style="background:#C4B5FD"></span></div>
+                <div>
+                  <div class="log-title">Akun Admin Baru Ditambahkan</div>
+                  <div class="log-body">Super Admin menambahkan "Staf Internal" sebagai Admin Konten.</div>
+                  <span class="log-time" style="color:#C4B5FD">ℹ Info — Kemarin</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="overlay" id="ov-f11" onclick="closeOverlay('ov-f11',event)">
+            <div class="overlay-sidebar">
+              <div class="ov-header"><div class="ov-logo-row"><div class="ov-logo-icon">RK</div><div><div class="ov-logo-name">Rumah Kebangsaan</div><div class="root-badge">Root</div></div></div><div class="ov-close" onclick="closeOverlay('ov-f11',null)">✕</div></div>
+              <div class="ov-user-row"><div class="ov-user-av">SA</div><div><div class="ov-user-name">Super Admin</div><div class="ov-user-role">superadmin@rk.id</div></div></div>
+              <div class="ov-nav">
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+                <div class="ov-sec-label">Administrator</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manajemen Pengguna</div>
+                <div class="ov-item active"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Log Keamanan</div>
+                <div class="ov-divider"></div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>Pengaturan Sistem</div>
+              </div>
+              <div class="ov-footer"><div class="ov-access-box"><strong>Hak Akses: Super Admin</strong>Pantau seluruh aktivitas keamanan sistem.</div><button class="ov-logout">Keluar dari Sistem</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">390×844px · Log Keamanan</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     F12 — SA ANALITIK
+═══════════════════════════════════════ -->
+<div class="frame-section" id="f12">
+  <div class="frame-label">Frame 4 — Super Admin: Analitik Pengunjung <span class="fbadge">390×844</span></div>
+  <div class="frame-row">
+    <div class="frame-wrap">
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left">
+              <div class="ham-btn" onclick="toggleOverlay('ov-f12')"><div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div></div>
+              <div class="tb-title">Analitik Pengunjung</div>
+            </div>
+            <div class="tb-right"><div class="tb-av">SA</div></div>
+          </div>
+          <div class="page-body">
+            <div class="pg-head">
+              <div class="pg-title">Analitik Pengunjung</div>
+              <div class="pg-sub">Statistik kunjungan portal publik Rumah Kebangsaan.</div>
+            </div>
+
+            <div class="an-grid">
+              <div class="an-card">
+                <div class="an-num" style="color:#F87171">12,450</div>
+                <div class="an-label">Total Pengunjung</div>
+                <div class="an-change" style="color:#4ADE80">▲ +8.2% bulan ini</div>
+              </div>
+              <div class="an-card">
+                <div class="an-num" style="color:#4ADE80" id="activeV">84</div>
+                <div class="an-label">Aktif Sekarang</div>
+                <div class="an-change" style="color:rgba(255,255,255,.3);font-size:.55rem">● Live</div>
+              </div>
+              <div class="an-card">
+                <div class="an-num" style="color:#C4B5FD">03:45</div>
+                <div class="an-label">Rata-rata Durasi</div>
+                <div class="an-change" style="color:#F87171">▼ -0:12 vs kemarin</div>
+              </div>
+              <div class="an-card">
+                <div class="an-num" style="color:#FCD34D">42.5%</div>
+                <div class="an-label">Rasio Pantulan</div>
+                <div class="an-change" style="color:#4ADE80">▼ -3.1% lebih baik</div>
+              </div>
+            </div>
+
+            <!-- Trafik Mingguan -->
+            <div class="panel">
+              <div class="panel-head">
+                <span class="panel-title">Trafik 7 Hari Terakhir</span>
+                <span class="panel-badge">Total 4,820</span>
+              </div>
+              <div class="chart-wrap">
+                <div class="chart-bars">
+                  <div class="chart-bar" style="height:55%;background:linear-gradient(to top,rgba(124,58,237,.9),rgba(124,58,237,.12))"></div>
+                  <div class="chart-bar" style="height:70%;background:linear-gradient(to top,rgba(124,58,237,.9),rgba(124,58,237,.12))"></div>
+                  <div class="chart-bar" style="height:48%;background:linear-gradient(to top,rgba(124,58,237,.9),rgba(124,58,237,.12))"></div>
+                  <div class="chart-bar" style="height:82%;background:linear-gradient(to top,rgba(124,58,237,.9),rgba(124,58,237,.12))"></div>
+                  <div class="chart-bar" style="height:67%;background:linear-gradient(to top,rgba(124,58,237,.9),rgba(124,58,237,.12))"></div>
+                  <div class="chart-bar" style="height:92%;background:linear-gradient(to top,#7C3AED,rgba(124,58,237,.2));box-shadow:0 0 10px rgba(124,58,237,.4)"></div>
+                  <div class="chart-bar" style="height:76%;background:linear-gradient(to top,rgba(124,58,237,.9),rgba(124,58,237,.12))"></div>
+                </div>
+                <div class="chart-days"><span>Sen</span><span>Sel</span><span>Rab</span><span>Kam</span><span>Jum</span><span>Sab</span><span>Min</span></div>
+              </div>
+            </div>
+
+            <!-- Sumber Trafik -->
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Sumber Trafik</span></div>
+              <div class="panel-body">
+                <div class="tr-row"><span class="tr-label">Organik (Google)</span><span class="tr-val">58%</span></div>
+                <div class="tr-track"><div class="tr-fill" style="width:58%;background:linear-gradient(90deg,#4ADE80,#22C55E)"></div></div>
+                <div class="tr-row"><span class="tr-label">Langsung</span><span class="tr-val">28%</span></div>
+                <div class="tr-track"><div class="tr-fill" style="width:28%;background:linear-gradient(90deg,#C4B5FD,#A78BFA)"></div></div>
+                <div class="tr-row"><span class="tr-label">Referral (Sosmed)</span><span class="tr-val">10%</span></div>
+                <div class="tr-track"><div class="tr-fill" style="width:10%;background:linear-gradient(90deg,#FCD34D,#F59E0B)"></div></div>
+                <div class="tr-row"><span class="tr-label">Lainnya</span><span class="tr-val">4%</span></div>
+                <div class="tr-track"><div class="tr-fill" style="width:4%;background:rgba(255,255,255,.3)"></div></div>
+              </div>
+            </div>
+
+            <!-- Top Pages -->
+            <div class="panel">
+              <div class="panel-head"><span class="panel-title">Halaman Terpopuler</span></div>
+              <table class="data-table">
+                <thead><tr><th>Halaman</th><th>Kunjungan</th><th>Durasi</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="td-name">Beranda</div></td><td style="color:#C4B5FD;font-weight:700;font-size:.68rem">3,820</td><td style="font-size:.62rem;color:rgba(255,255,255,.4)">04:12</td></tr>
+                  <tr><td><div class="td-name">Berita</div></td><td style="color:#C4B5FD;font-weight:700;font-size:.68rem">2,450</td><td style="font-size:.62rem;color:rgba(255,255,255,.4)">03:55</td></tr>
+                  <tr><td><div class="td-name">Profil</div></td><td style="color:#C4B5FD;font-weight:700;font-size:.68rem">1,680</td><td style="font-size:.62rem;color:rgba(255,255,255,.4)">02:30</td></tr>
+                  <tr><td><div class="td-name">Galeri</div></td><td style="color:#C4B5FD;font-weight:700;font-size:.68rem">980</td><td style="font-size:.62rem;color:rgba(255,255,255,.4)">03:10</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="info-note">* Data analitik bersifat simulasi untuk keperluan prototype.</div>
+          </div>
+
+          <div class="overlay" id="ov-f12" onclick="closeOverlay('ov-f12',event)">
+            <div class="overlay-sidebar">
+              <div class="ov-header"><div class="ov-logo-row"><div class="ov-logo-icon">RK</div><div><div class="ov-logo-name">Rumah Kebangsaan</div><div class="root-badge">Root</div></div></div><div class="ov-close" onclick="closeOverlay('ov-f12',null)">✕</div></div>
+              <div class="ov-user-row"><div class="ov-user-av">SA</div><div><div class="ov-user-name">Super Admin</div><div class="ov-user-role">superadmin@rk.id</div></div></div>
+              <div class="ov-nav">
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+                <div class="ov-sec-label">Administrator</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manajemen Pengguna</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Log Keamanan</div>
+                <div class="ov-divider"></div>
+                <div class="ov-item active"><svg class="ov-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/></svg>Pengaturan Sistem</div>
+              </div>
+              <div class="ov-footer"><div class="ov-access-box"><strong>Hak Akses: Super Admin</strong>Akses penuh ke analitik portal.</div><button class="ov-logout">Keluar dari Sistem</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">390×844px · Analitik Pengunjung</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     F13 — SA PENGATURAN SISTEM
+═══════════════════════════════════════ -->
+<div class="frame-section" id="f13">
+  <div class="frame-label">Frame 5 — Super Admin: Pengaturan Sistem + Logout Modal <span class="fbadge">390×844</span></div>
+  <div class="frame-row">
+
+    <!-- SETTINGS -->
+    <div class="frame-wrap">
+      <div class="frame-label" style="font-size:.52rem;color:rgba(255,255,255,.2)">Pengaturan Sistem</div>
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left">
+              <div class="ham-btn" onclick="toggleOverlay('ov-f13')"><div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div></div>
+              <div class="tb-title">Pengaturan Sistem</div>
+            </div>
+            <div class="tb-right"><div class="tb-av">SA</div></div>
+          </div>
+          <div class="page-body">
+            <div class="pg-head">
+              <div class="pg-title">Pengaturan Sistem</div>
+              <div class="pg-sub">Konfigurasi global portal Rumah Kebangsaan.</div>
+            </div>
+
+            <!-- Informasi Lembaga -->
+            <div class="sett-sec">
+              <div class="sett-title">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(196,181,253,.5)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                Informasi Lembaga
+              </div>
+              <div class="form-group"><label class="form-label">Nama Lembaga</label><input type="text" class="form-ctrl" value="Rumah Kebangsaan Banyuwangi"></div>
+              <div class="form-group"><label class="form-label">Slogan</label><input type="text" class="form-ctrl" value="Hidup Harus Bahagia"></div>
+              <div class="form-group"><label class="form-label">Email Resmi</label><input type="email" class="form-ctrl" value="remapenta@gmail.com"></div>
+              <div class="form-group"><label class="form-label">Nomor Telepon</label><input type="text" class="form-ctrl" value="+62 823-3835-5251"></div>
+              <div class="form-group"><label class="form-label">Alamat</label><input type="text" class="form-ctrl" value="Jl. Piere Tendean No.1, Banyuwangi"></div>
+            </div>
+
+            <!-- Keamanan -->
+            <div class="sett-sec">
+              <div class="sett-title">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(196,181,253,.5)" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Keamanan Sistem
+              </div>
+              <div class="form-group"><label class="form-label">Maks. Percobaan Login</label><input type="number" class="form-ctrl" value="5"></div>
+              <div class="form-group"><label class="form-label">Durasi Sesi (menit)</label><input type="number" class="form-ctrl" value="120"></div>
+              <div class="form-group"><label class="form-label">Whitelist IP Admin</label><input type="text" class="form-ctrl" placeholder="Kosong = semua IP diizinkan"></div>
+            </div>
+
+            <!-- Fitur Portal -->
+            <div class="sett-sec">
+              <div class="sett-title">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(196,181,253,.5)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                Fitur Portal
+              </div>
+              <div class="form-group"><label class="form-label">Mode Komentar</label><select class="form-ctrl"><option>Moderasi Manual</option><option>Auto-Approve</option><option>Nonaktif</option></select></div>
+              <div class="form-group"><label class="form-label">Mode Foto Tamu</label><select class="form-ctrl"><option>Moderasi Manual</option><option>Auto-Approve</option><option>Nonaktif</option></select></div>
+              <div class="form-group"><label class="form-label">Mode Maintenance</label><select class="form-ctrl"><option>Nonaktif (Portal Normal)</option><option>Aktif (Blokir Publik)</option></select></div>
+            </div>
+
+            <button class="btn btn-purple" style="width:100%;justify-content:center;font-size:.73rem;padding:10px">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+              Simpan Pengaturan
+            </button>
+          </div>
+
+          <div class="overlay" id="ov-f13" onclick="closeOverlay('ov-f13',event)">
+            <div class="overlay-sidebar">
+              <div class="ov-header"><div class="ov-logo-row"><div class="ov-logo-icon">RK</div><div><div class="ov-logo-name">Rumah Kebangsaan</div><div class="root-badge">Root</div></div></div><div class="ov-close" onclick="closeOverlay('ov-f13',null)">✕</div></div>
+              <div class="ov-user-row"><div class="ov-user-av">SA</div><div><div class="ov-user-name">Super Admin</div><div class="ov-user-role">superadmin@rk.id</div></div></div>
+              <div class="ov-nav">
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</div>
+                <div class="ov-sec-label">Administrator</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Manajemen Pengguna</div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Log Keamanan</div>
+                <div class="ov-divider"></div>
+                <div class="ov-item"><svg class="ov-icon" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analitik Pengunjung</div>
+                <div class="ov-item active"><svg class="ov-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09"/></svg>Pengaturan Sistem</div>
+              </div>
+              <div class="ov-footer"><div class="ov-access-box"><strong>Hak Akses: Super Admin</strong>Konfigurasi penuh sistem portal.</div><button class="ov-logout">Keluar dari Sistem</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">Pengaturan Sistem</div>
+    </div>
+
+    <!-- LOGOUT MODAL -->
+    <div class="frame-wrap">
+      <div class="frame-label" style="font-size:.52rem;color:rgba(255,255,255,.2)">Konfirmasi Logout</div>
+      <div class="device">
+        <div class="notch"><div class="notch-dot"></div><div class="notch-cam"></div><div class="notch-dot"></div></div>
+        <div class="screen">
+          <div class="status"></div>
+          <div class="topbar">
+            <div class="tb-left"><div class="ham-btn"><div class="ham-line"></div><div class="ham-line" style="width:10px;align-self:flex-start"></div><div class="ham-line"></div></div><div class="tb-title">Pengaturan Sistem</div></div>
+            <div class="tb-right"><div class="tb-av">SA</div></div>
+          </div>
+          <div class="page-body" style="position:relative">
+            <!-- blurred bg -->
+            <div style="opacity:.25;pointer-events:none">
+              <div class="pg-head"><div class="pg-title">Pengaturan Sistem</div></div>
+              <div class="sett-sec" style="opacity:.5"><div class="sett-title">Informasi Lembaga</div></div>
+              <div class="sett-sec" style="opacity:.4"><div class="sett-title">Keamanan Sistem</div></div>
+            </div>
+
+            <!-- LOGOUT MODAL -->
+            <div class="modal-backdrop">
+              <div class="modal-box" style="text-align:center;max-width:280px">
+                <div class="modal-icon" style="background:rgba(185,28,28,.2);color:#F87171;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+                  <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                </div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:rgba(255,255,255,.88);margin-bottom:6px">Keluar Sistem?</div>
+                <p style="font-size:.62rem;color:rgba(255,255,255,.38);margin-bottom:16px;line-height:1.6">Anda akan mengakhiri sesi administrasi. Anda harus masuk kembali untuk mengakses panel ini.</p>
+                <div style="display:flex;gap:8px">
+                  <button class="btn btn-outline-dark" style="flex:1;justify-content:center">Batal</button>
+                  <button style="flex:1;padding:8px;background:linear-gradient(135deg,#B91C1C,#DC2626);color:#fff;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.7rem;cursor:pointer;box-shadow:0 2px 10px rgba(185,28,28,.35)">Ya, Keluar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="frame-sub">Modal Konfirmasi Logout</div>
+    </div>
+
+  </div>
+</div>
+
+<div style="height:80px"></div>
+</div><!-- /canvas -->
+
+<script>
+// Page navigation
+function go(id, btn) {
+  document.querySelectorAll('.fpage').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const el = document.getElementById(id);
+  if (el) {
+    const y = el.getBoundingClientRect().top + window.scrollY - 60;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+// Overlay sidebar
+function toggleOverlay(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('show');
+}
+function closeOverlay(id, evt) {
+  if (evt && evt.target.closest('.overlay-sidebar')) return;
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('show');
+}
+
+// Active page highlight on scroll
+const frameIds = ['f9','f10','f11','f12','f13'];
+const btns = document.querySelectorAll('.fpage');
+window.addEventListener('scroll', () => {
+  let active = 0;
+  frameIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.5) active = i;
+  });
+  btns.forEach((b, i) => b.classList.toggle('active', i === active));
+}, { passive: true });
+
+// Live visitor counter simulation
+setInterval(() => {
+  const el = document.getElementById('activeV');
+  if (el) {
+    const v = parseInt(el.textContent) || 84;
+    el.textContent = Math.max(50, Math.min(150, v + Math.floor(Math.random() * 7) - 3));
+  }
+}, 4000);
+</script>
+</body>
+</html>
