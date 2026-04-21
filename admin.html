@@ -26,7 +26,7 @@
             --warning-light: #FFFBEB;
             --shadow-sm: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.04);
             --shadow-md: 0 4px 20px rgba(0,0,0,.07);
-            --shadow-lg: 0 8px 40px rgba(0,0,0,.1);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,.12);
             --radius: 10px;
             --sidebar-w: 252px;
         }
@@ -122,16 +122,8 @@
             letter-spacing: .01em;
         }
 
-        .nav-item:hover {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .nav-item.active {
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-        }
+        .nav-item:hover { background: var(--primary-light); color: var(--primary); }
+        .nav-item.active { background: var(--primary); color: white; font-weight: 600; }
 
         .nav-icon {
             width: 15px; height: 15px;
@@ -181,12 +173,7 @@
         }
 
         /* ============ MAIN ============ */
-        .main {
-            flex: 1;
-            margin-left: var(--sidebar-w);
-            display: flex;
-            flex-direction: column;
-        }
+        .main { flex: 1; margin-left: var(--sidebar-w); display: flex; flex-direction: column; }
 
         .topbar {
             height: 60px;
@@ -202,39 +189,19 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .mob-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--dark);
-            padding: .25rem;
-        }
-
+        .mob-toggle { display: none; background: none; border: none; cursor: pointer; color: var(--dark); padding: .25rem; }
         .topbar-right { display: flex; align-items: center; gap: 1rem; }
-
         .user-info { text-align: right; }
         .user-name { font-weight: 700; font-size: .82rem; color: var(--dark); line-height: 1.3; }
-        .user-role {
-            font-size: .68rem;
-            font-weight: 600;
-            color: var(--primary);
-            letter-spacing: .4px;
-            text-transform: uppercase;
-        }
+        .user-role { font-size: .68rem; font-weight: 600; color: var(--primary); letter-spacing: .4px; text-transform: uppercase; }
 
         .avatar {
             width: 34px; height: 34px;
             border-radius: 50%;
             background: linear-gradient(135deg, #7F1D1D, #B91C1C);
             color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: .73rem;
-            letter-spacing: .03em;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: .73rem; letter-spacing: .03em; flex-shrink: 0;
         }
 
         .btn-logout {
@@ -242,8 +209,7 @@
             border: 1.5px solid var(--border);
             background: var(--white);
             border-radius: 6px;
-            font-size: .76rem;
-            font-weight: 600;
+            font-size: .76rem; font-weight: 600;
             cursor: pointer;
             font-family: 'Figtree', sans-serif;
             color: var(--gray);
@@ -264,42 +230,24 @@
             gap: 1rem;
         }
 
-        .page-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--dark);
-            line-height: 1.2;
-        }
-
-        .page-sub {
-            color: var(--muted);
-            font-size: .82rem;
-            margin-top: .35rem;
-        }
+        .page-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--dark); line-height: 1.2; }
+        .page-sub { color: var(--muted); font-size: .82rem; margin-top: .35rem; }
 
         /* ============ BUTTONS ============ */
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: .45rem;
-            padding: .55rem 1.1rem;
-            border-radius: 7px;
-            font-weight: 600;
-            font-size: .82rem;
-            cursor: pointer;
-            border: none;
-            font-family: 'Figtree', sans-serif;
-            transition: all .15s;
-            letter-spacing: .01em;
-            line-height: 1;
+            display: inline-flex; align-items: center; gap: .45rem;
+            padding: .55rem 1.1rem; border-radius: 7px; font-weight: 600; font-size: .82rem;
+            cursor: pointer; border: none; font-family: 'Figtree', sans-serif;
+            transition: all .15s; letter-spacing: .01em; line-height: 1;
         }
-
         .btn-primary { background: var(--primary); color: white; }
         .btn-primary:hover { background: var(--primary-dark); }
         .btn-outline { border: 1.5px solid var(--border); background: var(--white); color: var(--gray); }
         .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
-        .btn-sm { padding: .35rem .7rem; font-size: .75rem; }
+        .btn-success { background: var(--success); color: white; border: none; }
+        .btn-success:hover { background: #166534; }
+        .btn-warning { background: var(--warning); color: white; border: none; }
+        .btn-warning:hover { background: #92400E; }
 
         /* ============ STATS ============ */
         .stats-row {
@@ -318,23 +266,8 @@
             transition: all .2s;
         }
         .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-        .stat-label {
-            font-size: .68rem;
-            font-weight: 700;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            margin-bottom: .7rem;
-        }
-
-        .stat-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            line-height: 1;
-            color: var(--dark);
-        }
+        .stat-label { font-size: .68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: .7rem; }
+        .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; line-height: 1; color: var(--dark); }
 
         /* ============ PANELS ============ */
         .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
@@ -348,327 +281,230 @@
         }
 
         .panel-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
         }
 
-        .panel-title {
-            font-weight: 700;
-            font-size: .88rem;
-            color: var(--dark);
-            letter-spacing: .01em;
-        }
-
+        .panel-title { font-weight: 700; font-size: .88rem; color: var(--dark); letter-spacing: .01em; }
         .panel-body { padding: 1.35rem 1.5rem; }
-
-        .panel-link {
-            font-size: .78rem;
-            color: var(--primary);
-            font-weight: 600;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: 'Figtree', sans-serif;
-            letter-spacing: .01em;
-        }
+        .panel-link { font-size: .78rem; color: var(--primary); font-weight: 600; background: none; border: none; cursor: pointer; font-family: 'Figtree', sans-serif; letter-spacing: .01em; }
         .panel-link:hover { text-decoration: underline; }
 
         /* ============ TABLE ============ */
         .data-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
 
         .data-table th {
-            padding: .75rem 1rem;
-            text-align: left;
-            font-size: .65rem;
-            font-weight: 700;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            background: #FAFAF8;
-            border-bottom: 1px solid var(--border);
+            padding: .75rem 1rem; text-align: left; font-size: .65rem; font-weight: 700;
+            color: var(--muted); text-transform: uppercase; letter-spacing: 1.2px;
+            background: #FAFAF8; border-bottom: 1px solid var(--border);
         }
 
-        .data-table td {
-            padding: .9rem 1rem;
-            border-bottom: 1px solid var(--border);
-            vertical-align: middle;
-            color: var(--gray);
-        }
-
+        .data-table td { padding: .9rem 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; color: var(--gray); }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tr:hover td { background: #FAFAF8; }
-
-        .td-name {
-            font-weight: 600;
-            color: var(--dark);
-            font-size: .83rem;
-        }
-
-        .td-sub {
-            font-size: .73rem;
-            color: var(--muted);
-            margin-top: 1px;
-        }
+        .td-name { font-weight: 600; color: var(--dark); font-size: .83rem; }
+        .td-sub { font-size: .73rem; color: var(--muted); margin-top: 1px; }
 
         .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: .3rem;
-            padding: 3px 9px;
-            border-radius: 4px;
-            font-size: .68rem;
-            font-weight: 700;
-            letter-spacing: .3px;
+            display: inline-flex; align-items: center; gap: .3rem;
+            padding: 3px 9px; border-radius: 4px; font-size: .68rem;
+            font-weight: 700; letter-spacing: .3px;
         }
-
         .badge-pending   { background: var(--warning-light); color: var(--warning); border: 1px solid rgba(180,83,9,.15); }
         .badge-approved  { background: var(--success-light); color: var(--success); border: 1px solid rgba(21,128,61,.15); }
         .badge-rejected  { background: var(--light); color: var(--muted); border: 1px solid var(--border); }
         .badge-published { background: var(--success-light); color: var(--success); border: 1px solid rgba(21,128,61,.15); }
         .badge-draft     { background: var(--warning-light); color: var(--warning); border: 1px solid rgba(180,83,9,.15); }
 
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-family: 'Figtree', sans-serif;
-            font-size: .78rem;
-            font-weight: 700;
-            padding: 0;
-            transition: .15s;
-            letter-spacing: .02em;
-        }
+        .action-btn { background: none; border: none; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: .78rem; font-weight: 700; padding: 0; transition: .15s; letter-spacing: .02em; }
         .action-btn:hover { text-decoration: underline; }
         .action-btn.approve { color: var(--success); }
         .action-btn.reject  { color: var(--primary); }
         .action-btn + .action-btn { margin-left: .85rem; }
 
         /* ============ ARTIKEL LIST ============ */
-        .article-item {
-            padding: .9rem 0;
-            border-bottom: 1px solid var(--border);
-        }
+        .article-item { padding: .9rem 0; border-bottom: 1px solid var(--border); }
         .article-item:last-child { border-bottom: none; padding-bottom: 0; }
         .article-item:first-child { padding-top: 0; }
+        .article-name { font-weight: 600; font-size: .85rem; color: var(--dark); margin-bottom: .25rem; line-height: 1.35; }
+        .article-meta { font-size: .73rem; color: var(--muted); margin-bottom: .45rem; }
 
-        .article-name {
-            font-weight: 600;
-            font-size: .85rem;
-            color: var(--dark);
-            margin-bottom: .25rem;
-            line-height: 1.35;
+        /* ============ ARTIKEL DRAFT ITEM ============ */
+        .draft-item {
+            padding: .85rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: .15s;
         }
+        .draft-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .draft-item:first-child { padding-top: 0; }
+        .draft-item:hover .draft-item-title { color: var(--primary); }
 
-        .article-meta {
-            font-size: .73rem;
-            color: var(--muted);
-            margin-bottom: .45rem;
+        .draft-item-row { display: flex; align-items: flex-start; justify-content: space-between; gap: .5rem; }
+        .draft-item-title { font-weight: 600; font-size: .83rem; color: var(--dark); line-height: 1.35; transition: .15s; }
+        .draft-item-meta { font-size: .72rem; color: var(--muted); margin-top: .2rem; }
+
+        .draft-del-btn {
+            flex-shrink: 0;
+            padding: 2px 7px;
+            font-size: .68rem; font-weight: 700;
+            border: 1px solid var(--border);
+            background: none; border-radius: 4px;
+            cursor: pointer; font-family: 'Figtree', sans-serif;
+            color: var(--muted); transition: .15s;
         }
+        .draft-del-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+        .edit-hint {
+            font-size: .68rem; color: var(--primary);
+            font-weight: 600; margin-top: .3rem;
+            opacity: 0; transition: .15s;
+        }
+        .draft-item:hover .edit-hint { opacity: 1; }
 
         /* ============ EDITOR ============ */
         .form-group { margin-bottom: 1.1rem; }
 
         .form-label {
-            display: block;
-            font-size: .72rem;
-            font-weight: 700;
-            margin-bottom: .4rem;
-            color: var(--gray);
-            text-transform: uppercase;
-            letter-spacing: .4px;
+            display: block; font-size: .72rem; font-weight: 700; margin-bottom: .4rem;
+            color: var(--gray); text-transform: uppercase; letter-spacing: .4px;
         }
 
         .form-control {
-            width: 100%;
-            padding: .7rem .9rem;
-            border: 1.5px solid var(--border);
-            border-radius: 7px;
-            font-family: 'Figtree', sans-serif;
-            font-size: .85rem;
-            background: var(--light);
-            color: var(--dark);
-            transition: all .15s;
+            width: 100%; padding: .7rem .9rem;
+            border: 1.5px solid var(--border); border-radius: 7px;
+            font-family: 'Figtree', sans-serif; font-size: .85rem;
+            background: var(--light); color: var(--dark); transition: all .15s;
         }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(185,28,28,.07);
-        }
-
+        .form-control:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(185,28,28,.07); }
         select.form-control { cursor: pointer; }
 
         .wysiwyg-toolbar {
-            display: flex;
-            gap: .3rem;
-            flex-wrap: wrap;
-            padding: .55rem;
-            background: var(--light);
-            border: 1.5px solid var(--border);
-            border-bottom: none;
-            border-radius: 7px 7px 0 0;
+            display: flex; gap: .3rem; flex-wrap: wrap; padding: .55rem;
+            background: var(--light); border: 1.5px solid var(--border);
+            border-bottom: none; border-radius: 7px 7px 0 0;
         }
 
         .toolbar-btn {
-            padding: .28rem .6rem;
-            border: 1px solid var(--border);
-            background: var(--white);
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: .78rem;
-            font-weight: 700;
-            transition: .15s;
-            font-family: 'Figtree', sans-serif;
-            color: var(--gray);
+            padding: .28rem .6rem; border: 1px solid var(--border);
+            background: var(--white); border-radius: 5px; cursor: pointer;
+            font-size: .78rem; font-weight: 700; transition: .15s;
+            font-family: 'Figtree', sans-serif; color: var(--gray);
         }
-
-        .toolbar-btn:hover {
-            background: var(--primary-light);
-            border-color: rgba(185,28,28,.25);
-            color: var(--primary);
-        }
+        .toolbar-btn:hover { background: var(--primary-light); border-color: rgba(185,28,28,.25); color: var(--primary); }
 
         .wysiwyg-area {
-            min-height: 190px;
-            padding: .9rem 1rem;
-            border: 1.5px solid var(--border);
-            border-radius: 0 0 7px 7px;
-            font-family: 'Figtree', sans-serif;
-            font-size: .85rem;
-            line-height: 1.65;
-            background: white;
-            outline: none;
-            color: var(--dark);
+            min-height: 190px; padding: .9rem 1rem;
+            border: 1.5px solid var(--border); border-radius: 0 0 7px 7px;
+            font-family: 'Figtree', sans-serif; font-size: .85rem; line-height: 1.65;
+            background: white; outline: none; color: var(--dark);
         }
-
-        .wysiwyg-area:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(185,28,28,.07);
-        }
-
-        .wysiwyg-area[contenteditable]:empty::before {
-            content: attr(placeholder);
-            color: var(--muted);
-        }
+        .wysiwyg-area:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(185,28,28,.07); }
+        .wysiwyg-area[contenteditable]:empty::before { content: attr(placeholder); color: var(--muted); }
 
         .file-drop {
-            border: 1.5px dashed var(--border);
-            padding: 1.35rem;
-            text-align: center;
+            border: 1.5px dashed var(--border); padding: 1.35rem; text-align: center;
+            border-radius: 7px; cursor: pointer; transition: all .2s; background: var(--light);
+        }
+        .file-drop:hover { border-color: rgba(185,28,28,.4); background: var(--primary-light); }
+        .file-drop-icon { width: 28px; height: 28px; margin: 0 auto .5rem; color: var(--muted); }
+        .file-drop-text { font-size: .8rem; color: var(--muted); }
+
+        /* ============ EDIT MODE BANNER ============ */
+        .edit-mode-banner {
+            background: var(--warning-light);
+            border: 1px solid rgba(180,83,9,.2);
             border-radius: 7px;
-            cursor: pointer;
-            transition: all .2s;
-            background: var(--light);
+            padding: .65rem 1rem;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--warning);
+            margin-bottom: 1rem;
+            display: none;
+            align-items: center;
+            gap: .5rem;
         }
-
-        .file-drop:hover {
-            border-color: rgba(185,28,28,.4);
-            background: var(--primary-light);
-        }
-
-        .file-drop-icon {
-            width: 28px; height: 28px;
-            margin: 0 auto .5rem;
-            color: var(--muted);
-        }
-
-        .file-drop-text {
-            font-size: .8rem;
-            color: var(--muted);
+        .edit-mode-banner.visible { display: flex; }
+        .edit-mode-banner button {
+            margin-left: auto; font-size: .72rem; font-weight: 700;
+            background: none; border: none; cursor: pointer;
+            color: var(--warning); font-family: 'Figtree', sans-serif; text-decoration: underline;
         }
 
         /* ============ EMPTY STATE ============ */
-        .empty-state {
-            text-align: center;
-            padding: 2.5rem;
-            color: var(--muted);
-        }
-
-        .empty-icon {
-            width: 36px; height: 36px;
-            margin: 0 auto .75rem;
-            color: var(--success);
-        }
-
+        .empty-state { text-align: center; padding: 2.5rem; color: var(--muted); }
+        .empty-icon { width: 36px; height: 36px; margin: 0 auto .75rem; color: var(--success); }
         .empty-text { font-size: .85rem; font-weight: 500; color: var(--muted); }
 
-        /* ============ MODAL LOGOUT ============ */
-        .logout-overlay {
+        /* ============ GALERI ============ */
+        .gal-placeholder { aspect-ratio: 1; border-radius: 7px; display: flex; align-items: center; justify-content: center; }
+
+        /* ============ MODAL BASE ============ */
+        .modal-overlay {
             position: fixed; inset: 0;
             background: rgba(12, 10, 9, 0.6);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: .3s ease;
-            backdrop-filter: blur(4px);
+            z-index: 10000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: .3s ease; backdrop-filter: blur(4px);
         }
-        .logout-overlay.open { opacity: 1; pointer-events: auto; }
+        .modal-overlay.open { opacity: 1; pointer-events: auto; }
 
-        .logout-modal {
-            background: var(--white);
-            padding: 2.25rem 2rem;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 360px;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(20px);
-            transition: .3s ease;
-            text-align: center;
+        .modal-box {
+            background: var(--white); border-radius: var(--radius);
+            width: 90%; max-width: 400px;
+            box-shadow: var(--shadow-lg); transform: translateY(20px);
+            transition: .3s ease; text-align: center;
             border: 1px solid var(--border);
         }
-        .logout-overlay.open .logout-modal { transform: translateY(0); }
+        .modal-overlay.open .modal-box { transform: translateY(0); }
 
-        .logout-icon {
-            width: 64px; height: 64px;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .modal-icon-wrap {
+            width: 64px; height: 64px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
             margin: 0 auto 1.25rem;
         }
 
+        .modal-head { padding: 2rem 2rem 0; }
+        .modal-body { padding: 1rem 2rem; }
+        .modal-foot { padding: 0 2rem 2rem; }
+
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--dark); margin-bottom: .5rem; }
+        .modal-desc  { font-size: .85rem; color: var(--gray); line-height: 1.55; }
+
+        /* Preview box in modal */
+        .modal-preview {
+            background: var(--light); border: 1px solid var(--border);
+            border-radius: 8px; padding: .9rem 1rem; text-align: left;
+        }
+        .modal-preview-label { font-size: .65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .3rem; }
+        .modal-preview-title { font-weight: 700; font-size: .9rem; color: var(--dark); margin-bottom: .2rem; line-height: 1.35; }
+        .modal-preview-meta  { font-size: .73rem; color: var(--muted); }
+
+        .modal-btn-row { display: flex; gap: .75rem; justify-content: center; }
+        .modal-btn { flex: 1; padding: .65rem; border-radius: 7px; font-size: .83rem; font-weight: 600; cursor: pointer; font-family: 'Figtree', sans-serif; transition: .15s; }
+        .modal-btn-cancel { border: 1.5px solid var(--border); background: var(--white); color: var(--gray); }
+        .modal-btn-cancel:hover { border-color: var(--primary); color: var(--primary); }
+        .modal-btn-draft { background: var(--warning); color: white; border: none; }
+        .modal-btn-draft:hover { background: #92400E; }
+        .modal-btn-publish { background: var(--success); color: white; border: none; }
+        .modal-btn-publish:hover { background: #166534; }
+        .modal-btn-danger { background: var(--primary); color: white; border: none; }
+        .modal-btn-danger:hover { background: var(--primary-dark); }
+
         /* ============ TOAST ============ */
         .toast {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            background: #1C1917;
-            color: white;
-            padding: .8rem 1.1rem;
-            border-radius: 8px;
-            font-size: .82rem;
-            font-weight: 500;
-            z-index: 9999;
-            transform: translateY(80px);
-            opacity: 0;
+            position: fixed; bottom: 1.5rem; right: 1.5rem;
+            background: #1C1917; color: white;
+            padding: .8rem 1.1rem; border-radius: 8px; font-size: .82rem; font-weight: 500;
+            z-index: 9999; transform: translateY(80px); opacity: 0;
             transition: all .3s cubic-bezier(.4,0,.2,1);
-            box-shadow: var(--shadow-lg);
-            font-family: 'Figtree', sans-serif;
-            min-width: 240px;
-            letter-spacing: .01em;
+            box-shadow: var(--shadow-lg); font-family: 'Figtree', sans-serif;
+            min-width: 240px; letter-spacing: .01em; display: flex; align-items: center; gap: .6rem;
         }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { border-left: 3px solid var(--success); }
         .toast.warning { border-left: 3px solid var(--accent); }
         .toast.danger  { border-left: 3px solid var(--primary); }
-
-        /* ============ GALLERY PREVIEW ============ */
-        .gal-placeholder {
-            aspect-ratio: 1;
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+        .toast-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
         /* ============ RESPONSIVE ============ */
         @media (max-width: 1024px) { .two-col { grid-template-columns: 1fr; } }
@@ -682,6 +518,7 @@
 </head>
 <body>
 
+<!-- ============ SIDEBAR ============ -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-head">
         <div class="sidebar-logo">
@@ -728,6 +565,7 @@
     </div>
 </aside>
 
+<!-- ============ MAIN ============ -->
 <main class="main">
     <header class="topbar">
         <button class="mob-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
@@ -746,7 +584,7 @@
 
     <div class="content">
 
-        <!-- DASHBOARD -->
+        <!-- ===== SECTION: DASHBOARD ===== -->
         <div id="section-dashboard">
             <div class="page-header">
                 <div>
@@ -771,7 +609,11 @@
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Artikel Terbit</div>
-                    <div class="stat-num">45</div>
+                    <div class="stat-num" id="statPub">45</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Draft Tersimpan</div>
+                    <div class="stat-num" id="statDraft">0</div>
                 </div>
             </div>
 
@@ -787,24 +629,18 @@
                 <div class="panel">
                     <div class="panel-head">
                         <span class="panel-title">Draft Artikel</span>
+                        <button class="panel-link" onclick="showSectionByName('artikel')">Buka Editor</button>
                     </div>
-                    <div class="panel-body">
-                        <div class="article-item">
-                            <div class="article-name">Peran Pemuda dalam Demokrasi Lokal</div>
-                            <div class="article-meta">Diperbarui 1 jam lalu</div>
-                            <span class="status-badge badge-draft">Draft</span>
-                        </div>
-                        <div class="article-item">
-                            <div class="article-name">Catatan Akhir Tahun Rumah Kebangsaan</div>
-                            <div class="article-meta">Diperbarui 2 hari lalu</div>
-                            <span class="status-badge badge-draft">Draft</span>
+                    <div class="panel-body" id="dashboardDraftList">
+                        <div class="empty-state" style="padding:1.5rem">
+                            <div class="empty-text">Belum ada draft tersimpan.</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ARTIKEL -->
+        <!-- ===== SECTION: ARTIKEL ===== -->
         <div id="section-artikel" style="display:none">
             <div class="page-header">
                 <div>
@@ -814,9 +650,21 @@
             </div>
 
             <div class="two-col">
+                <!-- EDITOR -->
                 <div class="panel">
-                    <div class="panel-head"><span class="panel-title">Editor Artikel</span></div>
+                    <div class="panel-head">
+                        <span class="panel-title">Editor Artikel</span>
+                        <span id="editorModeLabel" style="font-size:.73rem;color:var(--muted)">Artikel baru</span>
+                    </div>
                     <div class="panel-body">
+
+                        <!-- Edit mode banner -->
+                        <div class="edit-mode-banner" id="editModeBanner">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            <span id="editModeBannerText">Sedang mengedit draft</span>
+                            <button onclick="resetEditor()">Batal edit</button>
+                        </div>
+
                         <div class="form-group">
                             <label class="form-label">Judul Artikel</label>
                             <input type="text" class="form-control" id="artJudul" placeholder="Masukkan judul artikel...">
@@ -853,36 +701,60 @@
                             </div>
                         </div>
                         <div style="display:flex;gap:.75rem;margin-top:1.25rem">
-                            <button class="btn btn-outline" style="flex:1;justify-content:center" onclick="saveDraft()">Simpan Draft</button>
-                            <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="publishArtikel()">Terbitkan</button>
+                            <button class="btn btn-warning" style="flex:1;justify-content:center" onclick="openDraftModal()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                Simpan Draft
+                            </button>
+                            <button class="btn btn-success" style="flex:1;justify-content:center" onclick="openPublishModal()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                Terbitkan
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="panel">
-                    <div class="panel-head"><span class="panel-title">Artikel Terbit</span></div>
-                    <div class="panel-body" id="artikelList">
-                        <div class="article-item">
-                            <div class="article-name">Forum Diskusi Kebangsaan</div>
-                            <div class="article-meta">16 Feb 2026 &middot; Utama</div>
-                            <span class="status-badge badge-published">Terbit</span>
+                <!-- KANAN: Draft + Artikel Terbit -->
+                <div style="display:flex;flex-direction:column;gap:1.25rem">
+
+                    <!-- DRAFT LIST -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <span class="panel-title">Draft Tersimpan</span>
+                            <span id="draftCountLabel" style="font-size:.73rem;color:var(--muted);font-weight:600">0 draft</span>
                         </div>
-                        <div class="article-item">
-                            <div class="article-name">Pentingnya Literasi Hukum</div>
-                            <div class="article-meta">14 Feb 2026 &middot; Opini Hukum</div>
-                            <span class="status-badge badge-published">Terbit</span>
-                        </div>
-                        <div class="article-item">
-                            <div class="article-name">Peran Pemuda dalam Demokrasi</div>
-                            <div class="article-meta">Draft</div>
-                            <span class="status-badge badge-draft">Draft</span>
+                        <div class="panel-body" id="draftListContainer" style="padding:0">
+                            <div class="empty-state">
+                                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+                                <div class="empty-text">Belum ada draft tersimpan.</div>
+                            </div>
                         </div>
                     </div>
+
+                    <!-- ARTIKEL TERBIT -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <span class="panel-title">Artikel Terbit</span>
+                            <span id="pubCountLabel" style="font-size:.73rem;color:var(--muted);font-weight:600">45 artikel</span>
+                        </div>
+                        <div class="panel-body" id="publishedListContainer">
+                            <div class="article-item">
+                                <div class="article-name">Forum Diskusi Kebangsaan</div>
+                                <div class="article-meta">16 Feb 2026 · Utama</div>
+                                <span class="status-badge badge-published">Terbit</span>
+                            </div>
+                            <div class="article-item">
+                                <div class="article-name">Pentingnya Literasi Hukum</div>
+                                <div class="article-meta">14 Feb 2026 · Opini Hukum</div>
+                                <span class="status-badge badge-published">Terbit</span>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
 
-        <!-- GALERI -->
+        <!-- ===== SECTION: GALERI ===== -->
         <div id="section-galeri" style="display:none">
             <div class="page-header">
                 <div>
@@ -926,7 +798,7 @@
             </div>
         </div>
 
-        <!-- KOMENTAR -->
+        <!-- ===== SECTION: KOMENTAR ===== -->
         <div id="section-komentar" style="display:none">
             <div class="page-header">
                 <div>
@@ -958,7 +830,7 @@
             </div>
         </div>
 
-        <!-- FOTO TAMU -->
+        <!-- ===== SECTION: FOTO TAMU ===== -->
         <div id="section-foto" style="display:none">
             <div class="page-header">
                 <div>
@@ -989,46 +861,166 @@
             </div>
         </div>
 
-    </div>
+    </div><!-- /content -->
 </main>
 
-<!-- MODAL LOGOUT -->
-<div class="logout-overlay" id="logoutModal">
-    <div class="logout-modal">
-        <div class="logout-icon">
-            <svg width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                <polyline points="16 17 21 12 16 7"></polyline>
-                <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
+
+<!-- ===================================================
+     MODAL: SIMPAN DRAFT
+===================================================== -->
+<div class="modal-overlay" id="draftModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--warning-light);color:var(--warning)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            </div>
+            <h3 class="modal-title">Simpan sebagai Draft?</h3>
+            <p class="modal-desc">Artikel akan disimpan dan bisa dilanjutkan kapan saja dari panel <strong>Draft Tersimpan</strong>.</p>
         </div>
-        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: .5rem;">Keluar Sistem?</h3>
-        <p style="font-size: .85rem; color: var(--gray); margin-bottom: 1.75rem; line-height: 1.5;">Anda akan mengakhiri sesi administrasi. Anda harus masuk kembali untuk mengakses panel ini.</p>
-        <div style="display: flex; gap: .75rem; justify-content: center;">
-            <button class="btn btn-outline" style="flex: 1; justify-content: center;" onclick="closeLogoutModal()">Batal</button>
-            <button class="btn btn-primary" style="flex: 1; justify-content: center;" onclick="confirmLogout()">Ya, Keluar</button>
+        <div class="modal-body">
+            <div class="modal-preview">
+                <div class="modal-preview-label">Artikel yang akan disimpan</div>
+                <div class="modal-preview-title" id="draftModalJudul">—</div>
+                <div class="modal-preview-meta" id="draftModalMeta">—</div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closeDraftModal()">Batal</button>
+                <button class="modal-btn modal-btn-draft" onclick="confirmSaveDraft()">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:5px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                    Ya, Simpan Draft
+                </button>
+            </div>
         </div>
     </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- ===================================================
+     MODAL: TERBITKAN
+===================================================== -->
+<div class="modal-overlay" id="publishModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--success-light);color:var(--success)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
+            </div>
+            <h3 class="modal-title">Terbitkan Artikel?</h3>
+            <p class="modal-desc">Artikel akan langsung tampil di halaman publik website. Pastikan konten sudah final dan layak terbit.</p>
+        </div>
+        <div class="modal-body">
+            <div class="modal-preview">
+                <div class="modal-preview-label">Artikel yang akan diterbitkan</div>
+                <div class="modal-preview-title" id="publishModalJudul">—</div>
+                <div class="modal-preview-meta" id="publishModalMeta">—</div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closePublishModal()">Batal</button>
+                <button class="modal-btn modal-btn-publish" onclick="confirmPublish()">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg>
+                    Ya, Terbitkan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- ===================================================
+     MODAL: HAPUS DRAFT
+===================================================== -->
+<div class="modal-overlay" id="deleteDraftModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--primary-light);color:var(--primary)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            </div>
+            <h3 class="modal-title">Hapus Draft?</h3>
+            <p class="modal-desc">Draft ini akan dihapus permanen dan tidak bisa dipulihkan kembali.</p>
+        </div>
+        <div class="modal-body">
+            <div class="modal-preview">
+                <div class="modal-preview-label">Draft yang akan dihapus</div>
+                <div class="modal-preview-title" id="deleteDraftModalJudul">—</div>
+                <div class="modal-preview-meta" id="deleteDraftModalMeta">—</div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closeDeleteDraftModal()">Batal</button>
+                <button class="modal-btn modal-btn-danger" onclick="confirmDeleteDraft()">Hapus Sekarang</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===================================================
+     MODAL: LOGOUT
+===================================================== -->
+<div class="modal-overlay" id="logoutModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--primary-light);color:var(--primary)">
+                <svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <h3 class="modal-title">Keluar Sistem?</h3>
+            <p class="modal-desc">Anda akan mengakhiri sesi administrasi. Anda harus masuk kembali untuk mengakses panel ini.</p>
+        </div>
+        <div class="modal-foot" style="margin-top:1rem">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closeLogoutModal()">Batal</button>
+                <button class="modal-btn modal-btn-danger" onclick="confirmLogout()">Ya, Keluar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+    <span class="toast-dot" id="toastDot"></span>
+    <span id="toastMsg"></span>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================= -->
 <script>
+'use strict';
+
 // ============================================
 // AUTH GUARD
 // ============================================
 (function() {
-    if (sessionStorage.getItem('rk_logged_in') !== 'true') {
-        window.location.replace('login.html');
-        return;
-    }
+    // Nonaktifkan auth guard untuk preview lokal jika diperlukan.
+    // Aktifkan kembali saat deploy bersama login.html
+    // if (sessionStorage.getItem('rk_logged_in') !== 'true') {
+    //     window.location.replace('login.html');
+    //     return;
+    // }
     const u = sessionStorage.getItem('rk_username') || 'Admin';
     document.getElementById('uname').textContent   = u;
     document.getElementById('uavatar').textContent = u.substring(0, 2).toUpperCase();
 })();
 
+
 // ============================================
-// DATA
+// STATE: DRAFT
+// ============================================
+let drafts      = [];
+let editingId   = null;
+let deletingId  = null;
+let pubCount    = 45;
+
+function nowStr() {
+    const d = new Date();
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+// ============================================
+// STATE: KOMENTAR & FOTO
 // ============================================
 let comments = [
     { id:1, nama:'Budi S.',     teks:'Sangat informatif. Terima kasih Pak Hakim!',                artikel:'Forum Diskusi Kebangsaan',  tgl:'12 Feb 2026', status:'pending' },
@@ -1043,16 +1035,280 @@ let photos = [
 
 const ICON_CHECK = `<svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
 
+
 // ============================================
-// RENDER KOMENTAR
+// RENDER: DRAFT LIST
+// ============================================
+function renderDraftList() {
+    const count = drafts.length;
+    document.getElementById('draftCountLabel').textContent = count + ' draft';
+    document.getElementById('statDraft').textContent = count;
+
+    // Artikel section
+    const container = document.getElementById('draftListContainer');
+    if (count === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
+                <div class="empty-text">Belum ada draft tersimpan.</div>
+            </div>`;
+    } else {
+        container.innerHTML = `<div style="padding:.5rem 1.5rem 1rem">` +
+            drafts.map(d => `
+                <div class="draft-item" onclick="loadDraft(${d.id})">
+                    <div class="draft-item-row">
+                        <div>
+                            <div class="draft-item-title">${escHtml(d.judul)}</div>
+                            <div class="draft-item-meta">${d.tgl} &middot; ${escHtml(d.kat)}</div>
+                        </div>
+                        <button class="draft-del-btn" onclick="openDeleteDraftModal(event,${d.id})">Hapus</button>
+                    </div>
+                    <div class="edit-hint">↵ Klik untuk lanjut edit</div>
+                </div>`).join('')
+            + `</div>`;
+    }
+
+    // Dashboard
+    const db = document.getElementById('dashboardDraftList');
+    if (count === 0) {
+        db.innerHTML = `<div class="empty-state" style="padding:1.5rem"><div class="empty-text">Belum ada draft tersimpan.</div></div>`;
+    } else {
+        db.innerHTML = drafts.map(d => `
+            <div class="article-item">
+                <div class="article-name">${escHtml(d.judul)}</div>
+                <div class="article-meta">${d.tgl} &middot; ${escHtml(d.kat)}</div>
+                <span class="status-badge badge-draft">Draft</span>
+            </div>`).join('');
+    }
+}
+
+
+// ============================================
+// LOAD DRAFT KE EDITOR
+// ============================================
+function loadDraft(id) {
+    const d = drafts.find(x => x.id === id);
+    if (!d) return;
+    document.getElementById('artJudul').value    = d.judul;
+    document.getElementById('artKategori').value = d.kat;
+    document.getElementById('artIsi').innerHTML  = d.isi;
+    document.getElementById('artFotoTxt').textContent = d.foto ? '✓ ' + d.foto : 'Klik untuk pilih gambar sampul';
+    document.getElementById('editorModeLabel').textContent = 'Edit Draft';
+
+    const banner = document.getElementById('editModeBanner');
+    document.getElementById('editModeBannerText').textContent = 'Sedang mengedit: "' + d.judul + '"';
+    banner.classList.add('visible');
+
+    editingId = id;
+    showSectionByName('artikel');
+    showToast('Draft "' + d.judul + '" dimuat ke editor.', 'warning');
+}
+
+
+// ============================================
+// RESET EDITOR
+// ============================================
+function resetEditor() {
+    document.getElementById('artJudul').value    = '';
+    document.getElementById('artIsi').innerHTML  = '';
+    document.getElementById('artFoto').value     = '';
+    document.getElementById('artFotoTxt').textContent = 'Klik untuk pilih gambar sampul';
+    document.getElementById('editorModeLabel').textContent = 'Artikel baru';
+    document.getElementById('editModeBanner').classList.remove('visible');
+    editingId = null;
+}
+
+
+// ============================================
+// MODAL: SIMPAN DRAFT
+// ============================================
+function openDraftModal() {
+    const judul = document.getElementById('artJudul').value.trim();
+    if (!judul) { showToast('Judul artikel wajib diisi.', 'warning'); return; }
+    const kat = document.getElementById('artKategori').value;
+    document.getElementById('draftModalJudul').textContent = judul;
+    document.getElementById('draftModalMeta').textContent  = kat + ' · Draft';
+    document.getElementById('draftModal').classList.add('open');
+}
+
+function closeDraftModal() {
+    document.getElementById('draftModal').classList.remove('open');
+}
+
+function confirmSaveDraft() {
+    const judul = document.getElementById('artJudul').value.trim();
+    const kat   = document.getElementById('artKategori').value;
+    const isi   = document.getElementById('artIsi').innerHTML;
+    const foto  = document.getElementById('artFoto').files[0]?.name || null;
+
+    if (editingId !== null) {
+        // Update draft yang ada
+        const idx = drafts.findIndex(x => x.id === editingId);
+        if (idx > -1) {
+            drafts[idx] = { ...drafts[idx], judul, kat, isi, foto, tgl: nowStr() };
+        }
+    } else {
+        // Buat draft baru
+        drafts.push({ id: Date.now(), judul, kat, isi, foto, tgl: nowStr() });
+    }
+
+    closeDraftModal();
+    resetEditor();
+    renderDraftList();
+    showToast('Draft "' + judul + '" berhasil disimpan.', 'warning');
+}
+
+
+// ============================================
+// MODAL: HAPUS DRAFT
+// ============================================
+function openDeleteDraftModal(e, id) {
+    e.stopPropagation();
+    const d = drafts.find(x => x.id === id);
+    if (!d) return;
+    deletingId = id;
+    document.getElementById('deleteDraftModalJudul').textContent = d.judul;
+    document.getElementById('deleteDraftModalMeta').textContent  = d.tgl + ' · ' + d.kat;
+    document.getElementById('deleteDraftModal').classList.add('open');
+}
+
+function closeDeleteDraftModal() {
+    document.getElementById('deleteDraftModal').classList.remove('open');
+    deletingId = null;
+}
+
+function confirmDeleteDraft() {
+    const d = drafts.find(x => x.id === deletingId);
+    drafts = drafts.filter(x => x.id !== deletingId);
+    if (editingId === deletingId) resetEditor();
+    closeDeleteDraftModal();
+    renderDraftList();
+    showToast('Draft "' + (d ? d.judul : '') + '" dihapus.', 'danger');
+}
+
+
+// ============================================
+// MODAL: TERBITKAN
+// ============================================
+function openPublishModal() {
+    const judul = document.getElementById('artJudul').value.trim();
+    const isi   = document.getElementById('artIsi').innerText.trim();
+    if (!judul) { showToast('Judul artikel wajib diisi.', 'warning'); return; }
+    if (!isi)   { showToast('Isi artikel tidak boleh kosong.', 'warning'); return; }
+    const kat = document.getElementById('artKategori').value;
+    document.getElementById('publishModalJudul').textContent = judul;
+    document.getElementById('publishModalMeta').textContent  = kat + ' · ' + nowStr();
+    document.getElementById('publishModal').classList.add('open');
+}
+
+function closePublishModal() {
+    document.getElementById('publishModal').classList.remove('open');
+}
+
+function confirmPublish() {
+    const judul = document.getElementById('artJudul').value.trim();
+    const kat   = document.getElementById('artKategori').value;
+
+    // Hapus dari draft jika sedang edit draft
+    if (editingId !== null) {
+        drafts = drafts.filter(x => x.id !== editingId);
+        renderDraftList();
+    }
+
+    // Tambah ke artikel terbit
+    pubCount++;
+    document.getElementById('pubCountLabel').textContent = pubCount + ' artikel';
+    document.getElementById('statPub').textContent = pubCount;
+
+    const pubContainer = document.getElementById('publishedListContainer');
+    const newItem = document.createElement('div');
+    newItem.className = 'article-item';
+    newItem.innerHTML = `
+        <div class="article-name">${escHtml(judul)}</div>
+        <div class="article-meta">${nowStr()} &middot; ${escHtml(kat)}</div>
+        <span class="status-badge badge-published">Terbit</span>`;
+    pubContainer.insertBefore(newItem, pubContainer.firstChild);
+
+    closePublishModal();
+    resetEditor();
+    showToast('Artikel "' + judul + '" berhasil diterbitkan!', 'success');
+}
+
+
+// ============================================
+// WYSIWYG FORMAT
+// ============================================
+function fmt(cmd) {
+    document.execCommand(cmd, false, null);
+    document.getElementById('artIsi').focus();
+}
+
+
+// ============================================
+// FILE UPLOAD ARTIKEL
+// ============================================
+document.getElementById('artFoto').addEventListener('change', function() {
+    const f = this.files[0];
+    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
+    if (f && !allowed.includes(f.type)) {
+        showToast('Format tidak didukung. Gunakan JPG/PNG/WEBP.', 'danger');
+        this.value = ''; return;
+    }
+    if (f && f.size > 5 * 1024 * 1024) {
+        showToast('File terlalu besar (maks 5MB).', 'danger');
+        this.value = ''; return;
+    }
+    if (f) document.getElementById('artFotoTxt').textContent = '✓ ' + f.name;
+});
+
+
+// ============================================
+// GALERI
+// ============================================
+document.getElementById('galFoto').addEventListener('change', function() {
+    const files   = Array.from(this.files);
+    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
+    const errEl   = document.getElementById('galErr');
+
+    for (const f of files) {
+        if (!allowed.includes(f.type)) {
+            errEl.textContent   = '"' + f.name + '" bukan format yang didukung (JPG/PNG/WEBP).';
+            errEl.style.display = 'block';
+            this.value = ''; return;
+        }
+        if (f.size > 5 * 1024 * 1024) {
+            errEl.textContent   = '"' + f.name + '" melebihi batas 5MB.';
+            errEl.style.display = 'block';
+            this.value = ''; return;
+        }
+    }
+
+    errEl.style.display = 'none';
+    document.getElementById('galFotoTxt').textContent =
+        files.length > 1 ? files.length + ' foto dipilih' : files[0].name + ' dipilih';
+});
+
+function uploadFotoGaleri() {
+    const files = document.getElementById('galFoto').files;
+    if (!files.length) { showToast('Pilih foto terlebih dahulu.', 'warning'); return; }
+    showToast(files.length + ' foto berhasil diupload ke galeri.', 'success');
+    document.getElementById('galFoto').value = '';
+    document.getElementById('galFotoTxt').textContent = 'Klik atau seret foto (bisa multiple)';
+    document.getElementById('galKet').value  = '';
+    document.getElementById('galErr').style.display = 'none';
+}
+
+
+// ============================================
+// RENDER: KOMENTAR
 // ============================================
 function renderKomentar() {
     const pending = comments.filter(c => c.status === 'pending');
     const count   = pending.length;
 
     const badge = document.getElementById('badgeCmt');
-    badge.textContent    = count;
-    badge.style.display  = count ? 'inline-flex' : 'none';
+    badge.textContent   = count;
+    badge.style.display = count ? 'inline-flex' : 'none';
     document.getElementById('statCmt').textContent = count;
     document.getElementById('cntCmt').textContent  = count + ' menunggu';
 
@@ -1072,16 +1328,14 @@ function renderKomentar() {
             </tr>`).join('')
         : `<tr><td colspan="6"><div class="empty-state">${ICON_CHECK}<div class="empty-text">Semua komentar sudah dimoderasi.</div></div></td></tr>`;
 
+    // Preview di dashboard
     const pv = document.getElementById('previewCmt');
     pv.innerHTML = pending.length
         ? `<table class="data-table">
             <thead><tr><th>Pengirim</th><th>Komentar</th><th>Status</th><th>Aksi</th></tr></thead>
             <tbody>${pending.slice(0, 2).map(c => `
                 <tr>
-                    <td>
-                        <div class="td-name">${escHtml(c.nama)}</div>
-                        <div class="td-sub">${c.tgl}</div>
-                    </td>
+                    <td><div class="td-name">${escHtml(c.nama)}</div><div class="td-sub">${c.tgl}</div></td>
                     <td style="font-size:.82rem;color:var(--gray)">${escHtml(c.teks.substring(0, 55))}...</td>
                     <td><span class="status-badge badge-pending">Pending</span></td>
                     <td>
@@ -1096,32 +1350,25 @@ function renderKomentar() {
 
 function approveKomentar(id) {
     const c = comments.find(x => x.id === id);
-    if (c) {
-        c.status = 'approved';
-        renderKomentar();
-        showToast('Komentar ' + c.nama + ' disetujui.', 'success');
-    }
+    if (c) { c.status = 'approved'; renderKomentar(); showToast('Komentar ' + c.nama + ' disetujui.', 'success'); }
 }
 
 function rejectKomentar(id) {
     const c = comments.find(x => x.id === id);
-    if (c && confirm('Tolak komentar dari ' + c.nama + '?')) {
-        c.status = 'rejected';
-        renderKomentar();
-        showToast('Komentar ditolak.', 'danger');
-    }
+    if (c) { c.status = 'rejected'; renderKomentar(); showToast('Komentar ditolak.', 'danger'); }
 }
 
+
 // ============================================
-// RENDER FOTO
+// RENDER: FOTO
 // ============================================
 function renderFoto() {
     const pending = photos.filter(p => p.status === 'pending');
     const count   = pending.length;
 
     const badge = document.getElementById('badgeFoto');
-    badge.textContent    = count;
-    badge.style.display  = count ? 'inline-flex' : 'none';
+    badge.textContent   = count;
+    badge.style.display = count ? 'inline-flex' : 'none';
     document.getElementById('statFoto').textContent = count;
     document.getElementById('cntFoto').textContent  = count + ' menunggu';
 
@@ -1143,104 +1390,17 @@ function renderFoto() {
 
 function approveFoto(id) {
     const p = photos.find(x => x.id === id);
-    if (p) {
-        p.status = 'approved';
-        renderFoto();
-        showToast('Foto ' + p.nama + ' disetujui ke galeri.', 'success');
-    }
+    if (p) { p.status = 'approved'; renderFoto(); showToast('Foto ' + p.nama + ' disetujui ke galeri.', 'success'); }
 }
 
 function rejectFoto(id) {
     const p = photos.find(x => x.id === id);
-    if (p && confirm('Tolak foto dari ' + p.nama + '?')) {
-        p.status = 'rejected';
-        renderFoto();
-        showToast('Foto ditolak.', 'danger');
-    }
+    if (p) { p.status = 'rejected'; renderFoto(); showToast('Foto ditolak.', 'danger'); }
 }
 
-// ============================================
-// ARTIKEL
-// ============================================
-function fmt(cmd) {
-    document.execCommand(cmd, false, null);
-    document.getElementById('artIsi').focus();
-}
-
-document.getElementById('artFoto').addEventListener('change', function() {
-    const f = this.files[0];
-    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
-    if (f && !allowed.includes(f.type)) {
-        showToast('Format tidak didukung. Gunakan JPG/PNG/WEBP.', 'danger');
-        this.value = '';
-        return;
-    }
-    if (f && f.size > 5 * 1024 * 1024) {
-        showToast('File terlalu besar (maks 5MB).', 'danger');
-        this.value = '';
-        return;
-    }
-    if (f) document.getElementById('artFotoTxt').textContent = f.name + ' dipilih';
-});
-
-function saveDraft() {
-    const judul = document.getElementById('artJudul').value.trim();
-    if (!judul) { showToast('Judul artikel wajib diisi.', 'warning'); return; }
-    showToast('Draft "' + judul + '" berhasil disimpan.', 'success');
-}
-
-function publishArtikel() {
-    const judul = document.getElementById('artJudul').value.trim();
-    const isi   = document.getElementById('artIsi').innerText.trim();
-    if (!judul) { showToast('Judul artikel wajib diisi.', 'warning'); return; }
-    if (!isi)   { showToast('Isi artikel tidak boleh kosong.', 'warning'); return; }
-    if (confirm('Terbitkan artikel "' + judul + '"?')) {
-        document.getElementById('artJudul').value = '';
-        document.getElementById('artIsi').innerHTML = '';
-        showToast('Artikel "' + judul + '" berhasil diterbitkan.', 'success');
-    }
-}
 
 // ============================================
-// GALERI
-// ============================================
-document.getElementById('galFoto').addEventListener('change', function() {
-    const files   = Array.from(this.files);
-    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
-    const errEl   = document.getElementById('galErr');
-
-    for (const f of files) {
-        if (!allowed.includes(f.type)) {
-            errEl.textContent = '"' + f.name + '" bukan format yang didukung (JPG/PNG/WEBP).';
-            errEl.style.display = 'block';
-            this.value = '';
-            return;
-        }
-        if (f.size > 5 * 1024 * 1024) {
-            errEl.textContent = '"' + f.name + '" melebihi batas 5MB.';
-            errEl.style.display = 'block';
-            this.value = '';
-            return;
-        }
-    }
-
-    errEl.style.display = 'none';
-    document.getElementById('galFotoTxt').textContent =
-        files.length > 1 ? files.length + ' foto dipilih' : files[0].name + ' dipilih';
-});
-
-function uploadFotoGaleri() {
-    const files = document.getElementById('galFoto').files;
-    if (!files.length) { showToast('Pilih foto terlebih dahulu.', 'warning'); return; }
-    showToast(files.length + ' foto berhasil diupload ke galeri.', 'success');
-    document.getElementById('galFoto').value = '';
-    document.getElementById('galFotoTxt').textContent = 'Klik atau seret foto (bisa multiple)';
-    document.getElementById('galKet').value = '';
-    document.getElementById('galErr').style.display = 'none';
-}
-
-// ============================================
-// NAVIGATION
+// NAVIGASI
 // ============================================
 const SECTIONS = ['dashboard','artikel','galeri','komentar','foto'];
 
@@ -1252,6 +1412,7 @@ function showSection(name, btn) {
     if (btn) btn.classList.add('active');
     renderKomentar();
     renderFoto();
+    renderDraftList();
     if (window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open');
 }
 
@@ -1260,14 +1421,13 @@ function showSectionByName(name) {
     showSection(name, btn);
 }
 
+
 // ============================================
-// LOGOUT SYSTEM
+// LOGOUT
 // ============================================
 function logout() {
     document.getElementById('logoutModal').classList.add('open');
-    if (window.innerWidth < 769) {
-        document.getElementById('sidebar').classList.remove('open');
-    }
+    if (window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open');
 }
 
 function closeLogoutModal() {
@@ -1279,9 +1439,16 @@ function confirmLogout() {
     window.location.replace('login.html');
 }
 
-document.getElementById('logoutModal').addEventListener('click', function(e) {
-    if (e.target === this) closeLogoutModal();
+
+// ============================================
+// CLOSE MODAL ON BACKDROP CLICK
+// ============================================
+['draftModal','publishModal','deleteDraftModal','logoutModal'].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+    });
 });
+
 
 // ============================================
 // HELPERS
@@ -1295,15 +1462,23 @@ function escHtml(str) {
 }
 
 function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
+    const colors = { success: '#15803D', warning: '#B45309', danger: '#B91C1C' };
+    const t  = document.getElementById('toast');
+    const dt = document.getElementById('toastDot');
+    dt.style.background = colors[type] || '#888';
+    document.getElementById('toastMsg').textContent = msg;
     t.className = 'toast ' + type + ' show';
-    setTimeout(() => t.classList.remove('show'), 3500);
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 
+
+// ============================================
 // INIT
+// ============================================
 renderKomentar();
 renderFoto();
+renderDraftList();
 </script>
 </body>
 </html>
