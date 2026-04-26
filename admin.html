@@ -436,9 +436,6 @@
         .empty-icon { width: 36px; height: 36px; margin: 0 auto .75rem; color: var(--success); }
         .empty-text { font-size: .85rem; font-weight: 500; color: var(--muted); }
 
-        /* ============ GALERI ============ */
-        .gal-placeholder { aspect-ratio: 1; border-radius: 7px; display: flex; align-items: center; justify-content: center; }
-
         /* ============ MODAL BASE ============ */
         .modal-overlay {
             position: fixed; inset: 0;
@@ -470,7 +467,6 @@
         .modal-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--dark); margin-bottom: .5rem; }
         .modal-desc  { font-size: .85rem; color: var(--gray); line-height: 1.55; }
 
-        /* Preview box in modal */
         .modal-preview {
             background: var(--light); border: 1px solid var(--border);
             border-radius: 8px; padding: .9rem 1rem; text-align: left;
@@ -495,7 +491,7 @@
             position: fixed; bottom: 1.5rem; right: 1.5rem;
             background: #1C1917; color: white;
             padding: .8rem 1.1rem; border-radius: 8px; font-size: .82rem; font-weight: 500;
-            z-index: 9999; transform: translateY(80px); opacity: 0;
+            z-index: 99999; transform: translateY(80px); opacity: 0;
             transition: all .3s cubic-bezier(.4,0,.2,1);
             box-shadow: var(--shadow-lg); font-family: 'Figtree', sans-serif;
             min-width: 240px; letter-spacing: .01em; display: flex; align-items: center; gap: .6rem;
@@ -514,6 +510,397 @@
             .main { margin-left: 0; }
             .mob-toggle { display: block; }
         }
+
+        /* ============================================================
+           GALERI — ENHANCED STYLES
+        ============================================================ */
+
+        /* Upload area with drag-over state */
+        .gal-file-drop {
+            border: 1.5px dashed var(--border);
+            border-radius: 8px;
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all .25s;
+            background: var(--light);
+            position: relative;
+        }
+        .gal-file-drop:hover,
+        .gal-file-drop.dragover { border-color: var(--primary); background: var(--primary-light); }
+        .gal-file-drop input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .gal-file-drop-icon { width: 32px; height: 32px; margin: 0 auto .6rem; color: var(--muted); }
+        .gal-file-drop-text { font-size: .8rem; color: var(--muted); line-height: 1.55; }
+        .gal-file-drop-hint { font-size: .7rem; color: var(--muted); margin-top: .3rem; opacity: .7; }
+
+        /* Preview thumbs before upload */
+        .gal-preview-strip {
+            display: flex; gap: .55rem; flex-wrap: wrap;
+            margin-top: .85rem;
+        }
+
+        .gal-preview-thumb {
+            position: relative;
+            width: 70px; height: 70px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1.5px solid var(--border);
+            flex-shrink: 0;
+            background: var(--light);
+        }
+
+        .gal-preview-thumb img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .gal-preview-thumb-del {
+            position: absolute; top: 2px; right: 2px;
+            width: 18px; height: 18px;
+            background: rgba(12,10,9,.65);
+            border: none; border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: .15s;
+            color: white; font-size: 9px; font-weight: 900;
+        }
+        .gal-preview-thumb:hover .gal-preview-thumb-del { opacity: 1; }
+
+        /* Galeri edit mode banner */
+        .gal-edit-banner {
+            background: var(--warning-light);
+            border: 1px solid rgba(180,83,9,.2);
+            border-radius: 7px;
+            padding: .65rem 1rem;
+            font-size: .78rem; font-weight: 600;
+            color: var(--warning);
+            margin-bottom: 1rem;
+            display: none; align-items: center; gap: .5rem;
+        }
+        .gal-edit-banner.visible { display: flex; }
+        .gal-edit-banner button {
+            margin-left: auto; font-size: .72rem; font-weight: 700;
+            background: none; border: none; cursor: pointer;
+            color: var(--warning); font-family: 'Figtree', sans-serif; text-decoration: underline;
+        }
+
+        /* ---- Galeri list (kanan): item card ---- */
+        .gal-item {
+            display: flex; align-items: flex-start; gap: .75rem;
+            padding: .85rem 0; border-bottom: 1px solid var(--border);
+            cursor: pointer; transition: .15s;
+        }
+        .gal-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .gal-item:first-child { padding-top: 0; }
+
+        .gal-item-thumb {
+            width: 58px; height: 50px; flex-shrink: 0;
+            border-radius: 6px; overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--light);
+            position: relative;
+        }
+
+        .gal-item-thumb img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .gal-item-thumb-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .gal-item-info { flex: 1; min-width: 0; }
+        .gal-item-title {
+            font-weight: 600; font-size: .83rem; color: var(--dark);
+            line-height: 1.3; margin-bottom: .2rem;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: color .15s;
+        }
+        .gal-item:hover .gal-item-title { color: var(--primary); }
+        .gal-item-meta { font-size: .72rem; color: var(--muted); }
+
+        .gal-item-actions {
+            display: flex; flex-direction: column; gap: .3rem;
+            flex-shrink: 0; align-items: flex-end;
+        }
+
+        .gal-action-btn {
+            padding: 2px 7px;
+            font-size: .67rem; font-weight: 700;
+            border: 1px solid var(--border);
+            background: none; border-radius: 4px;
+            cursor: pointer; font-family: 'Figtree', sans-serif;
+            color: var(--muted); transition: .15s; white-space: nowrap;
+        }
+        .gal-action-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .gal-action-btn.del:hover { border-color: var(--primary); color: var(--primary); }
+        .gal-action-btn.pub:hover { border-color: var(--success); color: var(--success); background: var(--success-light); }
+
+        /* ---- Photo count badge on thumbnail (multi-file) ---- */
+        .gal-count-badge {
+            position: absolute; bottom: 3px; right: 3px;
+            background: rgba(12,10,9,.7);
+            color: white; font-size: .6rem; font-weight: 700;
+            padding: 1px 5px; border-radius: 3px;
+        }
+
+        /* ---- Filter tabs ---- */
+        .gal-filter-tabs {
+            display: flex; gap: .3rem; padding: .75rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: #FAFAF8;
+        }
+
+        .gal-tab {
+            padding: .3rem .75rem; border-radius: 20px;
+            font-size: .73rem; font-weight: 600;
+            cursor: pointer; border: 1.5px solid transparent;
+            font-family: 'Figtree', sans-serif; transition: .15s; color: var(--muted);
+        }
+        .gal-tab:hover { color: var(--dark); }
+        .gal-tab.active {
+            background: var(--primary); color: white; border-color: var(--primary);
+        }
+
+        /* ---- Galeri grid (published view) ---- */
+        .gal-grid-section {
+            margin-top: 1.5rem;
+        }
+
+        .gal-grid-head {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: .85rem;
+        }
+
+        .gal-grid-title { font-weight: 700; font-size: .88rem; color: var(--dark); }
+
+        .gal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .65rem;
+        }
+
+        .gal-grid-item {
+            position: relative; border-radius: 8px; overflow: hidden;
+            aspect-ratio: 1; background: var(--light);
+            border: 1px solid var(--border);
+            cursor: pointer; transition: all .2s;
+        }
+        .gal-grid-item:hover { transform: scale(1.02); box-shadow: var(--shadow-md); z-index: 2; }
+        .gal-grid-item img {
+            width: 100%; height: 100%; object-fit: cover;
+            display: block;
+        }
+
+        .gal-grid-item-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .gal-grid-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(12,10,9,.7) 0%, transparent 60%);
+            opacity: 0; transition: opacity .2s;
+            display: flex; align-items: flex-end;
+            padding: .5rem .6rem;
+        }
+        .gal-grid-item:hover .gal-grid-overlay { opacity: 1; }
+        .gal-grid-item-label {
+            color: white; font-size: .68rem; font-weight: 600;
+            line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
+        }
+
+        /* ---- Stat row galeri ---- */
+        .gal-stat-row {
+            display: grid; grid-template-columns: repeat(3,1fr); gap: .65rem;
+            margin-bottom: 1.1rem;
+        }
+
+        .gal-stat-mini {
+            background: var(--light); border: 1px solid var(--border);
+            border-radius: 7px; padding: .7rem .9rem; text-align: center;
+        }
+        .gal-stat-mini-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; font-weight: 700; color: var(--dark); line-height: 1;
+        }
+        .gal-stat-mini-lbl { font-size: .65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .8px; margin-top: .2rem; }
+
+
+        /* ============================================================
+           LIGHTBOX / PHOTO DETAIL MODAL  (wide)
+        ============================================================ */
+        .lightbox-overlay {
+            position: fixed; inset: 0;
+            background: rgba(12,10,9,.88);
+            z-index: 20000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity .3s ease;
+            backdrop-filter: blur(6px);
+        }
+        .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .lightbox-box {
+            background: var(--white);
+            border-radius: 12px;
+            width: 92%; max-width: 760px;
+            max-height: 92vh;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 80px rgba(0,0,0,.35);
+            border: 1px solid var(--border);
+            transform: scale(.94);
+            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+        }
+        .lightbox-overlay.open .lightbox-box { transform: scale(1); }
+
+        .lightbox-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 1.5rem; border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .lightbox-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--dark); }
+
+        .lightbox-close {
+            width: 30px; height: 30px;
+            border-radius: 50%; border: 1.5px solid var(--border);
+            background: var(--white); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gray); transition: .15s; flex-shrink: 0;
+        }
+        .lightbox-close:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+        .lightbox-body {
+            display: grid; grid-template-columns: 1fr 300px;
+            overflow: hidden; flex: 1; min-height: 0;
+        }
+
+        /* LEFT: main image + strip */
+        .lightbox-img-area {
+            background: #111;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+
+        .lightbox-main-img {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; min-height: 0;
+            position: relative;
+        }
+
+        .lightbox-main-img img {
+            max-width: 100%; max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .lightbox-main-placeholder {
+            display: flex; flex-direction: column; align-items: center; gap: .75rem;
+            color: rgba(255,255,255,.3);
+        }
+
+        /* nav arrows */
+        .lightbox-nav {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 34px; height: 34px;
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.15);
+            border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: white; transition: .15s; z-index: 2;
+        }
+        .lightbox-nav:hover { background: rgba(255,255,255,.2); }
+        .lightbox-nav.prev { left: .6rem; }
+        .lightbox-nav.next { right: .6rem; }
+
+        /* thumb strip */
+        .lightbox-strip {
+            display: flex; gap: .4rem;
+            padding: .6rem; overflow-x: auto;
+            background: #1a1a1a; border-top: 1px solid rgba(255,255,255,.07);
+            flex-shrink: 0;
+        }
+        .lightbox-strip::-webkit-scrollbar { height: 3px; }
+        .lightbox-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 2px; }
+
+        .lightbox-strip-thumb {
+            width: 46px; height: 40px; flex-shrink: 0;
+            border-radius: 4px; overflow: hidden;
+            border: 2px solid transparent; cursor: pointer; transition: .15s;
+            background: #333;
+        }
+        .lightbox-strip-thumb.active { border-color: var(--primary); }
+        .lightbox-strip-thumb:hover { border-color: rgba(185,28,28,.5); }
+        .lightbox-strip-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* RIGHT: detail panel */
+        .lightbox-detail {
+            border-left: 1px solid var(--border);
+            padding: 1.25rem;
+            overflow-y: auto;
+            background: var(--white);
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .lightbox-detail::-webkit-scrollbar { width: 3px; }
+        .lightbox-detail::-webkit-scrollbar-thumb { background: var(--border); }
+
+        .lbd-section {}
+        .lbd-label { font-size: .65rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .35rem; }
+        .lbd-value { font-size: .85rem; color: var(--dark); font-weight: 500; line-height: 1.45; }
+        .lbd-value.caption { font-style: italic; color: var(--gray); }
+
+        .lbd-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+        .lbd-img-counter {
+            font-size: .72rem; color: var(--muted); font-weight: 600;
+        }
+
+        /* action row in lightbox */
+        .lightbox-actions { display: flex; flex-direction: column; gap: .5rem; margin-top: auto; }
+
+        .lightbox-action-btn {
+            width: 100%; padding: .55rem; border-radius: 7px;
+            font-size: .8rem; font-weight: 600;
+            cursor: pointer; font-family: 'Figtree', sans-serif;
+            transition: .15s; display: flex; align-items: center; justify-content: center; gap: .4rem;
+        }
+        .lba-edit { border: 1.5px solid var(--border); background: var(--white); color: var(--gray); }
+        .lba-edit:hover { border-color: var(--warning); color: var(--warning); background: var(--warning-light); }
+        .lba-pub  { background: var(--success); color: white; border: none; }
+        .lba-pub:hover  { background: #166534; }
+        .lba-del  { border: 1.5px solid var(--border); background: var(--white); color: var(--muted); }
+        .lba-del:hover  { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+
+        /* ============================================================
+           GALERI CONFIRM MODALS (Draft, Publish, Delete)
+        ============================================================ */
+        .gal-confirm-img-preview {
+            width: 100%; aspect-ratio: 16/7;
+            border-radius: 7px; overflow: hidden;
+            margin-bottom: .75rem;
+            background: var(--light);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .gal-confirm-img-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+
+        /* ============================================================
+           GALERI EDIT MODAL (inline editor)
+        ============================================================ */
+        .gal-edit-modal-box {
+            max-width: 520px !important;
+            text-align: left !important;
+        }
+
+        .gal-edit-modal-head { padding: 1.5rem 1.5rem .75rem; border-bottom: 1px solid var(--border); }
+        .gal-edit-modal-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--dark); }
+        .gal-edit-modal-body { padding: 1.25rem 1.5rem; }
+        .gal-edit-modal-foot { padding: 0 1.5rem 1.5rem; }
+        .gal-edit-modal-foot .modal-btn-row { justify-content: flex-end; }
     </style>
 </head>
 <body>
@@ -650,15 +1037,12 @@
             </div>
 
             <div class="two-col">
-                <!-- EDITOR -->
                 <div class="panel">
                     <div class="panel-head">
                         <span class="panel-title">Editor Artikel</span>
                         <span id="editorModeLabel" style="font-size:.73rem;color:var(--muted)">Artikel baru</span>
                     </div>
                     <div class="panel-body">
-
-                        <!-- Edit mode banner -->
                         <div class="edit-mode-banner" id="editModeBanner">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                             <span id="editModeBannerText">Sedang mengedit draft</span>
@@ -713,10 +1097,7 @@
                     </div>
                 </div>
 
-                <!-- KANAN: Draft + Artikel Terbit -->
                 <div style="display:flex;flex-direction:column;gap:1.25rem">
-
-                    <!-- DRAFT LIST -->
                     <div class="panel">
                         <div class="panel-head">
                             <span class="panel-title">Draft Tersimpan</span>
@@ -730,7 +1111,6 @@
                         </div>
                     </div>
 
-                    <!-- ARTIKEL TERBIT -->
                     <div class="panel">
                         <div class="panel-head">
                             <span class="panel-title">Artikel Terbit</span>
@@ -749,54 +1129,162 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
 
-        <!-- ===== SECTION: GALERI ===== -->
+
+        <!-- ===================================================
+             SECTION: GALERI — ENHANCED
+        ===================================================== -->
         <div id="section-galeri" style="display:none">
             <div class="page-header">
                 <div>
                     <h1 class="page-title">Galeri Dokumentasi</h1>
-                    <p class="page-sub">Upload dan kelola foto kegiatan.</p>
+                    <p class="page-sub">Upload, kelola, dan terbitkan foto kegiatan.</p>
                 </div>
             </div>
 
             <div class="two-col">
+                <!-- ======= KIRI: FORM UPLOAD / EDITOR ======= -->
                 <div class="panel">
-                    <div class="panel-head"><span class="panel-title">Upload Foto Baru</span></div>
+                    <div class="panel-head">
+                        <span class="panel-title">Upload / Edit Foto</span>
+                        <span id="galEditorLabel" style="font-size:.73rem;color:var(--muted)">Entri baru</span>
+                    </div>
                     <div class="panel-body">
-                        <div class="form-group">
-                            <label class="form-label">Keterangan Foto</label>
-                            <input type="text" class="form-control" id="galKet" placeholder="Contoh: Seminar Kebangsaan Feb 2026">
+
+                        <!-- Edit mode banner (sama pola dengan artikel) -->
+                        <div class="gal-edit-banner" id="galEditBanner">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            <span id="galEditBannerText">Sedang mengedit entri galeri</span>
+                            <button onclick="resetGalEditor()">Batal edit</button>
                         </div>
+
                         <div class="form-group">
-                            <label class="form-label">File Foto (JPG / PNG / WEBP, maks 5MB per file)</label>
-                            <div class="file-drop" onclick="document.getElementById('galFoto').click()">
-                                <svg class="file-drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                                <div class="file-drop-text" id="galFotoTxt">Klik atau seret foto (bisa multiple)</div>
-                                <input type="file" id="galFoto" accept=".jpg,.jpeg,.png,.webp" multiple style="display:none">
+                            <label class="form-label">Judul / Keterangan Album</label>
+                            <input type="text" class="form-control" id="galJudul" placeholder="Contoh: Seminar Kebangsaan Feb 2026">
+                        </div>
+
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+                            <div class="form-group">
+                                <label class="form-label">Kategori Kegiatan</label>
+                                <select class="form-control" id="galKategori">
+                                    <option>Seminar</option>
+                                    <option>Kunjungan</option>
+                                    <option>Diskusi Publik</option>
+                                    <option>Pelatihan</option>
+                                    <option>Lainnya</option>
+                                </select>
                             </div>
-                            <p id="galErr" style="font-size:.73rem;color:var(--primary);margin-top:.35rem;display:none"></p>
+                            <div class="form-group">
+                                <label class="form-label">Tanggal Kegiatan</label>
+                                <input type="date" class="form-control" id="galTglKegiatan">
+                            </div>
                         </div>
-                        <button class="btn btn-primary" onclick="uploadFotoGaleri()">Upload ke Galeri</button>
+
+                        <div class="form-group">
+                            <label class="form-label">Deskripsi Singkat (opsional)</label>
+                            <textarea class="form-control" id="galDeskripsi" rows="2" placeholder="Keterangan tambahan tentang kegiatan..." style="resize:vertical"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">File Foto (JPG / PNG / WEBP · maks 5MB per file · bisa multiple)</label>
+
+                            <div class="gal-file-drop" id="galDropZone">
+                                <svg class="gal-file-drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <div class="gal-file-drop-text">Klik atau seret & lepas foto ke sini</div>
+                                <div class="gal-file-drop-hint">PNG, JPG, WEBP — maks 5MB per file</div>
+                                <input type="file" id="galFotoInput" accept=".jpg,.jpeg,.png,.webp" multiple>
+                            </div>
+
+                            <p id="galErr" style="font-size:.73rem;color:var(--primary);margin-top:.35rem;display:none"></p>
+
+                            <!-- Preview strip -->
+                            <div class="gal-preview-strip" id="galPreviewStrip" style="display:none"></div>
+                            <div id="galPreviewCount" style="font-size:.72rem;color:var(--muted);margin-top:.4rem;display:none"></div>
+                        </div>
+
+                        <div style="display:flex;gap:.75rem;margin-top:1.25rem">
+                            <button class="btn btn-warning" style="flex:1;justify-content:center" onclick="openGalDraftModal()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                Simpan Draft
+                            </button>
+                            <button class="btn btn-success" style="flex:1;justify-content:center" onclick="openGalPublishModal()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                                Terbitkan ke Galeri
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="panel">
-                    <div class="panel-head"><span class="panel-title">Preview Galeri</span></div>
-                    <div class="panel-body">
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem" id="galPreview">
-                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)"></div>
-                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#b45309,#d97706)"></div>
-                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#1e293b,#334155)"></div>
-                            <div class="gal-placeholder" style="background:linear-gradient(135deg,#be123c,#e11d48)"></div>
+                <!-- ======= KANAN: DAFTAR + GRID ======= -->
+                <div style="display:flex;flex-direction:column;gap:1.25rem">
+
+                    <!-- Stats mini -->
+                    <div class="gal-stat-row">
+                        <div class="gal-stat-mini">
+                            <div class="gal-stat-mini-num" id="galStatDraft">0</div>
+                            <div class="gal-stat-mini-lbl">Draft</div>
+                        </div>
+                        <div class="gal-stat-mini">
+                            <div class="gal-stat-mini-num" id="galStatPub">6</div>
+                            <div class="gal-stat-mini-lbl">Terbit</div>
+                        </div>
+                        <div class="gal-stat-mini">
+                            <div class="gal-stat-mini-num" id="galStatFoto">14</div>
+                            <div class="gal-stat-mini-lbl">Total Foto</div>
                         </div>
                     </div>
+
+                    <!-- Draft galeri -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <span class="panel-title">Draft Galeri</span>
+                            <span id="galDraftCountLabel" style="font-size:.73rem;color:var(--muted);font-weight:600">0 draft</span>
+                        </div>
+                        <!-- Filter tabs -->
+                        <div class="gal-filter-tabs" id="galDraftFilterTabs">
+                            <button class="gal-tab active" data-filter="all" onclick="setGalFilter('draft','all',this)">Semua</button>
+                            <button class="gal-tab" data-filter="Seminar" onclick="setGalFilter('draft','Seminar',this)">Seminar</button>
+                            <button class="gal-tab" data-filter="Kunjungan" onclick="setGalFilter('draft','Kunjungan',this)">Kunjungan</button>
+                        </div>
+                        <div id="galDraftList" style="padding: 0 1.25rem;">
+                            <div class="empty-state">
+                                <svg class="empty-icon" style="color:var(--muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                                <div class="empty-text">Belum ada draft galeri.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Galeri terbit (grid) -->
+                    <div class="panel">
+                        <div class="panel-head">
+                            <span class="panel-title">Galeri Terbit</span>
+                            <button class="panel-link" onclick="toggleGalGrid()">
+                                <span id="galGridToggleLabel">Sembunyikan</span>
+                            </button>
+                        </div>
+                        <!-- Filter tabs -->
+                        <div class="gal-filter-tabs">
+                            <button class="gal-tab active" data-filter="all" onclick="setGalFilter('pub','all',this)">Semua</button>
+                            <button class="gal-tab" data-filter="Seminar" onclick="setGalFilter('pub','Seminar',this)">Seminar</button>
+                            <button class="gal-tab" data-filter="Kunjungan" onclick="setGalFilter('pub','Kunjungan',this)">Kunjungan</button>
+                            <button class="gal-tab" data-filter="Diskusi Publik" onclick="setGalFilter('pub','Diskusi Publik',this)">Diskusi</button>
+                        </div>
+                        <div id="galPubGridWrap" class="panel-body" style="padding-top:.85rem">
+                            <div id="galPubGrid" class="gal-grid"></div>
+                            <div id="galPubEmpty" class="empty-state" style="display:none">
+                                <div class="empty-text">Belum ada foto terbit.</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
+        <!-- /SECTION GALERI -->
+
 
         <!-- ===== SECTION: KOMENTAR ===== -->
         <div id="section-komentar" style="display:none">
@@ -806,7 +1294,6 @@
                     <p class="page-sub">Tinjau dan setujui komentar masuk dari warga.</p>
                 </div>
             </div>
-
             <div class="panel">
                 <div class="panel-head">
                     <span class="panel-title">Komentar Pending</span>
@@ -815,14 +1302,7 @@
                 <div style="overflow-x:auto">
                     <table class="data-table">
                         <thead>
-                            <tr>
-                                <th>Pengirim</th>
-                                <th>Isi Komentar</th>
-                                <th>Artikel</th>
-                                <th>Tanggal</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
+                            <tr><th>Pengirim</th><th>Isi Komentar</th><th>Artikel</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr>
                         </thead>
                         <tbody id="komentarTable"></tbody>
                     </table>
@@ -838,7 +1318,6 @@
                     <p class="page-sub">Tinjau foto kunjungan yang diunggah pengunjung.</p>
                 </div>
             </div>
-
             <div class="panel">
                 <div class="panel-head">
                     <span class="panel-title">Foto Pending</span>
@@ -847,13 +1326,7 @@
                 <div style="overflow-x:auto">
                     <table class="data-table">
                         <thead>
-                            <tr>
-                                <th>Pengirim</th>
-                                <th>Keterangan</th>
-                                <th>Tanggal</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
+                            <tr><th>Pengirim</th><th>Keterangan</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr>
                         </thead>
                         <tbody id="fotoTable"></tbody>
                     </table>
@@ -865,9 +1338,9 @@
 </main>
 
 
-<!-- ===================================================
-     MODAL: SIMPAN DRAFT
-===================================================== -->
+<!-- ===========================================================
+     MODALS: ARTIKEL (unchanged)
+=========================================================== -->
 <div class="modal-overlay" id="draftModal">
     <div class="modal-box">
         <div class="modal-head">
@@ -887,18 +1360,12 @@
         <div class="modal-foot">
             <div class="modal-btn-row">
                 <button class="modal-btn modal-btn-cancel" onclick="closeDraftModal()">Batal</button>
-                <button class="modal-btn modal-btn-draft" onclick="confirmSaveDraft()">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:5px"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
-                    Ya, Simpan Draft
-                </button>
+                <button class="modal-btn modal-btn-draft" onclick="confirmSaveDraft()">Ya, Simpan Draft</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ===================================================
-     MODAL: TERBITKAN
-===================================================== -->
 <div class="modal-overlay" id="publishModal">
     <div class="modal-box">
         <div class="modal-head">
@@ -906,7 +1373,7 @@
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg>
             </div>
             <h3 class="modal-title">Terbitkan Artikel?</h3>
-            <p class="modal-desc">Artikel akan langsung tampil di halaman publik website. Pastikan konten sudah final dan layak terbit.</p>
+            <p class="modal-desc">Artikel akan langsung tampil di halaman publik website. Pastikan konten sudah final.</p>
         </div>
         <div class="modal-body">
             <div class="modal-preview">
@@ -918,18 +1385,12 @@
         <div class="modal-foot">
             <div class="modal-btn-row">
                 <button class="modal-btn modal-btn-cancel" onclick="closePublishModal()">Batal</button>
-                <button class="modal-btn modal-btn-publish" onclick="confirmPublish()">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg>
-                    Ya, Terbitkan
-                </button>
+                <button class="modal-btn modal-btn-publish" onclick="confirmPublish()">Ya, Terbitkan</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- ===================================================
-     MODAL: HAPUS DRAFT
-===================================================== -->
 <div class="modal-overlay" id="deleteDraftModal">
     <div class="modal-box">
         <div class="modal-head">
@@ -955,9 +1416,6 @@
     </div>
 </div>
 
-<!-- ===================================================
-     MODAL: LOGOUT
-===================================================== -->
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-box">
         <div class="modal-head">
@@ -976,6 +1434,210 @@
     </div>
 </div>
 
+
+<!-- ===========================================================
+     MODAL: GALERI — SIMPAN DRAFT
+=========================================================== -->
+<div class="modal-overlay" id="galDraftModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--warning-light);color:var(--warning)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <h3 class="modal-title">Simpan Draft Galeri?</h3>
+            <p class="modal-desc">Entri ini disimpan sebagai draft. Anda bisa melanjutkan dan menerbitkannya kapan saja.</p>
+        </div>
+        <div class="modal-body">
+            <div class="gal-confirm-img-preview" id="galDraftModalThumb">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="color:var(--border)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <div class="modal-preview">
+                <div class="modal-preview-label">Entri yang akan disimpan</div>
+                <div class="modal-preview-title" id="galDraftModalJudul">—</div>
+                <div class="modal-preview-meta" id="galDraftModalMeta">—</div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closeModal('galDraftModal')">Batal</button>
+                <button class="modal-btn modal-btn-draft" onclick="confirmGalDraft()">Ya, Simpan Draft</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===========================================================
+     MODAL: GALERI — TERBITKAN
+=========================================================== -->
+<div class="modal-overlay" id="galPublishModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--success-light);color:var(--success)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <h3 class="modal-title">Terbitkan ke Galeri?</h3>
+            <p class="modal-desc">Foto akan langsung tampil di halaman Galeri publik. Pastikan foto sudah sesuai.</p>
+        </div>
+        <div class="modal-body">
+            <div class="gal-confirm-img-preview" id="galPublishModalThumb">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="color:var(--border)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <div class="modal-preview">
+                <div class="modal-preview-label">Album yang akan diterbitkan</div>
+                <div class="modal-preview-title" id="galPublishModalJudul">—</div>
+                <div class="modal-preview-meta" id="galPublishModalMeta">—</div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closeModal('galPublishModal')">Batal</button>
+                <button class="modal-btn modal-btn-publish" onclick="confirmGalPublish()">Ya, Terbitkan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===========================================================
+     MODAL: GALERI — HAPUS
+=========================================================== -->
+<div class="modal-overlay" id="galDeleteModal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <div class="modal-icon-wrap" style="background:var(--primary-light);color:var(--primary)">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+            </div>
+            <h3 class="modal-title">Hapus Entri Galeri?</h3>
+            <p class="modal-desc">Semua foto dalam entri ini akan dihapus permanen.</p>
+        </div>
+        <div class="modal-body">
+            <div class="modal-preview">
+                <div class="modal-preview-label">Entri yang akan dihapus</div>
+                <div class="modal-preview-title" id="galDeleteModalJudul">—</div>
+                <div class="modal-preview-meta" id="galDeleteModalMeta">—</div>
+            </div>
+        </div>
+        <div class="modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" onclick="closeModal('galDeleteModal')">Batal</button>
+                <button class="modal-btn modal-btn-danger" onclick="confirmGalDelete()">Hapus Sekarang</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===========================================================
+     MODAL: GALERI — EDIT (inline editor)
+=========================================================== -->
+<div class="modal-overlay" id="galEditModal">
+    <div class="modal-box gal-edit-modal-box">
+        <div class="gal-edit-modal-head">
+            <div class="gal-edit-modal-title">Edit Entri Galeri</div>
+        </div>
+        <div class="gal-edit-modal-body">
+            <div class="form-group" style="margin-bottom:.85rem">
+                <label class="form-label">Judul / Keterangan Album</label>
+                <input type="text" class="form-control" id="galEditJudul" placeholder="Judul album...">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+                <div class="form-group" style="margin-bottom:.85rem">
+                    <label class="form-label">Kategori</label>
+                    <select class="form-control" id="galEditKategori">
+                        <option>Seminar</option>
+                        <option>Kunjungan</option>
+                        <option>Diskusi Publik</option>
+                        <option>Pelatihan</option>
+                        <option>Lainnya</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom:.85rem">
+                    <label class="form-label">Tanggal Kegiatan</label>
+                    <input type="date" class="form-control" id="galEditTgl">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+                <label class="form-label">Deskripsi</label>
+                <textarea class="form-control" id="galEditDesk" rows="2" style="resize:vertical"></textarea>
+            </div>
+        </div>
+        <div class="gal-edit-modal-foot">
+            <div class="modal-btn-row">
+                <button class="modal-btn modal-btn-cancel" style="flex:0 0 auto;padding:.65rem 1.1rem" onclick="closeModal('galEditModal')">Batal</button>
+                <button class="modal-btn modal-btn-draft" style="flex:0 0 auto;padding:.65rem 1.1rem" onclick="confirmGalEdit()">Simpan Perubahan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===========================================================
+     LIGHTBOX: DETAIL FOTO GALERI
+=========================================================== -->
+<div class="lightbox-overlay" id="galLightbox">
+    <div class="lightbox-box">
+        <!-- HEAD -->
+        <div class="lightbox-head">
+            <div class="lightbox-title" id="lbTitle">Judul Album</div>
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+
+        <!-- BODY -->
+        <div class="lightbox-body">
+
+            <!-- LEFT: gambar + strip -->
+            <div class="lightbox-img-area">
+                <div class="lightbox-main-img" id="lbMainImgWrap">
+                    <!-- akan diisi JS -->
+                    <button class="lightbox-nav prev" id="lbPrev" onclick="lbNav(-1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button class="lightbox-nav next" id="lbNext" onclick="lbNav(1)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
+                </div>
+                <div class="lightbox-strip" id="lbStrip"></div>
+            </div>
+
+            <!-- RIGHT: detail -->
+            <div class="lightbox-detail" id="lbDetail">
+                <div class="lbd-section">
+                    <div class="lbd-label">Kategori</div>
+                    <div class="lbd-value" id="lbKategori">—</div>
+                </div>
+                <div class="lbd-section">
+                    <div class="lbd-label">Tanggal Kegiatan</div>
+                    <div class="lbd-value" id="lbTgl">—</div>
+                </div>
+                <div class="lbd-section">
+                    <div class="lbd-label">Deskripsi</div>
+                    <div class="lbd-value caption" id="lbDesk">—</div>
+                </div>
+                <div class="lbd-section">
+                    <div class="lbd-label">Ditambahkan</div>
+                    <div class="lbd-value" id="lbTglUpload">—</div>
+                </div>
+                <hr class="lbd-divider">
+                <div class="lbd-section">
+                    <div class="lbd-label">Foto dalam Album</div>
+                    <div class="lbd-img-counter" id="lbImgCounter">1 dari 1</div>
+                </div>
+                <div class="lbd-section">
+                    <div class="lbd-label">Status</div>
+                    <div id="lbStatus"></div>
+                </div>
+
+                <!-- Actions -->
+                <div class="lightbox-actions" id="lbActions"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- TOAST -->
 <div class="toast" id="toast">
     <span class="toast-dot" id="toastDot"></span>
@@ -983,44 +1645,216 @@
 </div>
 
 
-<!-- ============================================================
+<!-- ===========================================================
      JAVASCRIPT
-============================================================= -->
+=========================================================== -->
 <script>
 'use strict';
 
 // ============================================
-// AUTH GUARD
+// AUTH
 // ============================================
 (function() {
-    // Nonaktifkan auth guard untuk preview lokal jika diperlukan.
-    // Aktifkan kembali saat deploy bersama login.html
-    // if (sessionStorage.getItem('rk_logged_in') !== 'true') {
-    //     window.location.replace('login.html');
-    //     return;
-    // }
     const u = sessionStorage.getItem('rk_username') || 'Admin';
     document.getElementById('uname').textContent   = u;
-    document.getElementById('uavatar').textContent = u.substring(0, 2).toUpperCase();
+    document.getElementById('uavatar').textContent = u.substring(0,2).toUpperCase();
 })();
 
 
 // ============================================
-// STATE: DRAFT
+// HELPERS
 // ============================================
-let drafts      = [];
-let editingId   = null;
-let deletingId  = null;
-let pubCount    = 45;
+function escHtml(s) {
+    return String(s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 function nowStr() {
     const d = new Date();
     const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-    return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+    return d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
 }
 
+function fmtDate(iso) {
+    if (!iso) return '—';
+    const [y,m,d] = iso.split('-');
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    return +d+' '+months[+m-1]+' '+y;
+}
+
+function showToast(msg, type='success') {
+    const colors = { success:'#15803D', warning:'#B45309', danger:'#B91C1C' };
+    const t  = document.getElementById('toast');
+    const dt = document.getElementById('toastDot');
+    dt.style.background = colors[type] || '#888';
+    document.getElementById('toastMsg').textContent = msg;
+    t.className = 'toast '+type+' show';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(()=>t.classList.remove('show'), 3500);
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+// close on backdrop
+['draftModal','publishModal','deleteDraftModal','logoutModal',
+ 'galDraftModal','galPublishModal','galDeleteModal','galEditModal','galLightbox'
+].forEach(id => {
+    document.getElementById(id).addEventListener('click', function(e) {
+        if (e.target === this) this.classList.remove('open');
+    });
+});
+
+
 // ============================================
-// STATE: KOMENTAR & FOTO
+// ARTIKEL STATE
+// ============================================
+let drafts    = [];
+let editingId = null;
+let deletingId = null;
+let pubCount  = 45;
+
+function renderDraftList() {
+    const count = drafts.length;
+    document.getElementById('draftCountLabel').textContent = count+' draft';
+    document.getElementById('statDraft').textContent = count;
+
+    const container = document.getElementById('draftListContainer');
+    if (count === 0) {
+        container.innerHTML = `<div class="empty-state"><svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg><div class="empty-text">Belum ada draft tersimpan.</div></div>`;
+    } else {
+        container.innerHTML = `<div style="padding:.5rem 1.5rem 1rem">`+
+            drafts.map(d=>`
+                <div class="draft-item" onclick="loadDraft(${d.id})">
+                    <div class="draft-item-row">
+                        <div><div class="draft-item-title">${escHtml(d.judul)}</div><div class="draft-item-meta">${d.tgl} &middot; ${escHtml(d.kat)}</div></div>
+                        <button class="draft-del-btn" onclick="openDeleteDraftModal(event,${d.id})">Hapus</button>
+                    </div>
+                    <div class="edit-hint">↵ Klik untuk lanjut edit</div>
+                </div>`).join('')+`</div>`;
+    }
+
+    const db = document.getElementById('dashboardDraftList');
+    if (count === 0) {
+        db.innerHTML = `<div class="empty-state" style="padding:1.5rem"><div class="empty-text">Belum ada draft tersimpan.</div></div>`;
+    } else {
+        db.innerHTML = drafts.map(d=>`
+            <div class="article-item">
+                <div class="article-name">${escHtml(d.judul)}</div>
+                <div class="article-meta">${d.tgl} &middot; ${escHtml(d.kat)}</div>
+                <span class="status-badge badge-draft">Draft</span>
+            </div>`).join('');
+    }
+}
+
+function loadDraft(id) {
+    const d = drafts.find(x=>x.id===id); if(!d) return;
+    document.getElementById('artJudul').value    = d.judul;
+    document.getElementById('artKategori').value = d.kat;
+    document.getElementById('artIsi').innerHTML  = d.isi;
+    document.getElementById('artFotoTxt').textContent = d.foto ? '✓ '+d.foto : 'Klik untuk pilih gambar sampul';
+    document.getElementById('editorModeLabel').textContent = 'Edit Draft';
+    document.getElementById('editModeBannerText').textContent = 'Sedang mengedit: "'+d.judul+'"';
+    document.getElementById('editModeBanner').classList.add('visible');
+    editingId = id;
+    showSectionByName('artikel');
+    showToast('Draft "'+d.judul+'" dimuat ke editor.','warning');
+}
+
+function resetEditor() {
+    document.getElementById('artJudul').value    = '';
+    document.getElementById('artIsi').innerHTML  = '';
+    document.getElementById('artFoto').value     = '';
+    document.getElementById('artFotoTxt').textContent = 'Klik untuk pilih gambar sampul';
+    document.getElementById('editorModeLabel').textContent = 'Artikel baru';
+    document.getElementById('editModeBanner').classList.remove('visible');
+    editingId = null;
+}
+
+function openDraftModal() {
+    const judul = document.getElementById('artJudul').value.trim();
+    if (!judul) { showToast('Judul artikel wajib diisi.','warning'); return; }
+    const kat = document.getElementById('artKategori').value;
+    document.getElementById('draftModalJudul').textContent = judul;
+    document.getElementById('draftModalMeta').textContent  = kat+' · Draft';
+    openModal('draftModal');
+}
+function closeDraftModal() { closeModal('draftModal'); }
+
+function confirmSaveDraft() {
+    const judul = document.getElementById('artJudul').value.trim();
+    const kat   = document.getElementById('artKategori').value;
+    const isi   = document.getElementById('artIsi').innerHTML;
+    const foto  = document.getElementById('artFoto').files[0]?.name || null;
+    if (editingId !== null) {
+        const idx = drafts.findIndex(x=>x.id===editingId);
+        if (idx > -1) drafts[idx] = {...drafts[idx], judul, kat, isi, foto, tgl: nowStr()};
+    } else {
+        drafts.push({ id: Date.now(), judul, kat, isi, foto, tgl: nowStr() });
+    }
+    closeDraftModal(); resetEditor(); renderDraftList();
+    showToast('Draft "'+judul+'" berhasil disimpan.','warning');
+}
+
+function openDeleteDraftModal(e, id) {
+    e.stopPropagation();
+    const d = drafts.find(x=>x.id===id); if(!d) return;
+    deletingId = id;
+    document.getElementById('deleteDraftModalJudul').textContent = d.judul;
+    document.getElementById('deleteDraftModalMeta').textContent  = d.tgl+' · '+d.kat;
+    openModal('deleteDraftModal');
+}
+function closeDeleteDraftModal() { closeModal('deleteDraftModal'); deletingId=null; }
+
+function confirmDeleteDraft() {
+    const d = drafts.find(x=>x.id===deletingId);
+    drafts = drafts.filter(x=>x.id!==deletingId);
+    if (editingId === deletingId) resetEditor();
+    closeDeleteDraftModal(); renderDraftList();
+    showToast('Draft "'+(d?d.judul:'')+'" dihapus.','danger');
+}
+
+function openPublishModal() {
+    const judul = document.getElementById('artJudul').value.trim();
+    const isi   = document.getElementById('artIsi').innerText.trim();
+    if (!judul) { showToast('Judul artikel wajib diisi.','warning'); return; }
+    if (!isi)   { showToast('Isi artikel tidak boleh kosong.','warning'); return; }
+    const kat = document.getElementById('artKategori').value;
+    document.getElementById('publishModalJudul').textContent = judul;
+    document.getElementById('publishModalMeta').textContent  = kat+' · '+nowStr();
+    openModal('publishModal');
+}
+function closePublishModal() { closeModal('publishModal'); }
+
+function confirmPublish() {
+    const judul = document.getElementById('artJudul').value.trim();
+    const kat   = document.getElementById('artKategori').value;
+    if (editingId !== null) { drafts = drafts.filter(x=>x.id!==editingId); renderDraftList(); }
+    pubCount++;
+    document.getElementById('pubCountLabel').textContent = pubCount+' artikel';
+    document.getElementById('statPub').textContent = pubCount;
+    const pubContainer = document.getElementById('publishedListContainer');
+    const ni = document.createElement('div'); ni.className='article-item';
+    ni.innerHTML = `<div class="article-name">${escHtml(judul)}</div><div class="article-meta">${nowStr()} &middot; ${escHtml(kat)}</div><span class="status-badge badge-published">Terbit</span>`;
+    pubContainer.insertBefore(ni, pubContainer.firstChild);
+    closePublishModal(); resetEditor();
+    showToast('Artikel "'+judul+'" berhasil diterbitkan!','success');
+}
+
+function fmt(cmd) { document.execCommand(cmd,false,null); document.getElementById('artIsi').focus(); }
+
+document.getElementById('artFoto').addEventListener('change', function() {
+    const f = this.files[0];
+    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
+    if (f && !allowed.includes(f.type)) { showToast('Format tidak didukung.','danger'); this.value=''; return; }
+    if (f && f.size > 5*1024*1024) { showToast('File terlalu besar (maks 5MB).','danger'); this.value=''; return; }
+    if (f) document.getElementById('artFotoTxt').textContent = '✓ '+f.name;
+});
+
+
+// ============================================
+// KOMENTAR & FOTO (unchanged)
 // ============================================
 let comments = [
     { id:1, nama:'Budi S.',     teks:'Sangat informatif. Terima kasih Pak Hakim!',                artikel:'Forum Diskusi Kebangsaan',  tgl:'12 Feb 2026', status:'pending' },
@@ -1035,368 +1869,523 @@ let photos = [
 
 const ICON_CHECK = `<svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
 
-
-// ============================================
-// RENDER: DRAFT LIST
-// ============================================
-function renderDraftList() {
-    const count = drafts.length;
-    document.getElementById('draftCountLabel').textContent = count + ' draft';
-    document.getElementById('statDraft').textContent = count;
-
-    // Artikel section
-    const container = document.getElementById('draftListContainer');
-    if (count === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg>
-                <div class="empty-text">Belum ada draft tersimpan.</div>
-            </div>`;
-    } else {
-        container.innerHTML = `<div style="padding:.5rem 1.5rem 1rem">` +
-            drafts.map(d => `
-                <div class="draft-item" onclick="loadDraft(${d.id})">
-                    <div class="draft-item-row">
-                        <div>
-                            <div class="draft-item-title">${escHtml(d.judul)}</div>
-                            <div class="draft-item-meta">${d.tgl} &middot; ${escHtml(d.kat)}</div>
-                        </div>
-                        <button class="draft-del-btn" onclick="openDeleteDraftModal(event,${d.id})">Hapus</button>
-                    </div>
-                    <div class="edit-hint">↵ Klik untuk lanjut edit</div>
-                </div>`).join('')
-            + `</div>`;
-    }
-
-    // Dashboard
-    const db = document.getElementById('dashboardDraftList');
-    if (count === 0) {
-        db.innerHTML = `<div class="empty-state" style="padding:1.5rem"><div class="empty-text">Belum ada draft tersimpan.</div></div>`;
-    } else {
-        db.innerHTML = drafts.map(d => `
-            <div class="article-item">
-                <div class="article-name">${escHtml(d.judul)}</div>
-                <div class="article-meta">${d.tgl} &middot; ${escHtml(d.kat)}</div>
-                <span class="status-badge badge-draft">Draft</span>
-            </div>`).join('');
-    }
-}
-
-
-// ============================================
-// LOAD DRAFT KE EDITOR
-// ============================================
-function loadDraft(id) {
-    const d = drafts.find(x => x.id === id);
-    if (!d) return;
-    document.getElementById('artJudul').value    = d.judul;
-    document.getElementById('artKategori').value = d.kat;
-    document.getElementById('artIsi').innerHTML  = d.isi;
-    document.getElementById('artFotoTxt').textContent = d.foto ? '✓ ' + d.foto : 'Klik untuk pilih gambar sampul';
-    document.getElementById('editorModeLabel').textContent = 'Edit Draft';
-
-    const banner = document.getElementById('editModeBanner');
-    document.getElementById('editModeBannerText').textContent = 'Sedang mengedit: "' + d.judul + '"';
-    banner.classList.add('visible');
-
-    editingId = id;
-    showSectionByName('artikel');
-    showToast('Draft "' + d.judul + '" dimuat ke editor.', 'warning');
-}
-
-
-// ============================================
-// RESET EDITOR
-// ============================================
-function resetEditor() {
-    document.getElementById('artJudul').value    = '';
-    document.getElementById('artIsi').innerHTML  = '';
-    document.getElementById('artFoto').value     = '';
-    document.getElementById('artFotoTxt').textContent = 'Klik untuk pilih gambar sampul';
-    document.getElementById('editorModeLabel').textContent = 'Artikel baru';
-    document.getElementById('editModeBanner').classList.remove('visible');
-    editingId = null;
-}
-
-
-// ============================================
-// MODAL: SIMPAN DRAFT
-// ============================================
-function openDraftModal() {
-    const judul = document.getElementById('artJudul').value.trim();
-    if (!judul) { showToast('Judul artikel wajib diisi.', 'warning'); return; }
-    const kat = document.getElementById('artKategori').value;
-    document.getElementById('draftModalJudul').textContent = judul;
-    document.getElementById('draftModalMeta').textContent  = kat + ' · Draft';
-    document.getElementById('draftModal').classList.add('open');
-}
-
-function closeDraftModal() {
-    document.getElementById('draftModal').classList.remove('open');
-}
-
-function confirmSaveDraft() {
-    const judul = document.getElementById('artJudul').value.trim();
-    const kat   = document.getElementById('artKategori').value;
-    const isi   = document.getElementById('artIsi').innerHTML;
-    const foto  = document.getElementById('artFoto').files[0]?.name || null;
-
-    if (editingId !== null) {
-        // Update draft yang ada
-        const idx = drafts.findIndex(x => x.id === editingId);
-        if (idx > -1) {
-            drafts[idx] = { ...drafts[idx], judul, kat, isi, foto, tgl: nowStr() };
-        }
-    } else {
-        // Buat draft baru
-        drafts.push({ id: Date.now(), judul, kat, isi, foto, tgl: nowStr() });
-    }
-
-    closeDraftModal();
-    resetEditor();
-    renderDraftList();
-    showToast('Draft "' + judul + '" berhasil disimpan.', 'warning');
-}
-
-
-// ============================================
-// MODAL: HAPUS DRAFT
-// ============================================
-function openDeleteDraftModal(e, id) {
-    e.stopPropagation();
-    const d = drafts.find(x => x.id === id);
-    if (!d) return;
-    deletingId = id;
-    document.getElementById('deleteDraftModalJudul').textContent = d.judul;
-    document.getElementById('deleteDraftModalMeta').textContent  = d.tgl + ' · ' + d.kat;
-    document.getElementById('deleteDraftModal').classList.add('open');
-}
-
-function closeDeleteDraftModal() {
-    document.getElementById('deleteDraftModal').classList.remove('open');
-    deletingId = null;
-}
-
-function confirmDeleteDraft() {
-    const d = drafts.find(x => x.id === deletingId);
-    drafts = drafts.filter(x => x.id !== deletingId);
-    if (editingId === deletingId) resetEditor();
-    closeDeleteDraftModal();
-    renderDraftList();
-    showToast('Draft "' + (d ? d.judul : '') + '" dihapus.', 'danger');
-}
-
-
-// ============================================
-// MODAL: TERBITKAN
-// ============================================
-function openPublishModal() {
-    const judul = document.getElementById('artJudul').value.trim();
-    const isi   = document.getElementById('artIsi').innerText.trim();
-    if (!judul) { showToast('Judul artikel wajib diisi.', 'warning'); return; }
-    if (!isi)   { showToast('Isi artikel tidak boleh kosong.', 'warning'); return; }
-    const kat = document.getElementById('artKategori').value;
-    document.getElementById('publishModalJudul').textContent = judul;
-    document.getElementById('publishModalMeta').textContent  = kat + ' · ' + nowStr();
-    document.getElementById('publishModal').classList.add('open');
-}
-
-function closePublishModal() {
-    document.getElementById('publishModal').classList.remove('open');
-}
-
-function confirmPublish() {
-    const judul = document.getElementById('artJudul').value.trim();
-    const kat   = document.getElementById('artKategori').value;
-
-    // Hapus dari draft jika sedang edit draft
-    if (editingId !== null) {
-        drafts = drafts.filter(x => x.id !== editingId);
-        renderDraftList();
-    }
-
-    // Tambah ke artikel terbit
-    pubCount++;
-    document.getElementById('pubCountLabel').textContent = pubCount + ' artikel';
-    document.getElementById('statPub').textContent = pubCount;
-
-    const pubContainer = document.getElementById('publishedListContainer');
-    const newItem = document.createElement('div');
-    newItem.className = 'article-item';
-    newItem.innerHTML = `
-        <div class="article-name">${escHtml(judul)}</div>
-        <div class="article-meta">${nowStr()} &middot; ${escHtml(kat)}</div>
-        <span class="status-badge badge-published">Terbit</span>`;
-    pubContainer.insertBefore(newItem, pubContainer.firstChild);
-
-    closePublishModal();
-    resetEditor();
-    showToast('Artikel "' + judul + '" berhasil diterbitkan!', 'success');
-}
-
-
-// ============================================
-// WYSIWYG FORMAT
-// ============================================
-function fmt(cmd) {
-    document.execCommand(cmd, false, null);
-    document.getElementById('artIsi').focus();
-}
-
-
-// ============================================
-// FILE UPLOAD ARTIKEL
-// ============================================
-document.getElementById('artFoto').addEventListener('change', function() {
-    const f = this.files[0];
-    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
-    if (f && !allowed.includes(f.type)) {
-        showToast('Format tidak didukung. Gunakan JPG/PNG/WEBP.', 'danger');
-        this.value = ''; return;
-    }
-    if (f && f.size > 5 * 1024 * 1024) {
-        showToast('File terlalu besar (maks 5MB).', 'danger');
-        this.value = ''; return;
-    }
-    if (f) document.getElementById('artFotoTxt').textContent = '✓ ' + f.name;
-});
-
-
-// ============================================
-// GALERI
-// ============================================
-document.getElementById('galFoto').addEventListener('change', function() {
-    const files   = Array.from(this.files);
-    const allowed = ['image/jpeg','image/jpg','image/png','image/webp'];
-    const errEl   = document.getElementById('galErr');
-
-    for (const f of files) {
-        if (!allowed.includes(f.type)) {
-            errEl.textContent   = '"' + f.name + '" bukan format yang didukung (JPG/PNG/WEBP).';
-            errEl.style.display = 'block';
-            this.value = ''; return;
-        }
-        if (f.size > 5 * 1024 * 1024) {
-            errEl.textContent   = '"' + f.name + '" melebihi batas 5MB.';
-            errEl.style.display = 'block';
-            this.value = ''; return;
-        }
-    }
-
-    errEl.style.display = 'none';
-    document.getElementById('galFotoTxt').textContent =
-        files.length > 1 ? files.length + ' foto dipilih' : files[0].name + ' dipilih';
-});
-
-function uploadFotoGaleri() {
-    const files = document.getElementById('galFoto').files;
-    if (!files.length) { showToast('Pilih foto terlebih dahulu.', 'warning'); return; }
-    showToast(files.length + ' foto berhasil diupload ke galeri.', 'success');
-    document.getElementById('galFoto').value = '';
-    document.getElementById('galFotoTxt').textContent = 'Klik atau seret foto (bisa multiple)';
-    document.getElementById('galKet').value  = '';
-    document.getElementById('galErr').style.display = 'none';
-}
-
-
-// ============================================
-// RENDER: KOMENTAR
-// ============================================
 function renderKomentar() {
-    const pending = comments.filter(c => c.status === 'pending');
+    const pending = comments.filter(c=>c.status==='pending');
     const count   = pending.length;
-
-    const badge = document.getElementById('badgeCmt');
+    const badge   = document.getElementById('badgeCmt');
     badge.textContent   = count;
     badge.style.display = count ? 'inline-flex' : 'none';
     document.getElementById('statCmt').textContent = count;
-    document.getElementById('cntCmt').textContent  = count + ' menunggu';
+    document.getElementById('cntCmt').textContent  = count+' menunggu';
 
     const tbody = document.getElementById('komentarTable');
     tbody.innerHTML = pending.length
-        ? pending.map(c => `
-            <tr>
-                <td><div class="td-name">${escHtml(c.nama)}</div></td>
-                <td style="max-width:220px;font-size:.82rem;color:var(--gray)">${escHtml(c.teks)}</td>
-                <td><div class="td-sub">${escHtml(c.artikel)}</div></td>
-                <td><div class="td-sub">${c.tgl}</div></td>
-                <td><span class="status-badge badge-pending">Pending</span></td>
-                <td>
-                    <button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button>
-                    <button class="action-btn reject"  onclick="rejectKomentar(${c.id})">Tolak</button>
-                </td>
-            </tr>`).join('')
+        ? pending.map(c=>`<tr><td><div class="td-name">${escHtml(c.nama)}</div></td><td style="max-width:220px;font-size:.82rem;color:var(--gray)">${escHtml(c.teks)}</td><td><div class="td-sub">${escHtml(c.artikel)}</div></td><td><div class="td-sub">${c.tgl}</div></td><td><span class="status-badge badge-pending">Pending</span></td><td><button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button><button class="action-btn reject" onclick="rejectKomentar(${c.id})">Tolak</button></td></tr>`).join('')
         : `<tr><td colspan="6"><div class="empty-state">${ICON_CHECK}<div class="empty-text">Semua komentar sudah dimoderasi.</div></div></td></tr>`;
 
-    // Preview di dashboard
     const pv = document.getElementById('previewCmt');
     pv.innerHTML = pending.length
-        ? `<table class="data-table">
-            <thead><tr><th>Pengirim</th><th>Komentar</th><th>Status</th><th>Aksi</th></tr></thead>
-            <tbody>${pending.slice(0, 2).map(c => `
-                <tr>
-                    <td><div class="td-name">${escHtml(c.nama)}</div><div class="td-sub">${c.tgl}</div></td>
-                    <td style="font-size:.82rem;color:var(--gray)">${escHtml(c.teks.substring(0, 55))}...</td>
-                    <td><span class="status-badge badge-pending">Pending</span></td>
-                    <td>
-                        <button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button>
-                        <button class="action-btn reject"  onclick="rejectKomentar(${c.id})">Tolak</button>
-                    </td>
-                </tr>`).join('')}
-            </tbody>
-           </table>`
+        ? `<table class="data-table"><thead><tr><th>Pengirim</th><th>Komentar</th><th>Status</th><th>Aksi</th></tr></thead><tbody>${pending.slice(0,2).map(c=>`<tr><td><div class="td-name">${escHtml(c.nama)}</div><div class="td-sub">${c.tgl}</div></td><td style="font-size:.82rem;color:var(--gray)">${escHtml(c.teks.substring(0,55))}...</td><td><span class="status-badge badge-pending">Pending</span></td><td><button class="action-btn approve" onclick="approveKomentar(${c.id})">Setujui</button><button class="action-btn reject" onclick="rejectKomentar(${c.id})">Tolak</button></td></tr>`).join('')}</tbody></table>`
         : `<div class="empty-state">${ICON_CHECK}<div class="empty-text">Tidak ada komentar pending.</div></div>`;
 }
 
-function approveKomentar(id) {
-    const c = comments.find(x => x.id === id);
-    if (c) { c.status = 'approved'; renderKomentar(); showToast('Komentar ' + c.nama + ' disetujui.', 'success'); }
-}
+function approveKomentar(id) { const c=comments.find(x=>x.id===id); if(c){c.status='approved';renderKomentar();showToast('Komentar '+c.nama+' disetujui.','success');} }
+function rejectKomentar(id)  { const c=comments.find(x=>x.id===id); if(c){c.status='rejected';renderKomentar();showToast('Komentar ditolak.','danger');} }
 
-function rejectKomentar(id) {
-    const c = comments.find(x => x.id === id);
-    if (c) { c.status = 'rejected'; renderKomentar(); showToast('Komentar ditolak.', 'danger'); }
-}
-
-
-// ============================================
-// RENDER: FOTO
-// ============================================
 function renderFoto() {
-    const pending = photos.filter(p => p.status === 'pending');
+    const pending = photos.filter(p=>p.status==='pending');
     const count   = pending.length;
-
-    const badge = document.getElementById('badgeFoto');
+    const badge   = document.getElementById('badgeFoto');
     badge.textContent   = count;
     badge.style.display = count ? 'inline-flex' : 'none';
     document.getElementById('statFoto').textContent = count;
-    document.getElementById('cntFoto').textContent  = count + ' menunggu';
+    document.getElementById('cntFoto').textContent  = count+' menunggu';
 
     const tbody = document.getElementById('fotoTable');
     tbody.innerHTML = pending.length
-        ? pending.map(p => `
-            <tr>
-                <td><div class="td-name">${escHtml(p.nama)}</div></td>
-                <td style="font-size:.83rem;color:var(--gray)">${escHtml(p.ket)}</td>
-                <td><div class="td-sub">${p.tgl}</div></td>
-                <td><span class="status-badge badge-pending">Pending</span></td>
-                <td>
-                    <button class="action-btn approve" onclick="approveFoto(${p.id})">Setujui</button>
-                    <button class="action-btn reject"  onclick="rejectFoto(${p.id})">Tolak</button>
-                </td>
-            </tr>`).join('')
+        ? pending.map(p=>`<tr><td><div class="td-name">${escHtml(p.nama)}</div></td><td style="font-size:.83rem;color:var(--gray)">${escHtml(p.ket)}</td><td><div class="td-sub">${p.tgl}</div></td><td><span class="status-badge badge-pending">Pending</span></td><td><button class="action-btn approve" onclick="approveFoto(${p.id})">Setujui</button><button class="action-btn reject" onclick="rejectFoto(${p.id})">Tolak</button></td></tr>`).join('')
         : `<tr><td colspan="5"><div class="empty-state">${ICON_CHECK}<div class="empty-text">Tidak ada foto pending.</div></div></td></tr>`;
 }
 
-function approveFoto(id) {
-    const p = photos.find(x => x.id === id);
-    if (p) { p.status = 'approved'; renderFoto(); showToast('Foto ' + p.nama + ' disetujui ke galeri.', 'success'); }
+function approveFoto(id) { const p=photos.find(x=>x.id===id); if(p){p.status='approved';renderFoto();showToast('Foto '+p.nama+' disetujui ke galeri.','success');} }
+function rejectFoto(id)  { const p=photos.find(x=>x.id===id); if(p){p.status='rejected';renderFoto();showToast('Foto ditolak.','danger');} }
+
+
+// ============================================
+// GALERI STATE & HELPERS
+// ============================================
+const GAL_GRADIENTS = [
+    'linear-gradient(135deg,#7f1d1d,#b91c1c)',
+    'linear-gradient(135deg,#b45309,#d97706)',
+    'linear-gradient(135deg,#1e3a5f,#2563eb)',
+    'linear-gradient(135deg,#14532d,#15803d)',
+    'linear-gradient(135deg,#3b0764,#7c3aed)',
+    'linear-gradient(135deg,#1e293b,#334155)',
+];
+
+// galEntries: array of objects
+// { id, judul, kat, tgl, desk, dataUrls[], status, uploadTgl, gradIdx }
+let galEntries   = [];
+let galEditingId = null;
+let galDeletingId = null;
+let galActiveFilterDraft = 'all';
+let galActiveFilterPub   = 'all';
+let galGridVisible = true;
+let galPubCount    = 6;
+let galTotalFoto   = 14;
+
+// staged files (FileList equivalent) stored as data URLs before submit
+let galStagedFiles = []; // [{name, dataUrl, size}]
+
+// Sample published entries (seed data)
+const SEED_GAL = [
+    { id:1001, judul:'Forum Diskusi Kebangsaan', kat:'Diskusi Publik', tgl:'2026-02-16', desk:'Diskusi lintas elemen masyarakat tentang wawasan kebangsaan.', dataUrls:[], status:'published', uploadTgl:'16 Feb 2026', gradIdx:0 },
+    { id:1002, judul:'Kunjungan Mahasiswa Poliwangi', kat:'Kunjungan',    tgl:'2026-02-10', desk:'Kunjungan dari fakultas hukum Poliwangi bersama 40 mahasiswa.', dataUrls:[], status:'published', uploadTgl:'10 Feb 2026', gradIdx:1 },
+    { id:1003, judul:'Seminar Literasi Hukum',  kat:'Seminar',       tgl:'2026-02-14', desk:'Seminar penguatan literasi hukum bagi masyarakat umum.',         dataUrls:[], status:'published', uploadTgl:'14 Feb 2026', gradIdx:3 },
+    { id:1004, judul:'Pelatihan Jurnalis Warga', kat:'Pelatihan',    tgl:'2026-01-22', desk:'Pelatihan dasar jurnalistik bagi relawan media komunitas.',       dataUrls:[], status:'published', uploadTgl:'22 Jan 2026', gradIdx:4 },
+    { id:1005, judul:'Agenda Kebangsaan Jan 2026',kat:'Diskusi Publik',tgl:'2026-01-15',desk:'Agenda diskusi kebangsaan awal tahun 2026.',                    dataUrls:[], status:'published', uploadTgl:'15 Jan 2026', gradIdx:5 },
+    { id:1006, judul:'Pameran Arsip Nasional',  kat:'Lainnya',       tgl:'2026-01-08', desk:'Pameran koleksi arsip sejarah yang terbuka untuk umum.',         dataUrls:[], status:'published', uploadTgl:'8 Jan 2026',  gradIdx:2 },
+];
+galEntries = [...SEED_GAL];
+
+function galCountPublished() { return galEntries.filter(e=>e.status==='published').length; }
+function galCountDraft()     { return galEntries.filter(e=>e.status==='draft').length; }
+function galCountFoto()      { return galEntries.reduce((s,e)=>s+e.dataUrls.length,0)+galTotalFoto; }
+
+function updateGalStats() {
+    document.getElementById('galStatDraft').textContent = galCountDraft();
+    document.getElementById('galStatPub').textContent   = galCountPublished();
+    document.getElementById('galStatFoto').textContent  = galCountFoto();
+    document.getElementById('galDraftCountLabel').textContent = galCountDraft()+' draft';
 }
 
-function rejectFoto(id) {
-    const p = photos.find(x => x.id === id);
-    if (p) { p.status = 'rejected'; renderFoto(); showToast('Foto ditolak.', 'danger'); }
+// ---- File input & drag-drop ----
+const galDropZone = document.getElementById('galDropZone');
+const galFotoInput = document.getElementById('galFotoInput');
+
+galFotoInput.addEventListener('change', function() {
+    handleGalFiles(Array.from(this.files));
+});
+
+galDropZone.addEventListener('dragover', e => { e.preventDefault(); galDropZone.classList.add('dragover'); });
+galDropZone.addEventListener('dragleave', () => galDropZone.classList.remove('dragover'));
+galDropZone.addEventListener('drop', e => {
+    e.preventDefault(); galDropZone.classList.remove('dragover');
+    handleGalFiles(Array.from(e.dataTransfer.files));
+});
+
+function handleGalFiles(files) {
+    const allowed  = ['image/jpeg','image/jpg','image/png','image/webp'];
+    const errEl    = document.getElementById('galErr');
+    errEl.style.display = 'none';
+
+    for (const f of files) {
+        if (!allowed.includes(f.type)) {
+            errEl.textContent   = '"'+f.name+'" bukan format yang didukung (JPG/PNG/WEBP).';
+            errEl.style.display = 'block'; return;
+        }
+        if (f.size > 5*1024*1024) {
+            errEl.textContent   = '"'+f.name+'" melebihi batas 5MB.';
+            errEl.style.display = 'block'; return;
+        }
+    }
+
+    // Read files as data URLs
+    files.forEach(f => {
+        const reader = new FileReader();
+        reader.onload = ev => {
+            galStagedFiles.push({ name: f.name, dataUrl: ev.target.result, size: f.size });
+            renderGalPreviewStrip();
+        };
+        reader.readAsDataURL(f);
+    });
 }
+
+function renderGalPreviewStrip() {
+    const strip    = document.getElementById('galPreviewStrip');
+    const countEl  = document.getElementById('galPreviewCount');
+    if (galStagedFiles.length === 0) {
+        strip.style.display  = 'none';
+        countEl.style.display = 'none';
+        return;
+    }
+    strip.style.display  = 'flex';
+    countEl.style.display = 'block';
+    countEl.textContent   = galStagedFiles.length+' foto dipilih';
+    strip.innerHTML = galStagedFiles.map((f,i) => `
+        <div class="gal-preview-thumb">
+            <img src="${f.dataUrl}" alt="${escHtml(f.name)}">
+            <button class="gal-preview-thumb-del" onclick="removeGalStagedFile(${i})" title="Hapus">✕</button>
+        </div>`).join('');
+}
+
+function removeGalStagedFile(idx) {
+    galStagedFiles.splice(idx,1);
+    renderGalPreviewStrip();
+}
+
+// ---- Editor reset ----
+function resetGalEditor() {
+    document.getElementById('galJudul').value         = '';
+    document.getElementById('galKategori').value      = 'Seminar';
+    document.getElementById('galTglKegiatan').value   = '';
+    document.getElementById('galDeskripsi').value     = '';
+    document.getElementById('galEditorLabel').textContent = 'Entri baru';
+    document.getElementById('galEditBanner').classList.remove('visible');
+    document.getElementById('galErr').style.display   = 'none';
+    galStagedFiles = [];
+    galFotoInput.value = '';
+    renderGalPreviewStrip();
+    galEditingId = null;
+}
+
+// ---- Load galeri item ke editor ----
+function loadGalEntry(id) {
+    const e = galEntries.find(x=>x.id===id); if(!e) return;
+    document.getElementById('galJudul').value       = e.judul;
+    document.getElementById('galKategori').value    = e.kat;
+    document.getElementById('galTglKegiatan').value = e.tgl;
+    document.getElementById('galDeskripsi').value   = e.desk;
+    document.getElementById('galEditorLabel').textContent = 'Edit Entri';
+    document.getElementById('galEditBannerText').textContent = 'Sedang mengedit: "'+e.judul+'"';
+    document.getElementById('galEditBanner').classList.add('visible');
+    galStagedFiles = e.dataUrls.map(u=>({ name:'existing', dataUrl:u, size:0 }));
+    renderGalPreviewStrip();
+    galEditingId = id;
+    showSectionByName('galeri');
+    showToast('Entri "'+e.judul+'" dimuat ke editor.','warning');
+}
+
+// ---- Open DRAFT MODAL ----
+function openGalDraftModal() {
+    const judul = document.getElementById('galJudul').value.trim();
+    if (!judul) { showToast('Judul album wajib diisi.','warning'); return; }
+    const kat = document.getElementById('galKategori').value;
+    const tgl = document.getElementById('galTglKegiatan').value;
+    document.getElementById('galDraftModalJudul').textContent = judul;
+    document.getElementById('galDraftModalMeta').textContent  = kat+(tgl?' · '+fmtDate(tgl):'')+(galStagedFiles.length?' · '+galStagedFiles.length+' foto':'');
+    // Thumb preview
+    const thumbWrap = document.getElementById('galDraftModalThumb');
+    if (galStagedFiles.length > 0) {
+        thumbWrap.innerHTML = `<img src="${galStagedFiles[0].dataUrl}" style="width:100%;height:100%;object-fit:cover">`;
+    } else {
+        thumbWrap.innerHTML = `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" style="color:var(--border)"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>`;
+    }
+    openModal('galDraftModal');
+}
+
+function confirmGalDraft() {
+    const judul = document.getElementById('galJudul').value.trim();
+    const kat   = document.getElementById('galKategori').value;
+    const tgl   = document.getElementById('galTglKegiatan').value;
+    const desk  = document.getElementById('galDeskripsi').value;
+    const dataUrls = galStagedFiles.map(f=>f.dataUrl);
+
+    if (galEditingId !== null) {
+        const idx = galEntries.findIndex(x=>x.id===galEditingId);
+        if (idx > -1) galEntries[idx] = { ...galEntries[idx], judul, kat, tgl, desk, dataUrls, status:'draft', uploadTgl: nowStr() };
+    } else {
+        galEntries.push({ id: Date.now(), judul, kat, tgl, desk, dataUrls, status:'draft', uploadTgl: nowStr(), gradIdx: Math.floor(Math.random()*GAL_GRADIENTS.length) });
+    }
+    closeModal('galDraftModal');
+    resetGalEditor();
+    renderGalDraftList();
+    renderGalPubGrid();
+    updateGalStats();
+    showToast('Draft galeri "'+judul+'" disimpan.','warning');
+}
+
+// ---- Open PUBLISH MODAL ----
+function openGalPublishModal() {
+    const judul = document.getElementById('galJudul').value.trim();
+    if (!judul) { showToast('Judul album wajib diisi.','warning'); return; }
+    if (galStagedFiles.length === 0) { showToast('Pilih minimal 1 foto.','warning'); return; }
+    const kat = document.getElementById('galKategori').value;
+    const tgl = document.getElementById('galTglKegiatan').value;
+    document.getElementById('galPublishModalJudul').textContent = judul;
+    document.getElementById('galPublishModalMeta').textContent  = kat+(tgl?' · '+fmtDate(tgl):'')+ ' · '+galStagedFiles.length+' foto';
+    const thumbWrap = document.getElementById('galPublishModalThumb');
+    if (galStagedFiles.length > 0) {
+        thumbWrap.innerHTML = `<img src="${galStagedFiles[0].dataUrl}" style="width:100%;height:100%;object-fit:cover">`;
+    }
+    openModal('galPublishModal');
+}
+
+function confirmGalPublish() {
+    const judul = document.getElementById('galJudul').value.trim();
+    const kat   = document.getElementById('galKategori').value;
+    const tgl   = document.getElementById('galTglKegiatan').value;
+    const desk  = document.getElementById('galDeskripsi').value;
+    const dataUrls = galStagedFiles.map(f=>f.dataUrl);
+
+    if (galEditingId !== null) {
+        const idx = galEntries.findIndex(x=>x.id===galEditingId);
+        if (idx > -1) galEntries[idx] = { ...galEntries[idx], judul, kat, tgl, desk, dataUrls, status:'published', uploadTgl: nowStr() };
+    } else {
+        galEntries.push({ id: Date.now(), judul, kat, tgl, desk, dataUrls, status:'published', uploadTgl: nowStr(), gradIdx: Math.floor(Math.random()*GAL_GRADIENTS.length) });
+    }
+    closeModal('galPublishModal');
+    resetGalEditor();
+    renderGalDraftList();
+    renderGalPubGrid();
+    updateGalStats();
+    showToast('Album "'+judul+'" berhasil diterbitkan ke galeri!','success');
+}
+
+// ---- Hapus galeri ----
+function openGalDeleteModal(id) {
+    const e = galEntries.find(x=>x.id===id); if(!e) return;
+    galDeletingId = id;
+    document.getElementById('galDeleteModalJudul').textContent = e.judul;
+    document.getElementById('galDeleteModalMeta').textContent  = e.kat+' · '+fmtDate(e.tgl)+(e.dataUrls.length?' · '+e.dataUrls.length+' foto':'');
+    openModal('galDeleteModal');
+}
+
+function confirmGalDelete() {
+    const e = galEntries.find(x=>x.id===galDeletingId);
+    galEntries = galEntries.filter(x=>x.id!==galDeletingId);
+    if (galEditingId === galDeletingId) resetGalEditor();
+    closeModal('galDeleteModal'); galDeletingId=null;
+    renderGalDraftList(); renderGalPubGrid(); updateGalStats();
+    closeLightbox();
+    showToast('Entri "'+(e?e.judul:'')+'" dihapus.','danger');
+}
+
+// ---- Edit inline modal ----
+function openGalEditModal(id) {
+    const e = galEntries.find(x=>x.id===id); if(!e) return;
+    galDeletingId = id; // reuse for edit target
+    document.getElementById('galEditJudul').value   = e.judul;
+    document.getElementById('galEditKategori').value= e.kat;
+    document.getElementById('galEditTgl').value     = e.tgl;
+    document.getElementById('galEditDesk').value    = e.desk;
+    openModal('galEditModal');
+}
+
+function confirmGalEdit() {
+    const id   = galDeletingId;
+    const idx  = galEntries.findIndex(x=>x.id===id);
+    if (idx < 0) { closeModal('galEditModal'); return; }
+    galEntries[idx].judul = document.getElementById('galEditJudul').value.trim() || galEntries[idx].judul;
+    galEntries[idx].kat   = document.getElementById('galEditKategori').value;
+    galEntries[idx].tgl   = document.getElementById('galEditTgl').value;
+    galEntries[idx].desk  = document.getElementById('galEditDesk').value;
+    closeModal('galEditModal');
+    renderGalDraftList(); renderGalPubGrid(); updateGalStats();
+    // Refresh lightbox if open
+    if (document.getElementById('galLightbox').classList.contains('open')) {
+        openLightbox(id);
+    }
+    showToast('Entri "'+galEntries[idx].judul+'" diperbarui.','warning');
+}
+
+// ---- Publish dari draft list ----
+function publishGalFromDraft(id) {
+    const idx = galEntries.findIndex(x=>x.id===id); if(idx<0) return;
+    galEntries[idx].status = 'published';
+    renderGalDraftList(); renderGalPubGrid(); updateGalStats();
+    showToast('Album "'+galEntries[idx].judul+'" diterbitkan.','success');
+}
+
+// ---- RENDER: Draft list ----
+function renderGalDraftList() {
+    const all = galEntries.filter(e=>e.status==='draft');
+    const list = galActiveFilterDraft === 'all' ? all : all.filter(e=>e.kat===galActiveFilterDraft);
+    const container = document.getElementById('galDraftList');
+
+    if (list.length === 0) {
+        container.innerHTML = `<div class="empty-state"><svg class="empty-icon" style="color:var(--muted)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg><div class="empty-text">Belum ada draft galeri.</div></div>`;
+        return;
+    }
+
+    container.innerHTML = list.map(e => {
+        const thumbHtml = e.dataUrls.length
+            ? `<img src="${e.dataUrls[0]}" alt="${escHtml(e.judul)}">`
+            : `<div class="gal-item-thumb-placeholder" style="background:${GAL_GRADIENTS[e.gradIdx]}"></div>`;
+        const countBadge = e.dataUrls.length > 1
+            ? `<div class="gal-count-badge">${e.dataUrls.length}</div>` : '';
+        return `
+            <div class="gal-item" onclick="openLightbox(${e.id})">
+                <div class="gal-item-thumb">${thumbHtml}${countBadge}</div>
+                <div class="gal-item-info">
+                    <div class="gal-item-title">${escHtml(e.judul)}</div>
+                    <div class="gal-item-meta">${escHtml(e.kat)} · ${fmtDate(e.tgl) || '—'}</div>
+                    <div style="margin-top:.3rem"><span class="status-badge badge-draft">Draft</span></div>
+                </div>
+                <div class="gal-item-actions">
+                    <button class="gal-action-btn pub" onclick="event.stopPropagation();publishGalFromDraft(${e.id})">Terbitkan</button>
+                    <button class="gal-action-btn" onclick="event.stopPropagation();loadGalEntry(${e.id})">Edit</button>
+                    <button class="gal-action-btn del" onclick="event.stopPropagation();openGalDeleteModal(${e.id})">Hapus</button>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+// ---- RENDER: Published grid ----
+function renderGalPubGrid() {
+    const all  = galEntries.filter(e=>e.status==='published');
+    const list = galActiveFilterPub === 'all' ? all : all.filter(e=>e.kat===galActiveFilterPub);
+    const grid = document.getElementById('galPubGrid');
+    const emptyEl = document.getElementById('galPubEmpty');
+
+    if (list.length === 0) {
+        grid.innerHTML = '';
+        emptyEl.style.display = 'block';
+    } else {
+        emptyEl.style.display = 'none';
+        grid.innerHTML = list.map(e => {
+            const bg = e.dataUrls.length ? '' : `style="background:${GAL_GRADIENTS[e.gradIdx]}"`;
+            const imgHtml = e.dataUrls.length
+                ? `<img src="${e.dataUrls[0]}" alt="${escHtml(e.judul)}">`
+                : `<div class="gal-grid-item-placeholder" ${bg}></div>`;
+            return `
+                <div class="gal-grid-item" onclick="openLightbox(${e.id})">
+                    ${imgHtml}
+                    <div class="gal-grid-overlay">
+                        <div class="gal-grid-item-label">${escHtml(e.judul)}</div>
+                    </div>
+                    ${e.dataUrls.length > 1 ? `<div class="gal-count-badge" style="position:absolute;top:5px;right:5px;z-index:1">${e.dataUrls.length}</div>` : ''}
+                </div>`;
+        }).join('');
+    }
+}
+
+// ---- Filter tabs ----
+function setGalFilter(type, val, btn) {
+    if (type === 'draft') {
+        galActiveFilterDraft = val;
+        document.querySelectorAll('#galDraftFilterTabs .gal-tab').forEach(b=>b.classList.remove('active'));
+    } else {
+        galActiveFilterPub = val;
+        // find parent tabs
+        btn.closest('.gal-filter-tabs').querySelectorAll('.gal-tab').forEach(b=>b.classList.remove('active'));
+    }
+    btn.classList.add('active');
+    if (type === 'draft') renderGalDraftList();
+    else renderGalPubGrid();
+}
+
+// ---- Toggle grid visibility ----
+function toggleGalGrid() {
+    galGridVisible = !galGridVisible;
+    const wrap = document.getElementById('galPubGridWrap');
+    wrap.style.display = galGridVisible ? 'block' : 'none';
+    document.getElementById('galGridToggleLabel').textContent = galGridVisible ? 'Sembunyikan' : 'Tampilkan';
+}
+
+
+// ============================================
+// LIGHTBOX
+// ============================================
+let lbCurrentEntry = null;
+let lbCurrentIdx   = 0;
+
+function openLightbox(id) {
+    const e = galEntries.find(x=>x.id===id); if(!e) return;
+    lbCurrentEntry = e;
+    lbCurrentIdx   = 0;
+    renderLightbox();
+    openModal('galLightbox');
+}
+
+function closeLightbox() { closeModal('galLightbox'); }
+
+function renderLightbox() {
+    const e = lbCurrentEntry;
+    document.getElementById('lbTitle').textContent     = e.judul;
+    document.getElementById('lbKategori').textContent  = e.kat;
+    document.getElementById('lbTgl').textContent       = fmtDate(e.tgl) || '—';
+    document.getElementById('lbDesk').textContent      = e.desk || '—';
+    document.getElementById('lbTglUpload').textContent = e.uploadTgl || nowStr();
+
+    // Status badge
+    const statusEl = document.getElementById('lbStatus');
+    statusEl.innerHTML = e.status === 'published'
+        ? `<span class="status-badge badge-published">Terbit</span>`
+        : `<span class="status-badge badge-draft">Draft</span>`;
+
+    // Main image
+    const mainWrap = document.getElementById('lbMainImgWrap');
+    const hasImgs  = e.dataUrls.length > 0;
+    if (hasImgs) {
+        // Ensure index in range
+        if (lbCurrentIdx >= e.dataUrls.length) lbCurrentIdx = 0;
+        mainWrap.innerHTML = `
+            <img src="${e.dataUrls[lbCurrentIdx]}" alt="${escHtml(e.judul)}" style="max-width:100%;max-height:100%;object-fit:contain">
+            <button class="lightbox-nav prev" id="lbPrev" onclick="lbNav(-1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button class="lightbox-nav next" id="lbNext" onclick="lbNav(1)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>`;
+        // Hide nav if single
+        if (e.dataUrls.length <= 1) {
+            mainWrap.querySelector('.prev').style.display = 'none';
+            mainWrap.querySelector('.next').style.display = 'none';
+        }
+    } else {
+        mainWrap.innerHTML = `
+            <div class="lightbox-main-placeholder">
+                <div style="width:80px;height:80px;border-radius:12px;${GAL_GRADIENTS[e.gradIdx].includes('gradient') ? 'background:'+GAL_GRADIENTS[e.gradIdx] : ''}"></div>
+                <span style="font-size:.78rem;margin-top:.5rem">Tidak ada foto</span>
+            </div>
+            <button class="lightbox-nav prev" style="display:none"></button>
+            <button class="lightbox-nav next" style="display:none"></button>`;
+    }
+
+    // Strip
+    const strip = document.getElementById('lbStrip');
+    if (hasImgs && e.dataUrls.length > 1) {
+        strip.innerHTML = e.dataUrls.map((u,i)=>
+            `<div class="lightbox-strip-thumb ${i===lbCurrentIdx?'active':''}" onclick="lbGoTo(${i})">
+                <img src="${u}" alt="">
+            </div>`).join('');
+        strip.style.display = 'flex';
+    } else {
+        strip.innerHTML = '';
+        strip.style.display = 'none';
+    }
+
+    // Counter
+    document.getElementById('lbImgCounter').textContent =
+        hasImgs ? (lbCurrentIdx+1)+' dari '+e.dataUrls.length+' foto' : '0 foto';
+
+    // Actions
+    const actEl = document.getElementById('lbActions');
+    const isPub = e.status === 'published';
+    actEl.innerHTML = `
+        <button class="lightbox-action-btn lba-edit" onclick="openGalEditModal(${e.id})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit Informasi
+        </button>
+        ${!isPub ? `<button class="lightbox-action-btn lba-pub" onclick="publishGalFromDraft(${e.id});renderLightbox()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Terbitkan ke Galeri
+        </button>` : ''}
+        <button class="lightbox-action-btn lba-del" onclick="openGalDeleteModal(${e.id})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+            Hapus Entri
+        </button>`;
+}
+
+function lbNav(dir) {
+    const e = lbCurrentEntry; if(!e || e.dataUrls.length === 0) return;
+    lbCurrentIdx = (lbCurrentIdx + dir + e.dataUrls.length) % e.dataUrls.length;
+    renderLightbox();
+}
+
+function lbGoTo(idx) {
+    lbCurrentIdx = idx;
+    renderLightbox();
+}
+
+// Keyboard nav for lightbox
+document.addEventListener('keydown', e => {
+    if (!document.getElementById('galLightbox').classList.contains('open')) return;
+    if (e.key === 'ArrowLeft')  lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+    if (e.key === 'Escape')     closeLightbox();
+});
 
 
 // ============================================
@@ -1406,18 +2395,19 @@ const SECTIONS = ['dashboard','artikel','galeri','komentar','foto'];
 
 function showSection(name, btn) {
     SECTIONS.forEach(s => {
-        document.getElementById('section-' + s).style.display = s === name ? 'block' : 'none';
+        document.getElementById('section-'+s).style.display = s === name ? 'block' : 'none';
     });
-    document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
     if (btn) btn.classList.add('active');
     renderKomentar();
     renderFoto();
     renderDraftList();
+    if (name === 'galeri') { renderGalDraftList(); renderGalPubGrid(); updateGalStats(); }
     if (window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open');
 }
 
 function showSectionByName(name) {
-    const btn = document.querySelector('.nav-item[data-section="' + name + '"]');
+    const btn = document.querySelector('.nav-item[data-section="'+name+'"]');
     showSection(name, btn);
 }
 
@@ -1426,51 +2416,11 @@ function showSectionByName(name) {
 // LOGOUT
 // ============================================
 function logout() {
-    document.getElementById('logoutModal').classList.add('open');
+    openModal('logoutModal');
     if (window.innerWidth < 769) document.getElementById('sidebar').classList.remove('open');
 }
-
-function closeLogoutModal() {
-    document.getElementById('logoutModal').classList.remove('open');
-}
-
-function confirmLogout() {
-    sessionStorage.clear();
-    window.location.replace('login.html');
-}
-
-
-// ============================================
-// CLOSE MODAL ON BACKDROP CLICK
-// ============================================
-['draftModal','publishModal','deleteDraftModal','logoutModal'].forEach(id => {
-    document.getElementById(id).addEventListener('click', function(e) {
-        if (e.target === this) this.classList.remove('open');
-    });
-});
-
-
-// ============================================
-// HELPERS
-// ============================================
-function escHtml(str) {
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-}
-
-function showToast(msg, type = 'success') {
-    const colors = { success: '#15803D', warning: '#B45309', danger: '#B91C1C' };
-    const t  = document.getElementById('toast');
-    const dt = document.getElementById('toastDot');
-    dt.style.background = colors[type] || '#888';
-    document.getElementById('toastMsg').textContent = msg;
-    t.className = 'toast ' + type + ' show';
-    clearTimeout(t._timer);
-    t._timer = setTimeout(() => t.classList.remove('show'), 3500);
-}
+function closeLogoutModal() { closeModal('logoutModal'); }
+function confirmLogout() { sessionStorage.clear(); window.location.replace('login.html'); }
 
 
 // ============================================
@@ -1479,6 +2429,11 @@ function showToast(msg, type = 'success') {
 renderKomentar();
 renderFoto();
 renderDraftList();
+renderGalDraftList();
+renderGalPubGrid();
+updateGalStats();
+// Set default date to today
+document.getElementById('galTglKegiatan').valueAsDate = new Date();
 </script>
 </body>
 </html>

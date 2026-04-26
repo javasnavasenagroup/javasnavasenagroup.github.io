@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard Prototype | Rumah Kebangsaan — Figma</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── ROOT TOKENS ── */
+:root {
+  --pr:#B91C1C; --pr-dk:#7F1D1D; --pr-lt:#FEF2F2;
+  --ac:#D97706; --ac-lt:#FFFBEB;
+  --dark:#0C0A09; --mid:#1C1917; --gray:#44403C; --muted:#78716C;
+  --light:#F7F5F3; --border:#E8E3DD; --white:#FEFCFA;
+  --ok:#15803D; --ok-lt:#F0FDF4;
+  --warn:#B45309; --warn-lt:#FFFBEB;
+  --sidebar:252px;
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Figtree',sans-serif;
+  background:#15202B;
+  min-height:100vh;
+  font-size:14px;
+  color:var(--dark);
+  overflow-x:hidden;
+}
+
+/* ── FIGMA BAR ── */
+.figma-bar{
+  position:fixed;top:0;left:0;right:0;height:48px;
+  background:#111827;border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;z-index:9999;gap:12px;
+}
+.figma-logo{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.88);font-size:.78rem;font-weight:700;letter-spacing:.3px;flex-shrink:0;}
+.figma-icon{width:28px;height:28px;background:linear-gradient(135deg,#B91C1C,#DC2626);border-radius:6px;display:flex;align-items:center;justify-content:center;}
+.figma-pages{display:flex;align-items:center;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none;}
+.figma-pages::-webkit-scrollbar{display:none}
+.fpage{
+  padding:5px 12px;border-radius:5px;font-size:.72rem;font-weight:600;
+  color:rgba(255,255,255,.38);cursor:pointer;transition:all .15s;
+  border:none;background:none;font-family:'Figtree',sans-serif;
+  letter-spacing:.2px;white-space:nowrap;
+}
+.fpage:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.07)}
+.fpage.active{color:#fff;background:rgba(185,28,28,.3);border:1px solid rgba(185,28,28,.4)}
+.figma-tools{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.figma-zoom{color:rgba(255,255,255,.38);font-size:.7rem;font-weight:600;background:rgba(255,255,255,.07);padding:4px 10px;border-radius:5px}
+.figma-present{background:var(--pr);color:#fff;padding:5px 14px;border-radius:5px;font-size:.73rem;font-weight:700;border:none;cursor:pointer;font-family:'Figtree',sans-serif}
+
+/* ── CANVAS ── */
+.canvas{margin-top:48px;padding:44px 60px;display:flex;flex-direction:column;gap:64px;min-height:calc(100vh - 48px)}
+
+/* ── SECTION LABELS ── */
+.sec-title{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:rgba(255,255,255,.2);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.fbadge{font-size:.58rem;padding:2px 7px;border-radius:3px;background:rgba(185,28,28,.2);color:#FCA5A5;border:1px solid rgba(185,28,28,.3);font-weight:700;letter-spacing:.5px}
+.frame-wrap{position:relative;margin-bottom:52px}
+.frame-label{font-size:.59rem;font-weight:700;letter-spacing:1.2px;color:rgba(255,255,255,.25);margin-bottom:10px;text-transform:uppercase}
+.frame-sub{font-size:.57rem;color:rgba(255,255,255,.15);text-align:center;margin-top:8px}
+
+/* ══════════════════════════
+   ADMIN FRAME  1280 × 900
+══════════════════════════ */
+.admin-frame{
+  width:1280px;height:900px;
+  display:flex;overflow:hidden;
+  border-radius:10px;
+  box-shadow:0 24px 80px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04);
+  position:relative;flex-shrink:0;
+  background:var(--light);
+}
+
+/* ─── SIDEBAR ─── */
+.f-sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--white);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  font-family:'Figtree',sans-serif;
+}
+.f-sb-head{padding:1.2rem 1.2rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.7rem}
+.f-sb-logo{width:30px;height:30px;border-radius:7px;background:var(--pr-lt);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.f-sb-name{font-family:'Playfair Display',serif;font-size:.85rem;font-weight:700;color:var(--dark);line-height:1.2}
+.f-sb-nav{padding:.85rem .7rem;flex:1;overflow:hidden}
+.f-nav-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--muted);padding:.85rem .6rem .35rem}
+.f-nav-item{display:flex;align-items:center;gap:.6rem;padding:.58rem .7rem;border-radius:6px;color:var(--gray);font-weight:500;font-size:.82rem;cursor:default;margin-bottom:1px;letter-spacing:.01em}
+.f-nav-item.active{background:var(--pr);color:white;font-weight:600}
+.f-nav-item svg{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.f-badge{margin-left:auto;background:var(--pr);color:white;padding:1px 6px;border-radius:20px;font-size:.63rem;font-weight:700}
+.f-nav-item.active .f-badge{background:rgba(255,255,255,.25)}
+.f-sb-foot{padding:.85rem 1.1rem 1.1rem;border-top:1px solid var(--border)}
+.f-priv{background:var(--pr-lt);border:1px solid rgba(185,28,28,.12);border-radius:7px;padding:.75rem .9rem;font-size:.72rem;line-height:1.55;color:var(--gray)}
+.f-priv strong{color:var(--pr-dk);display:block;margin-bottom:.15rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.4px}
+
+/* ─── MAIN AREA ─── */
+.f-main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.f-topbar{height:58px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:flex-end;padding:0 1.75rem;gap:.9rem;flex-shrink:0}
+.f-uname{font-weight:700;font-size:.8rem;color:var(--dark);text-align:right;line-height:1.25}
+.f-urole{font-size:.65rem;font-weight:600;color:var(--pr);letter-spacing:.4px;text-transform:uppercase}
+.f-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7F1D1D,#B91C1C);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.7rem}
+.f-logout{padding:.38rem .8rem;border:1.5px solid var(--border);background:var(--white);border-radius:6px;font-size:.73rem;font-weight:600;color:var(--gray);cursor:default;font-family:'Figtree',sans-serif}
+.f-content{flex:1;overflow:hidden;padding:1.75rem;display:flex;flex-direction:column;gap:1.25rem}
+
+/* ─── PAGE HEADER ─── */
+.f-ph{display:flex;justify-content:space-between;align-items:flex-start}
+.f-ptitle{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:var(--dark);line-height:1.15}
+.f-psub{color:var(--muted);font-size:.78rem;margin-top:.3rem}
+.f-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1rem;border-radius:7px;font-weight:600;font-size:.78rem;border:none;cursor:default;font-family:'Figtree',sans-serif;letter-spacing:.01em}
+.f-btn-pr{background:var(--pr);color:white}
+.f-btn-ok{background:var(--ok);color:white}
+.f-btn-warn{background:var(--warn);color:white}
+.f-btn-out{border:1.5px solid var(--border);background:var(--white);color:var(--gray)}
+
+/* ─── STATS ─── */
+.f-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:.85rem}
+.f-stat{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:1.2rem 1.3rem}
+.f-slbl{font-size:.62rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:.6rem}
+.f-snum{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--dark)}
+
+/* ─── TWO-COL ─── */
+.f-2col{display:grid;grid-template-columns:2fr 1fr;gap:1.1rem;flex:1;min-height:0}
+.f-3col{display:grid;grid-template-columns:2fr 1fr;gap:1.1rem;flex:1;min-height:0}
+.f-right-stack{display:flex;flex-direction:column;gap:1.1rem}
+
+/* ─── PANEL ─── */
+.f-panel{background:var(--white);border:1px solid var(--border);border-radius:9px;overflow:hidden;display:flex;flex-direction:column}
+.f-ph2{display:flex;justify-content:space-between;align-items:center;padding:.9rem 1.35rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.f-ptl{font-weight:700;font-size:.84rem;color:var(--dark)}
+.f-plink{font-size:.73rem;color:var(--pr);font-weight:600;background:none;border:none;cursor:default}
+.f-pbody{padding:1.1rem 1.35rem;flex:1;overflow:hidden}
+.f-pbody-np{flex:1;overflow:hidden}
+
+/* ─── TABLE ─── */
+.f-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.f-table th{padding:.65rem .9rem;text-align:left;font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1.1px;background:#FAFAF8;border-bottom:1px solid var(--border)}
+.f-table td{padding:.75rem .9rem;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--gray)}
+.f-table tr:last-child td{border-bottom:none}
+.f-tdn{font-weight:600;color:var(--dark);font-size:.8rem}
+.f-tds{font-size:.7rem;color:var(--muted);margin-top:1px}
+.f-badge-ok{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.63rem;font-weight:700;background:var(--ok-lt);color:var(--ok);border:1px solid rgba(21,128,61,.15)}
+.f-badge-pnd{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.63rem;font-weight:700;background:var(--warn-lt);color:var(--warn);border:1px solid rgba(180,83,9,.15)}
+.f-badge-dr{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:.63rem;font-weight:700;background:var(--warn-lt);color:var(--warn);border:1px solid rgba(180,83,9,.15)}
+.f-aBtn{background:none;border:none;cursor:default;font-family:'Figtree',sans-serif;font-size:.73rem;font-weight:700;padding:0}
+.f-aBtn.ok{color:var(--ok)}
+.f-aBtn.pr{color:var(--pr);margin-left:.7rem}
+
+/* ─── ARTICLE LIST ─── */
+.f-art-item{padding:.75rem 0;border-bottom:1px solid var(--border)}
+.f-art-item:last-child{border-bottom:none;padding-bottom:0}
+.f-art-item:first-child{padding-top:0}
+.f-art-name{font-weight:600;font-size:.8rem;color:var(--dark);margin-bottom:.2rem}
+.f-art-meta{font-size:.7rem;color:var(--muted)}
+
+/* ─── DRAFT ITEM ─── */
+.f-draft-item{padding:.78rem 0;border-bottom:1px solid var(--border)}
+.f-draft-item:last-child{border-bottom:none;padding-bottom:0}
+.f-draft-item:first-child{padding-top:0}
+.f-di-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.5rem}
+.f-di-title{font-weight:600;font-size:.8rem;color:var(--dark);line-height:1.3}
+.f-di-meta{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+.f-di-del{padding:2px 6px;font-size:.63rem;font-weight:700;border:1px solid var(--border);background:none;border-radius:4px;color:var(--muted);cursor:default;font-family:'Figtree',sans-serif}
+
+/* ─── FORM ELEMENTS ─── */
+.f-fg{margin-bottom:.9rem}
+.f-flbl{display:block;font-size:.68rem;font-weight:700;margin-bottom:.38rem;color:var(--gray);text-transform:uppercase;letter-spacing:.4px}
+.f-finput{width:100%;padding:.6rem .8rem;border:1.5px solid var(--border);border-radius:7px;font-family:'Figtree',sans-serif;font-size:.8rem;background:var(--light);color:var(--dark)}
+.f-finput.focus{border-color:var(--pr);background:white;box-shadow:0 0 0 3px rgba(185,28,28,.07)}
+.f-wysiwyg-bar{display:flex;gap:.25rem;padding:.45rem;background:var(--light);border:1.5px solid var(--border);border-bottom:none;border-radius:7px 7px 0 0;flex-wrap:wrap}
+.f-tb{padding:.22rem .5rem;border:1px solid var(--border);background:var(--white);border-radius:4px;font-size:.73rem;font-weight:700;color:var(--gray);cursor:default;font-family:'Figtree',sans-serif}
+.f-wysiwyg{min-height:120px;padding:.75rem .85rem;border:1.5px solid var(--border);border-radius:0 0 7px 7px;font-family:'Figtree',sans-serif;font-size:.78rem;line-height:1.65;background:white;color:var(--gray)}
+.f-filedrop{border:1.5px dashed var(--border);padding:1.1rem;text-align:center;border-radius:7px;background:var(--light)}
+.f-filedrop-txt{font-size:.75rem;color:var(--muted)}
+.f-btn-row{display:flex;gap:.65rem;margin-top:1.1rem}
+
+/* ─── GALERI ─── */
+.f-gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
+.f-gal-cell{aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--border);position:relative}
+.f-gal-cell-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.f-gal-list-item{display:flex;align-items:flex-start;gap:.65rem;padding:.75rem 0;border-bottom:1px solid var(--border);cursor:default}
+.f-gal-list-item:last-child{border-bottom:none;padding-bottom:0}
+.f-gal-list-item:first-child{padding-top:0}
+.f-gal-thumb{width:54px;height:46px;flex-shrink:0;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.f-gal-info{flex:1;min-width:0}
+.f-gal-ititle{font-weight:600;font-size:.79rem;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:.18rem}
+.f-gal-imeta{font-size:.69rem;color:var(--muted)}
+.f-gal-acts{display:flex;flex-direction:column;gap:.25rem;align-items:flex-end}
+.f-gab{padding:2px 6px;font-size:.63rem;font-weight:700;border:1px solid var(--border);background:none;border-radius:4px;color:var(--muted);cursor:default;font-family:'Figtree',sans-serif;white-space:nowrap}
+
+/* ─── STAT MINI (galeri) ─── */
+.f-gal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.55rem}
+.f-gal-stat{background:var(--light);border:1px solid var(--border);border-radius:7px;padding:.6rem .8rem;text-align:center}
+.f-gs-num{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark)}
+.f-gs-lbl{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-top:.15rem}
+
+/* ─── EDIT BANNER ─── */
+.f-edit-banner{background:var(--warn-lt);border:1px solid rgba(180,83,9,.2);border-radius:7px;padding:.55rem .9rem;font-size:.73rem;font-weight:600;color:var(--warn);margin-bottom:.85rem;display:flex;align-items:center;gap:.45rem}
+.f-eb-cancel{margin-left:auto;font-size:.68rem;font-weight:700;background:none;border:none;cursor:default;color:var(--warn);text-decoration:underline;font-family:'Figtree',sans-serif}
+
+/* ─── MODAL OVERLAY on frame ─── */
+.f-modal-layer{
+  position:absolute;inset:0;
+  background:rgba(12,10,9,.55);
+  display:flex;align-items:center;justify-content:center;
+  z-index:50;backdrop-filter:blur(3px);
+}
+.f-modal-box{
+  background:var(--white);border-radius:10px;
+  width:90%;max-width:380px;
+  border:1px solid var(--border);
+  box-shadow:0 12px 50px rgba(0,0,0,.3);
+  text-align:center;
+}
+.f-mhead{padding:1.75rem 1.75rem 0}
+.f-mbody{padding:.9rem 1.75rem}
+.f-mfoot{padding:0 1.75rem 1.75rem}
+.f-micon{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem}
+.f-mtitle{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark);margin-bottom:.4rem}
+.f-mdesc{font-size:.8rem;color:var(--gray);line-height:1.55}
+.f-mpreview{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:.8rem .95rem;text-align:left}
+.f-mplbl{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.9px;margin-bottom:.25rem}
+.f-mptitle{font-weight:700;font-size:.85rem;color:var(--dark);margin-bottom:.15rem;line-height:1.3}
+.f-mpmeta{font-size:.7rem;color:var(--muted)}
+.f-mbtnrow{display:flex;gap:.65rem;justify-content:center}
+.f-mbtn{flex:1;padding:.58rem;border-radius:7px;font-size:.78rem;font-weight:600;cursor:default;font-family:'Figtree',sans-serif;border:none}
+.f-mbtn-cancel{border:1.5px solid var(--border) !important;background:var(--white);color:var(--gray)}
+.f-mbtn-ok{background:var(--ok);color:white}
+.f-mbtn-warn{background:var(--warn);color:white}
+.f-mbtn-pr{background:var(--pr);color:white}
+
+/* ─── LIGHTBOX on frame ─── */
+.f-lb-box{
+  background:var(--white);border-radius:11px;
+  width:92%;max-width:700px;
+  box-shadow:0 20px 70px rgba(0,0,0,.4);
+  border:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  max-height:82vh;
+}
+.f-lb-head{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.35rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.f-lb-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--dark)}
+.f-lb-close{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;color:var(--gray);cursor:default}
+.f-lb-body{display:grid;grid-template-columns:1fr 260px;flex:1;min-height:0}
+.f-lb-img-area{background:#111;display:flex;align-items:center;justify-content:center}
+.f-lb-img-ph{display:flex;flex-direction:column;align-items:center;gap:.65rem;color:rgba(255,255,255,.25)}
+.f-lb-detail{border-left:1px solid var(--border);padding:1.1rem;overflow-y:auto;background:var(--white);display:flex;flex-direction:column;gap:.85rem}
+.f-lbd-lbl{font-size:.6rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.9px;margin-bottom:.3rem}
+.f-lbd-val{font-size:.8rem;color:var(--dark);font-weight:500;line-height:1.4}
+.f-lbd-act{display:flex;flex-direction:column;gap:.4rem;margin-top:auto}
+.f-lba{width:100%;padding:.5rem;border-radius:7px;font-size:.74rem;font-weight:600;cursor:default;font-family:'Figtree',sans-serif;display:flex;align-items:center;justify-content:center;gap:.35rem}
+.f-lba-edit{border:1.5px solid var(--border);background:var(--white);color:var(--gray)}
+.f-lba-pub{background:var(--ok);color:white;border:none}
+.f-lba-del{border:1.5px solid var(--border);background:var(--white);color:var(--muted)}
+
+/* gradient placeholders */
+.g0{background:linear-gradient(135deg,#7f1d1d,#b91c1c)}
+.g1{background:linear-gradient(135deg,#b45309,#d97706)}
+.g2{background:linear-gradient(135deg,#1e3a5f,#2563eb)}
+.g3{background:linear-gradient(135deg,#14532d,#15803d)}
+.g4{background:linear-gradient(135deg,#3b0764,#7c3aed)}
+.g5{background:linear-gradient(135deg,#1e293b,#334155)}
+
+/* canvas helpers */
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:rgba(255,255,255,.02)}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.09);border-radius:4px}
+
+/* ─── TOOLTIP / ANNOTATION ─── */
+.f-annot{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(185,28,28,.15);border:1px solid rgba(185,28,28,.3);
+  color:#FCA5A5;font-size:.58rem;font-weight:700;
+  padding:2px 8px;border-radius:20px;margin-left:10px;
+  letter-spacing:.3px;text-transform:uppercase;
+}
+
+/* ─── EMPTY STATE ─── */
+.f-empty{text-align:center;padding:1.75rem;color:var(--muted)}
+.f-empty svg{width:30px;height:30px;margin:0 auto .6rem;color:var(--ok)}
+.f-empty-txt{font-size:.78rem;font-weight:500}
+
+/* ─── FILTER TABS ─── */
+.f-filter-tabs{display:flex;gap:.28rem;padding:.65rem 1.35rem;border-bottom:1px solid var(--border);background:#FAFAF8}
+.f-tab{padding:.28rem .65rem;border-radius:20px;font-size:.68rem;font-weight:600;cursor:default;border:1.5px solid transparent;color:var(--muted);font-family:'Figtree',sans-serif}
+.f-tab.active{background:var(--pr);color:white}
+
+/* ─── GALERI GRID OVERLAY ─── */
+.f-gal-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,10,9,.65) 0%,transparent 60%);display:flex;align-items:flex-end;padding:.4rem .5rem}
+.f-gal-olabel{color:white;font-size:.63rem;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+
+/* ─── TAGS in gallery detail ─── */
+.f-lb-divider{border:none;border-top:1px solid var(--border);margin:0}
+</style>
+</head>
+<body>
+
+<!-- ── FIGMA BAR ── -->
+<div class="figma-bar">
+  <div class="figma-logo">
+    <div class="figma-icon">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </div>
+    Rumah Kebangsaan &mdash; Admin Dashboard Prototype
+  </div>
+  <div class="figma-pages">
+    <button class="fpage active"  onclick="go('f1',this)">Dashboard</button>
+    <button class="fpage"         onclick="go('f2',this)">Berita &mdash; Editor Baru</button>
+    <button class="fpage"         onclick="go('f3',this)">Berita &mdash; Edit Draft</button>
+    <button class="fpage"         onclick="go('f4',this)">Berita &mdash; Modal Terbit</button>
+    <button class="fpage"         onclick="go('f5',this)">Galeri &mdash; Upload</button>
+    <button class="fpage"         onclick="go('f6',this)">Galeri &mdash; Daftar Terbit</button>
+    <button class="fpage"         onclick="go('f7',this)">Galeri &mdash; Lightbox</button>
+    <button class="fpage"         onclick="go('f8',this)">Moderasi Komentar</button>
+    <button class="fpage"         onclick="go('f9',this)">Moderasi Foto Tamu</button>
+    <button class="fpage"         onclick="go('f10',this)">Modal Hapus Draft</button>
+    <button class="fpage"         onclick="go('f11',this)">Modal Logout</button>
+  </div>
+  <div class="figma-tools">
+    <span class="figma-zoom">100%</span>
+    <button class="figma-present">&#9654; Present</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     CANVAS
+════════════════════════════════ -->
+<div class="canvas">
+
+<!-- ══════════════════════════════
+     DESKTOP FRAMES  1280 × 900
+══════════════════════════════ -->
+<div>
+  <div class="sec-title">Desktop Frames <span class="fbadge">1280 &times; 900</span></div>
+
+  <!-- ─── FRAME 1: DASHBOARD ─── -->
+  <div class="frame-wrap" id="f1">
+    <div class="frame-label">Frame 1 &mdash; Dashboard <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <!-- Sidebar -->
+      <div class="f-sidebar">
+        <div class="f-sb-head">
+          <div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+          <div class="f-sb-name">Rumah<br>Kebangsaan</div>
+        </div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot">
+          <div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna (Least Privilege).</div>
+        </div>
+      </div>
+      <!-- Main -->
+      <div class="f-main">
+        <div class="f-topbar">
+          <div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div>
+          <div class="f-avatar">AD</div>
+          <div class="f-logout">Keluar</div>
+        </div>
+        <div class="f-content">
+          <div class="f-ph">
+            <div><div class="f-ptitle">Dashboard Admin</div><div class="f-psub">Selamat datang kembali. Ringkasan sistem hari ini.</div></div>
+            <div class="f-btn f-btn-pr"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> Tulis Artikel Baru</div>
+          </div>
+          <div class="f-stats">
+            <div class="f-stat"><div class="f-slbl">Total Pengunjung</div><div class="f-snum">12,450</div></div>
+            <div class="f-stat"><div class="f-slbl">Komentar Pending</div><div class="f-snum">3</div></div>
+            <div class="f-stat"><div class="f-slbl">Foto Pending</div><div class="f-snum">2</div></div>
+            <div class="f-stat"><div class="f-slbl">Artikel Terbit</div><div class="f-snum">45</div></div>
+            <div class="f-stat"><div class="f-slbl">Draft Tersimpan</div><div class="f-snum">0</div></div>
+          </div>
+          <div class="f-2col">
+            <div class="f-panel">
+              <div class="f-ph2"><span class="f-ptl">Antrean Moderasi Komentar</span><span class="f-plink">Lihat Semua</span></div>
+              <table class="f-table"><thead><tr><th>Pengirim</th><th>Isi Komentar</th><th>Status</th><th>Aksi</th></tr></thead><tbody>
+                <tr><td><div class="f-tdn">Budi S.</div><div class="f-tds">12 Feb 2026</div></td><td style="font-size:.75rem;color:var(--gray);max-width:200px">Sangat informatif. Terima kasih Pak Hakim!</td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                <tr><td><div class="f-tdn">Siti Aminah</div><div class="f-tds">11 Feb 2026</div></td><td style="font-size:.75rem;color:var(--gray);max-width:200px">Apakah besok ada jadwal diskusi publik?</td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                <tr><td><div class="f-tdn">Wahyu R.</div><div class="f-tds">14 Feb 2026</div></td><td style="font-size:.75rem;color:var(--gray);max-width:200px">Artikel ini sangat menginspirasi generasi muda.</td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+              </tbody></table>
+            </div>
+            <div class="f-panel">
+              <div class="f-ph2"><span class="f-ptl">Draft Artikel</span><span class="f-plink">Buka Editor</span></div>
+              <div class="f-pbody">
+                <div class="f-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg><div class="f-empty-txt">Belum ada draft tersimpan.</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Dashboard &mdash; Ringkasan Sistem</div>
+  </div>
+
+
+  <!-- ─── FRAME 2: BERITA EDITOR BARU ─── -->
+  <div class="frame-wrap" id="f2">
+    <div class="frame-label">Frame 2 &mdash; Manajemen Berita — Editor Artikel Baru <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content">
+          <div class="f-ph"><div><div class="f-ptitle">Manajemen Berita</div><div class="f-psub">Tulis, edit, dan terbitkan artikel.</div></div></div>
+          <div class="f-2col" style="flex:1;min-height:0">
+            <!-- editor panel -->
+            <div class="f-panel">
+              <div class="f-ph2"><span class="f-ptl">Editor Artikel</span><span style="font-size:.7rem;color:var(--muted)">Artikel baru</span></div>
+              <div class="f-pbody" style="overflow-y:auto">
+                <div class="f-fg"><label class="f-flbl">Judul Artikel</label><input class="f-finput f-finput focus" type="text" value="Pentingnya Pendidikan Kebangsaan di Era Digital" readonly></div>
+                <div class="f-fg"><label class="f-flbl">Kategori</label><select class="f-finput" style="cursor:default"><option>Opini Hukum</option></select></div>
+                <div class="f-fg">
+                  <label class="f-flbl">Isi Artikel</label>
+                  <div class="f-wysiwyg-bar"><span class="f-tb"><b>B</b></span><span class="f-tb"><i>I</i></span><span class="f-tb"><u>U</u></span><span class="f-tb">Bullets</span><span class="f-tb">Nomor</span><span class="f-tb">Kiri</span><span class="f-tb">Tengah</span></div>
+                  <div class="f-wysiwyg">Di era digital yang terus berkembang pesat, penting bagi setiap warga negara untuk memahami nilai-nilai kebangsaan yang menjadi fondasi Negara Kesatuan Republik Indonesia.<br><br>Pemahaman akan sejarah, Pancasila, dan konstitusi bukan sekadar hafalan, melainkan internalisasi nilai yang membentuk karakter bangsa yang kuat...</div>
+                </div>
+                <div class="f-fg"><label class="f-flbl">Foto Artikel</label><div class="f-filedrop"><div class="f-filedrop-txt">✓ pendidikan-kebangsaan.jpg</div></div></div>
+                <div class="f-btn-row">
+                  <div class="f-btn f-btn-warn" style="flex:1;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg> Simpan Draft</div>
+                  <div class="f-btn f-btn-ok" style="flex:1;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Terbitkan</div>
+                </div>
+              </div>
+            </div>
+            <!-- right stack -->
+            <div class="f-right-stack" style="overflow:hidden">
+              <div class="f-panel">
+                <div class="f-ph2"><span class="f-ptl">Draft Tersimpan</span><span style="font-size:.7rem;color:var(--muted);font-weight:600">0 draft</span></div>
+                <div class="f-pbody"><div class="f-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:28px;height:28px;margin:0 auto .5rem"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg><div class="f-empty-txt">Belum ada draft.</div></div></div>
+              </div>
+              <div class="f-panel" style="flex:1">
+                <div class="f-ph2"><span class="f-ptl">Artikel Terbit</span><span style="font-size:.7rem;color:var(--muted);font-weight:600">45 artikel</span></div>
+                <div class="f-pbody" style="overflow-y:auto">
+                  <div class="f-art-item"><div class="f-art-name">Forum Diskusi Kebangsaan</div><div class="f-art-meta">16 Feb 2026 · Utama</div><span class="f-badge-ok">Terbit</span></div>
+                  <div class="f-art-item"><div class="f-art-name">Pentingnya Literasi Hukum</div><div class="f-art-meta">14 Feb 2026 · Opini Hukum</div><span class="f-badge-ok">Terbit</span></div>
+                  <div class="f-art-item"><div class="f-art-name">Agenda Januari 2026</div><div class="f-art-meta">10 Jan 2026 · Agenda</div><span class="f-badge-ok">Terbit</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Editor Artikel — Judul & Isi Terisi (Fokus)</div>
+  </div>
+
+
+  <!-- ─── FRAME 3: BERITA EDIT DRAFT ─── -->
+  <div class="frame-wrap" id="f3">
+    <div class="frame-label">Frame 3 &mdash; Manajemen Berita — Edit Draft Tersimpan <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content">
+          <div class="f-ph"><div><div class="f-ptitle">Manajemen Berita</div><div class="f-psub">Tulis, edit, dan terbitkan artikel.</div></div></div>
+          <div class="f-2col" style="flex:1;min-height:0">
+            <div class="f-panel">
+              <div class="f-ph2"><span class="f-ptl">Editor Artikel</span><span style="font-size:.7rem;color:var(--muted)">Edit Draft</span></div>
+              <div class="f-pbody" style="overflow-y:auto">
+                <div class="f-edit-banner">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Sedang mengedit: "Sejarah Kebangsaan Banyuwangi" <span class="f-eb-cancel">Batal edit</span>
+                </div>
+                <div class="f-fg"><label class="f-flbl">Judul Artikel</label><input class="f-finput" type="text" value="Sejarah Kebangsaan Banyuwangi" readonly></div>
+                <div class="f-fg"><label class="f-flbl">Kategori</label><select class="f-finput" style="cursor:default"><option>Berita Daerah</option></select></div>
+                <div class="f-fg">
+                  <label class="f-flbl">Isi Artikel</label>
+                  <div class="f-wysiwyg-bar"><span class="f-tb"><b>B</b></span><span class="f-tb"><i>I</i></span><span class="f-tb"><u>U</u></span><span class="f-tb">Bullets</span><span class="f-tb">Nomor</span></div>
+                  <div class="f-wysiwyg">Banyuwangi sebagai ujung timur Pulau Jawa memiliki sejarah panjang dalam kontribusinya terhadap perjuangan kemerdekaan Indonesia. Berbagai tokoh dari tanah blambangan ini telah menorehkan tinta emas dalam lembar sejarah nasional...</div>
+                </div>
+                <div class="f-fg"><label class="f-flbl">Foto Artikel</label><div class="f-filedrop"><div class="f-filedrop-txt">Klik untuk pilih gambar sampul</div></div></div>
+                <div class="f-btn-row">
+                  <div class="f-btn f-btn-warn" style="flex:1;justify-content:center">Simpan Draft</div>
+                  <div class="f-btn f-btn-ok" style="flex:1;justify-content:center">Terbitkan</div>
+                </div>
+              </div>
+            </div>
+            <div class="f-right-stack" style="overflow:hidden">
+              <div class="f-panel">
+                <div class="f-ph2"><span class="f-ptl">Draft Tersimpan</span><span style="font-size:.7rem;color:var(--muted);font-weight:600">2 draft</span></div>
+                <div class="f-pbody-np" style="padding:.4rem 1.35rem .75rem">
+                  <div class="f-draft-item"><div class="f-di-row"><div><div class="f-di-title">Sejarah Kebangsaan Banyuwangi</div><div class="f-di-meta">18 Feb 2026 · Berita Daerah</div></div><div class="f-di-del">Hapus</div></div></div>
+                  <div class="f-draft-item"><div class="f-di-row"><div><div class="f-di-title">Peran Pemuda dalam Demokrasi</div><div class="f-di-meta">15 Feb 2026 · Opini Hukum</div></div><div class="f-di-del">Hapus</div></div></div>
+                </div>
+              </div>
+              <div class="f-panel" style="flex:1">
+                <div class="f-ph2"><span class="f-ptl">Artikel Terbit</span><span style="font-size:.7rem;color:var(--muted);font-weight:600">45 artikel</span></div>
+                <div class="f-pbody" style="overflow-y:auto">
+                  <div class="f-art-item"><div class="f-art-name">Forum Diskusi Kebangsaan</div><div class="f-art-meta">16 Feb 2026 · Utama</div><span class="f-badge-ok">Terbit</span></div>
+                  <div class="f-art-item"><div class="f-art-name">Pentingnya Literasi Hukum</div><div class="f-art-meta">14 Feb 2026 · Opini Hukum</div><span class="f-badge-ok">Terbit</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Edit Mode — Banner Edit + 2 Draft di Daftar</div>
+  </div>
+
+
+  <!-- ─── FRAME 4: MODAL TERBITKAN ARTIKEL ─── -->
+  <div class="frame-wrap" id="f4">
+    <div class="frame-label">Frame 4 &mdash; Modal Konfirmasi Terbitkan Artikel <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame" style="position:relative">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main" style="filter:blur(1px);opacity:.65;pointer-events:none">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content"><div class="f-ph"><div><div class="f-ptitle">Manajemen Berita</div><div class="f-psub">Tulis, edit, dan terbitkan artikel.</div></div></div></div>
+      </div>
+      <!-- Modal overlay -->
+      <div class="f-modal-layer">
+        <div class="f-modal-box">
+          <div class="f-mhead">
+            <div class="f-micon" style="background:var(--ok-lt);color:var(--ok)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="m22 2-7 20-4-9-9-4 20-7z"/></svg></div>
+            <div class="f-mtitle">Terbitkan Artikel?</div>
+            <p class="f-mdesc">Artikel akan langsung tampil di halaman publik website. Pastikan konten sudah final.</p>
+          </div>
+          <div class="f-mbody">
+            <div class="f-mpreview">
+              <div class="f-mplbl">Artikel yang akan diterbitkan</div>
+              <div class="f-mptitle">Pentingnya Pendidikan Kebangsaan di Era Digital</div>
+              <div class="f-mpmeta">Opini Hukum · 21 Apr 2026</div>
+            </div>
+          </div>
+          <div class="f-mfoot">
+            <div class="f-mbtnrow">
+              <div class="f-mbtn f-mbtn-cancel">Batal</div>
+              <div class="f-mbtn f-mbtn-ok">Ya, Terbitkan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Modal Konfirmasi Terbit — Backdrop Blur + Preview Judul</div>
+  </div>
+
+
+  <!-- ─── FRAME 5: GALERI UPLOAD ─── -->
+  <div class="frame-wrap" id="f5">
+    <div class="frame-label">Frame 5 &mdash; Galeri Dokumentasi — Upload Foto <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content">
+          <div class="f-ph"><div><div class="f-ptitle">Galeri Dokumentasi</div><div class="f-psub">Upload, kelola, dan terbitkan foto kegiatan.</div></div></div>
+          <div class="f-2col" style="flex:1;min-height:0">
+            <!-- upload panel -->
+            <div class="f-panel">
+              <div class="f-ph2"><span class="f-ptl">Upload / Edit Foto</span><span style="font-size:.7rem;color:var(--muted)">Entri baru</span></div>
+              <div class="f-pbody" style="overflow-y:auto">
+                <div class="f-fg"><label class="f-flbl">Judul / Keterangan Album</label><input class="f-finput f-finput focus" type="text" value="Seminar Literasi Digital Maret 2026" readonly></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem">
+                  <div class="f-fg"><label class="f-flbl">Kategori Kegiatan</label><select class="f-finput" style="cursor:default"><option>Seminar</option></select></div>
+                  <div class="f-fg"><label class="f-flbl">Tanggal Kegiatan</label><input class="f-finput" type="date" value="2026-03-15" readonly></div>
+                </div>
+                <div class="f-fg"><label class="f-flbl">Deskripsi Singkat</label><textarea class="f-finput" rows="2" style="resize:none" readonly>Seminar penguatan literasi digital untuk generasi muda Banyuwangi.</textarea></div>
+                <div class="f-fg">
+                  <label class="f-flbl">File Foto (multi)</label>
+                  <div class="f-filedrop" style="border-color:var(--pr);background:var(--pr-lt)">
+                    <svg style="width:26px;height:26px;margin:0 auto .5rem;display:block;color:var(--pr)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <div class="f-filedrop-txt" style="color:var(--pr)">4 foto dipilih</div>
+                  </div>
+                  <!-- preview thumbs -->
+                  <div style="display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.7rem">
+                    <div style="width:62px;height:62px;border-radius:6px;border:1.5px solid var(--pr);overflow:hidden;background:var(--pr-lt)" class="g0"></div>
+                    <div style="width:62px;height:62px;border-radius:6px;border:1.5px solid var(--border);overflow:hidden" class="g3"></div>
+                    <div style="width:62px;height:62px;border-radius:6px;border:1.5px solid var(--border);overflow:hidden" class="g1"></div>
+                    <div style="width:62px;height:62px;border-radius:6px;border:1.5px solid var(--border);overflow:hidden" class="g5"></div>
+                  </div>
+                  <div style="font-size:.69rem;color:var(--muted);margin-top:.35rem">4 foto dipilih</div>
+                </div>
+                <div class="f-btn-row">
+                  <div class="f-btn f-btn-warn" style="flex:1;justify-content:center">Simpan Draft</div>
+                  <div class="f-btn f-btn-ok" style="flex:1;justify-content:center">Terbitkan ke Galeri</div>
+                </div>
+              </div>
+            </div>
+            <!-- right panel -->
+            <div class="f-right-stack" style="overflow:hidden">
+              <div class="f-gal-stats">
+                <div class="f-gal-stat"><div class="f-gs-num">1</div><div class="f-gs-lbl">Draft</div></div>
+                <div class="f-gal-stat"><div class="f-gs-num">6</div><div class="f-gs-lbl">Terbit</div></div>
+                <div class="f-gal-stat"><div class="f-gs-num">14</div><div class="f-gs-lbl">Total Foto</div></div>
+              </div>
+              <div class="f-panel">
+                <div class="f-ph2"><span class="f-ptl">Draft Galeri</span><span style="font-size:.7rem;color:var(--muted);font-weight:600">1 draft</span></div>
+                <div class="f-filter-tabs">
+                  <div class="f-tab active">Semua</div><div class="f-tab">Seminar</div><div class="f-tab">Kunjungan</div>
+                </div>
+                <div style="padding:0 1.1rem">
+                  <div class="f-gal-list-item">
+                    <div class="f-gal-thumb g0"></div>
+                    <div class="f-gal-info"><div class="f-gal-ititle">Diskusi Publik Tunda</div><div class="f-gal-imeta">Diskusi Publik · 10 Feb 2026</div><span class="f-badge-dr" style="margin-top:.25rem;display:inline-flex">Draft</span></div>
+                    <div class="f-gal-acts"><div class="f-gab" style="color:var(--ok)">Terbitkan</div><div class="f-gab">Edit</div><div class="f-gab">Hapus</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Upload Galeri — 4 Foto Dipilih, Preview Strip Terlihat</div>
+  </div>
+
+
+  <!-- ─── FRAME 6: GALERI DAFTAR TERBIT ─── -->
+  <div class="frame-wrap" id="f6">
+    <div class="frame-label">Frame 6 &mdash; Galeri Dokumentasi — Grid Album Terbit <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content">
+          <div class="f-ph"><div><div class="f-ptitle">Galeri Dokumentasi</div><div class="f-psub">Upload, kelola, dan terbitkan foto kegiatan.</div></div></div>
+          <div class="f-2col" style="flex:1;min-height:0">
+            <!-- form kosong -->
+            <div class="f-panel">
+              <div class="f-ph2"><span class="f-ptl">Upload / Edit Foto</span><span style="font-size:.7rem;color:var(--muted)">Entri baru</span></div>
+              <div class="f-pbody">
+                <div class="f-fg"><label class="f-flbl">Judul / Keterangan Album</label><input class="f-finput" type="text" placeholder="Contoh: Seminar Kebangsaan Feb 2026" readonly></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.65rem"><div class="f-fg"><label class="f-flbl">Kategori</label><select class="f-finput" style="cursor:default"><option>Seminar</option></select></div><div class="f-fg"><label class="f-flbl">Tanggal</label><input class="f-finput" type="date" readonly></div></div>
+                <div class="f-fg"><label class="f-flbl">File Foto</label><div class="f-filedrop"><div class="f-filedrop-txt">Klik atau seret &amp; lepas foto ke sini</div></div></div>
+                <div class="f-btn-row"><div class="f-btn f-btn-warn" style="flex:1;justify-content:center">Simpan Draft</div><div class="f-btn f-btn-ok" style="flex:1;justify-content:center">Terbitkan ke Galeri</div></div>
+              </div>
+            </div>
+            <!-- right -->
+            <div class="f-right-stack" style="overflow:hidden;min-height:0">
+              <div class="f-gal-stats"><div class="f-gal-stat"><div class="f-gs-num">0</div><div class="f-gs-lbl">Draft</div></div><div class="f-gal-stat"><div class="f-gs-num">6</div><div class="f-gs-lbl">Terbit</div></div><div class="f-gal-stat"><div class="f-gs-num">14</div><div class="f-gs-lbl">Total Foto</div></div></div>
+              <div class="f-panel" style="flex:1;min-height:0;overflow:hidden">
+                <div class="f-ph2"><span class="f-ptl">Galeri Terbit</span><span class="f-plink">Sembunyikan</span></div>
+                <div class="f-filter-tabs"><div class="f-tab active">Semua</div><div class="f-tab">Seminar</div><div class="f-tab">Kunjungan</div><div class="f-tab">Diskusi</div></div>
+                <div class="f-pbody">
+                  <div class="f-gal-grid">
+                    <div class="f-gal-cell g0"><div class="f-gal-overlay"><div class="f-gal-olabel">Forum Diskusi Kebangsaan</div></div></div>
+                    <div class="f-gal-cell g1"><div class="f-gal-overlay"><div class="f-gal-olabel">Kunjungan Mahasiswa Poliwangi</div></div></div>
+                    <div class="f-gal-cell g3"><div class="f-gal-overlay"><div class="f-gal-olabel">Seminar Literasi Hukum</div></div></div>
+                    <div class="f-gal-cell g4"><div class="f-gal-overlay"><div class="f-gal-olabel">Pelatihan Jurnalis Warga</div></div></div>
+                    <div class="f-gal-cell g5"><div class="f-gal-overlay"><div class="f-gal-olabel">Agenda Kebangsaan Jan 2026</div></div></div>
+                    <div class="f-gal-cell g2"><div class="f-gal-overlay"><div class="f-gal-olabel">Pameran Arsip Nasional</div></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Grid 3-Kolom Album Terbit — 6 Entri dengan Gradient Placeholder</div>
+  </div>
+
+
+  <!-- ─── FRAME 7: GALERI LIGHTBOX ─── -->
+  <div class="frame-wrap" id="f7">
+    <div class="frame-label">Frame 7 &mdash; Galeri — Lightbox Detail Album <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame" style="position:relative">
+      <!-- bg blurred -->
+      <div class="f-sidebar" style="opacity:.5;pointer-events:none">
+        <div class="f-sb-head"><div class="f-sb-logo"></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+      </div>
+      <div class="f-main" style="filter:blur(2px);opacity:.4;pointer-events:none">
+        <div class="f-topbar"></div>
+        <div class="f-content"><div class="f-ph"><div><div class="f-ptitle">Galeri Dokumentasi</div></div></div></div>
+      </div>
+      <!-- Lightbox overlay -->
+      <div class="f-modal-layer">
+        <div class="f-lb-box">
+          <div class="f-lb-head">
+            <div class="f-lb-title">Seminar Literasi Hukum</div>
+            <div class="f-lb-close"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          </div>
+          <div class="f-lb-body" style="height:460px">
+            <div class="f-lb-img-area">
+              <div class="f-lb-img-ph">
+                <div style="width:90px;height:90px;border-radius:12px" class="g3"></div>
+                <span style="font-size:.73rem;margin-top:.5rem">Foto 1 dari 3</span>
+              </div>
+            </div>
+            <div class="f-lb-detail">
+              <div><div class="f-lbd-lbl">Kategori</div><div class="f-lbd-val">Seminar</div></div>
+              <div><div class="f-lbd-lbl">Tanggal Kegiatan</div><div class="f-lbd-val">14 Feb 2026</div></div>
+              <div><div class="f-lbd-lbl">Deskripsi</div><div class="f-lbd-val" style="font-style:italic;color:var(--gray)">Seminar penguatan literasi hukum bagi masyarakat umum di Rumah Kebangsaan Banyuwangi.</div></div>
+              <div><div class="f-lbd-lbl">Ditambahkan</div><div class="f-lbd-val">14 Feb 2026</div></div>
+              <hr class="f-lb-divider">
+              <div><div class="f-lbd-lbl">Foto dalam Album</div><div style="font-size:.69rem;color:var(--muted);font-weight:600">1 dari 3 foto</div></div>
+              <div><div class="f-lbd-lbl">Status</div><span class="f-badge-ok">Terbit</span></div>
+              <div class="f-lbd-act">
+                <div class="f-lba f-lba-edit"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Informasi</div>
+                <div class="f-lba f-lba-del"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg> Hapus Entri</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Lightbox Detail Album — Panel Gambar + Detail Info + Action Buttons</div>
+  </div>
+
+
+  <!-- ─── FRAME 8: MODERASI KOMENTAR ─── -->
+  <div class="frame-wrap" id="f8">
+    <div class="frame-label">Frame 8 &mdash; Moderasi Komentar — Antrean Pending <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content">
+          <div class="f-ph"><div><div class="f-ptitle">Moderasi Komentar</div><div class="f-psub">Tinjau dan setujui komentar masuk dari warga.</div></div></div>
+          <div class="f-panel" style="flex:1;overflow:hidden">
+            <div class="f-ph2"><span class="f-ptl">Komentar Pending</span><span style="font-size:.72rem;color:var(--muted)">3 menunggu</span></div>
+            <div style="overflow-x:auto">
+              <table class="f-table">
+                <thead><tr><th>Pengirim</th><th>Isi Komentar</th><th>Artikel</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="f-tdn">Budi Santoso</div></td><td style="font-size:.78rem;color:var(--gray);max-width:240px">Sangat informatif. Terima kasih Pak Hakim atas pencerahannya!</td><td><div class="f-tds">Forum Diskusi Kebangsaan</div></td><td><div class="f-tds">12 Feb 2026</div></td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                  <tr><td><div class="f-tdn">Siti Aminah</div></td><td style="font-size:.78rem;color:var(--gray);max-width:240px">Apakah besok ada jadwal diskusi publik? Saya ingin hadir bersama keluarga.</td><td><div class="f-tds">Forum Diskusi Kebangsaan</div></td><td><div class="f-tds">11 Feb 2026</div></td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                  <tr><td><div class="f-tdn">Wahyu Ramadhan</div></td><td style="font-size:.78rem;color:var(--gray);max-width:240px">Artikel ini sangat menginspirasi generasi muda untuk lebih peduli bangsa.</td><td><div class="f-tds">Pentingnya Literasi Hukum</div></td><td><div class="f-tds">14 Feb 2026</div></td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Antrean Komentar — 3 Pending, Badge Merah di Sidebar</div>
+  </div>
+
+
+  <!-- ─── FRAME 9: MODERASI FOTO TAMU ─── -->
+  <div class="frame-wrap" id="f9">
+    <div class="frame-label">Frame 9 &mdash; Moderasi Foto Tamu — Antrean Pending <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame">
+      <div class="f-sidebar">
+        <div class="f-sb-head"><div class="f-sb-logo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B91C1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav">
+          <div class="f-nav-lbl">Menu Utama</div><div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</div>
+          <div class="f-nav-lbl">Konten Web</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg> Manajemen Berita</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg> Galeri Dokumentasi</div>
+          <div class="f-nav-lbl">Interaksi Warga</div>
+          <div class="f-nav-item"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Moderasi Komentar <span class="f-badge">3</span></div>
+          <div class="f-nav-item active"><svg viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg> Moderasi Foto Tamu <span class="f-badge">2</span></div>
+        </div>
+        <div class="f-sb-foot"><div class="f-priv"><strong>Hak Akses: Admin Konten</strong>Kelola berita, galeri, dan moderasi konten pengguna.</div></div>
+      </div>
+      <div class="f-main">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content">
+          <div class="f-ph"><div><div class="f-ptitle">Moderasi Foto Tamu</div><div class="f-psub">Tinjau foto kunjungan yang diunggah pengunjung.</div></div></div>
+          <div class="f-panel" style="flex:1;overflow:hidden">
+            <div class="f-ph2"><span class="f-ptl">Foto Pending</span><span style="font-size:.72rem;color:var(--muted)">2 menunggu</span></div>
+            <div style="overflow-x:auto">
+              <table class="f-table">
+                <thead><tr><th>Pengirim</th><th>Keterangan</th><th>Tanggal</th><th>Status</th><th>Aksi</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="f-tdn">Ahmad Zainuri</div></td><td style="font-size:.78rem;color:var(--gray)">Kunjungan bersama mahasiswa Poliwangi, foto bersama di halaman</td><td><div class="f-tds">10 Feb 2026</div></td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                  <tr><td><div class="f-tdn">Dewi Kusuma</div></td><td style="font-size:.78rem;color:var(--gray)">Seminar hukum Feb 2026, dokumentasi peserta</td><td><div class="f-tds">14 Feb 2026</div></td><td><span class="f-badge-pnd">Pending</span></td><td><span class="f-aBtn ok">Setujui</span><span class="f-aBtn pr">Tolak</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Tampilan Antrean Foto Tamu — 2 Foto Pending</div>
+  </div>
+
+
+  <!-- ─── FRAME 10: MODAL HAPUS DRAFT ─── -->
+  <div class="frame-wrap" id="f10">
+    <div class="frame-label">Frame 10 &mdash; Modal Konfirmasi Hapus Draft <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame" style="position:relative">
+      <div class="f-sidebar" style="opacity:.55;pointer-events:none">
+        <div class="f-sb-head"><div class="f-sb-logo"></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+        <div class="f-sb-nav"><div class="f-nav-item active">Manajemen Berita</div></div>
+      </div>
+      <div class="f-main" style="filter:blur(1.5px);opacity:.5;pointer-events:none">
+        <div class="f-topbar"></div>
+        <div class="f-content"><div class="f-ph"><div><div class="f-ptitle">Manajemen Berita</div></div></div></div>
+      </div>
+      <div class="f-modal-layer">
+        <div class="f-modal-box">
+          <div class="f-mhead">
+            <div class="f-micon" style="background:var(--pr-lt);color:var(--pr)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></div>
+            <div class="f-mtitle">Hapus Draft?</div>
+            <p class="f-mdesc">Draft ini akan dihapus permanen dan tidak bisa dipulihkan kembali.</p>
+          </div>
+          <div class="f-mbody">
+            <div class="f-mpreview">
+              <div class="f-mplbl">Draft yang akan dihapus</div>
+              <div class="f-mptitle">Sejarah Kebangsaan Banyuwangi</div>
+              <div class="f-mpmeta">18 Feb 2026 · Berita Daerah</div>
+            </div>
+          </div>
+          <div class="f-mfoot">
+            <div class="f-mbtnrow">
+              <div class="f-mbtn f-mbtn-cancel">Batal</div>
+              <div class="f-mbtn f-mbtn-pr">Hapus Sekarang</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Modal Hapus Draft — Konfirmasi Destruktif dengan Preview Judul</div>
+  </div>
+
+
+  <!-- ─── FRAME 11: MODAL LOGOUT ─── -->
+  <div class="frame-wrap" id="f11">
+    <div class="frame-label">Frame 11 &mdash; Modal Konfirmasi Logout <span class="fbadge">1280 &times; 900</span></div>
+    <div class="admin-frame" style="position:relative">
+      <div class="f-sidebar" style="opacity:.5;pointer-events:none">
+        <div class="f-sb-head"><div class="f-sb-logo"></div><div class="f-sb-name">Rumah<br>Kebangsaan</div></div>
+      </div>
+      <div class="f-main" style="filter:blur(1.5px);opacity:.45;pointer-events:none">
+        <div class="f-topbar"><div style="text-align:right"><div class="f-uname">Admin Konten</div><div class="f-urole">Admin Konten</div></div><div class="f-avatar">AD</div><div class="f-logout">Keluar</div></div>
+        <div class="f-content"><div class="f-ph"><div><div class="f-ptitle">Dashboard Admin</div><div class="f-psub">Selamat datang kembali.</div></div></div></div>
+      </div>
+      <div class="f-modal-layer">
+        <div class="f-modal-box">
+          <div class="f-mhead">
+            <div class="f-micon" style="background:var(--pr-lt);color:var(--pr)"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+            <div class="f-mtitle">Keluar Sistem?</div>
+            <p class="f-mdesc">Anda akan mengakhiri sesi administrasi. Anda harus masuk kembali untuk mengakses panel ini.</p>
+          </div>
+          <div class="f-mfoot" style="margin-top:1rem">
+            <div class="f-mbtnrow">
+              <div class="f-mbtn f-mbtn-cancel">Batal</div>
+              <div class="f-mbtn f-mbtn-pr">Ya, Keluar</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="frame-sub">Modal Logout — Konfirmasi Akhir Sesi Admin</div>
+  </div>
+
+</div><!-- /section -->
+
+<div style="height:60px"></div>
+</div><!-- /canvas -->
+
+<script>
+function go(id, btn) {
+  document.querySelectorAll('.fpage').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const el = document.getElementById(id);
+  if (el) {
+    const y = el.getBoundingClientRect().top + window.scrollY - 68;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+}
+
+const frameIds = ['f1','f2','f3','f4','f5','f6','f7','f8','f9','f10','f11'];
+const btns = document.querySelectorAll('.fpage');
+window.addEventListener('scroll', () => {
+  let active = 0;
+  frameIds.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < window.innerHeight * 0.5) active = i;
+  });
+  btns.forEach((b, i) => b.classList.toggle('active', i === active));
+}, { passive: true });
+</script>
+</body>
+</html>
