@@ -1,1700 +1,1580 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rumah Kebangsaan Banyuwangi | Bersatu &amp; Berdaya</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #B91C1C;
-            --primary-dark: #7F1D1D;
-            --primary-light: #FEF2F2;
-            --accent: #D97706;
-            --accent-light: #FFFBEB;
-            --dark: #0C0A09;
-            --mid: #1C1917;
-            --gray: #44403C;
-            --muted: #78716C;
-            --light-gray: #F7F5F3;
-            --border: #E8E3DD;
-            --white: #FEFCFA;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,.05), 0 1px 2px rgba(0,0,0,.04);
-            --shadow-md: 0 4px 20px rgba(0,0,0,.07);
-            --shadow-lg: 0 12px 40px rgba(0,0,0,.1);
-            --radius: 12px;
-            --container: 1200px;
-        }
-
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Figtree', sans-serif;
-            color: var(--dark);
-            background: var(--white);
-            line-height: 1.65;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-            line-height: 1.15;
-        }
-
-        a { text-decoration: none; color: inherit; transition: all .3s ease; }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; }
-
-        .container {
-            width: 100%;
-            max-width: var(--container);
-            margin: 0 auto;
-            padding: 0 28px;
-        }
-
-        /* ============ UTILITY ============ */
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            font-size: .68rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
-        }
-        .badge::before {
-            content: '';
-            width: 18px;
-            height: 1.5px;
-            background: var(--primary);
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: .5rem;
-            padding: .78rem 1.65rem;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: .875rem;
-            cursor: pointer;
-            transition: all .22s ease;
-            border: none;
-            font-family: 'Figtree', sans-serif;
-            letter-spacing: .2px;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 2px 12px rgba(185,28,28,.22);
-        }
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(185,28,28,.28);
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: white;
-            border: 1.5px solid rgba(255,255,255,.3);
-        }
-        .btn-ghost:hover {
-            background: rgba(255,255,255,.08);
-            border-color: rgba(255,255,255,.65);
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(22px);
-            transition: opacity .7s ease, transform .7s ease;
-        }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* ============ NAVBAR ============ */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 1.35rem 0;
-            transition: all .4s ease;
-        }
-
-        .navbar.scrolled {
-            padding: .85rem 0;
-            background: rgba(254,252,250,.97);
-            backdrop-filter: blur(16px);
-            box-shadow: 0 1px 0 var(--border);
-        }
-
-        .nav-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: .85rem;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: white;
-        }
-        .navbar.scrolled .nav-logo { color: var(--dark); }
-
-        .logo-mark {
-            width: 40px; height: 40px;
-            background: transparent;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            overflow: hidden;
-        }
-
-        .logo-mark img { width: 100%; height: 100%; object-fit: cover; }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2.25rem;
-        }
-
-        .nav-link {
-            font-size: .875rem;
-            font-weight: 500;
-            color: rgba(255,255,255,.72);
-            position: relative;
-            letter-spacing: .02em;
-        }
-        .navbar.scrolled .nav-link { color: var(--gray); }
-        .nav-link:hover { color: white; }
-        .navbar.scrolled .nav-link:hover { color: var(--primary); }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -3px; left: 0;
-            width: 0; height: 1.5px;
-            background: var(--accent);
-            transition: width .3s;
-        }
-        .nav-link:hover::after { width: 100%; }
-
-        .nav-cta {
-            background: var(--accent);
-            color: white;
-            padding: .48rem 1.1rem;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: .82rem;
-            letter-spacing: .02em;
-        }
-        .nav-cta:hover { background: #b45309; transform: translateY(-1px); }
-
-        .mobile-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: .25rem;
-        }
-        .mobile-toggle span {
-            width: 24px;
-            height: 1.5px;
-            background: white;
-            transition: .3s;
-            border-radius: 2px;
-        }
-        .navbar.scrolled .mobile-toggle span { background: var(--dark); }
-
-        /* Mobile Menu */
-        .mob-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,.45);
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: .3s;
-        }
-        .mob-overlay.open { opacity: 1; pointer-events: auto; }
-
-        .mob-menu {
-            position: fixed;
-            top: 0; right: -320px;
-            width: 290px; height: 100vh;
-            background: var(--white);
-            z-index: 1001;
-            transition: right .4s cubic-bezier(.4,0,.2,1);
-            display: flex;
-            flex-direction: column;
-            padding: 2rem;
-            box-shadow: -8px 0 30px rgba(0,0,0,.08);
-        }
-        .mob-menu.open { right: 0; }
-
-        .mob-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2.25rem;
-        }
-
-        .mob-close {
-            width: 34px; height: 34px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--light-gray);
-            cursor: pointer;
-            color: var(--gray);
-            border: none;
-            font-size: 1rem;
-        }
-
-        .mob-nav-link {
-            display: block;
-            padding: .8rem 0;
-            font-weight: 600;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.15rem;
-            color: var(--dark);
-            border-bottom: 1px solid var(--border);
-        }
-        .mob-nav-link:hover { color: var(--primary); }
-
-        /* ============ HERO ============ */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            background: var(--mid);
-            color: white;
-            display: flex;
-            align-items: center;
-            padding: 100px 0 60px;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 60% 60% at 70% 50%, rgba(185,28,28,.32) 0%, transparent 70%),
-                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(217,119,6,.13) 0%, transparent 60%);
-        }
-
-        .hero-grid-pattern {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
-        .hero-container {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1.3fr .7fr;
-            gap: 5rem;
-            align-items: center;
-        }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: .55rem;
-            background: rgba(255,255,255,.07);
-            border: 1px solid rgba(255,255,255,.13);
-            padding: .48rem 1rem;
-            border-radius: 100px;
-            font-size: .72rem;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 1.75rem;
-        }
-
-        .hero-dot {
-            width: 6px; height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 5.5vw, 4.75rem);
-            font-weight: 700;
-            line-height: 1.07;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-title em { font-style: italic; color: var(--accent); }
-
-        .hero-desc {
-            font-size: 1.05rem;
-            color: rgba(255,255,255,.65);
-            max-width: 510px;
-            margin-bottom: 2.5rem;
-            line-height: 1.78;
-            font-weight: 400;
-        }
-
-        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-
-        .hero-stats {
-            display: flex;
-            gap: 2.5rem;
-            margin-top: 3.75rem;
-            padding-top: 2.25rem;
-            border-top: 1px solid rgba(255,255,255,.1);
-        }
-
-        .hero-stat-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.4rem;
-            font-weight: 700;
-            line-height: 1;
-            color: white;
-        }
-
-        .hero-stat-label {
-            font-size: .75rem;
-            color: rgba(255,255,255,.42);
-            margin-top: .3rem;
-            font-weight: 500;
-            letter-spacing: .3px;
-        }
-
-        .hero-card {
-            background: rgba(255,255,255,.05);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,.09);
-            border-radius: 18px;
-            padding: 2.25rem;
-            text-align: center;
-            animation: float 7s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-16px); }
-        }
-
-        .hero-card-icon {
-            width: 72px; height: 72px;
-            margin: 0 auto 1.35rem;
-            background: rgba(185,28,28,.25);
-            border: 1.5px solid rgba(185,28,28,.4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ============ MARQUEE ============ */
-        .marquee-strip {
-            background: var(--primary);
-            color: white;
-            padding: .85rem 0;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .marquee-track {
-            display: inline-block;
-            animation: marquee 38s linear infinite;
-        }
-
-        .marquee-track span {
-            display: inline-block;
-            padding: 0 1.5rem;
-            font-size: .7rem;
-            font-weight: 700;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-        }
-
-        .marquee-dot {
-            display: inline-block;
-            width: 3px; height: 3px;
-            background: rgba(255,255,255,.45);
-            border-radius: 50%;
-            vertical-align: middle;
-        }
-
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        /* ============ SECTIONS ============ */
-        .section { padding: 7rem 0; }
-        .section-alt { background: var(--light-gray); }
-
-        .section-title {
-            font-size: clamp(2.1rem, 4vw, 2.9rem);
-            font-weight: 700;
-            margin-top: .45rem;
-            line-height: 1.12;
-        }
-
-        .section-desc {
-            color: var(--gray);
-            margin-top: 1rem;
-            max-width: 560px;
-            font-size: .95rem;
-            line-height: 1.7;
-        }
-
-        /* ============ NEWS CARDS ============ */
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .news-card {
-            background: white;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: all .3s ease;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(185,28,28,.12);
-        }
-
-        .card-thumb {
-            height: 195px;
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .card-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .5s ease;
-        }
-
-        .news-card:hover .card-thumb img { transform: scale(1.05); }
-
-        .card-body {
-            padding: 1.65rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card-tag {
-            font-size: .67rem;
-            font-weight: 700;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: .65rem;
-        }
-
-        .card-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: .75rem;
-            line-height: 1.3;
-            color: var(--dark);
-        }
-
-        .card-excerpt {
-            font-size: .875rem;
-            color: var(--gray);
-            line-height: 1.65;
-            margin-bottom: 1.1rem;
-        }
-
-        .card-meta {
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-            flex-wrap: wrap;
-            font-size: .75rem;
-            color: var(--muted);
-            padding-top: 1rem;
-            border-top: 1px solid var(--border);
-            margin-top: auto;
-        }
-
-        .card-meta-sep { color: var(--border); }
-
-        /* ============ KOMENTAR ============ */
-        .comment-section {
-            margin-top: 1.35rem;
-            padding-top: 1.1rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .comment-section-title {
-            font-family: 'Figtree', sans-serif;
-            font-weight: 700;
-            font-size: .8rem;
-            margin-bottom: .9rem;
-            color: var(--dark);
-            letter-spacing: .3px;
-            display: flex;
-            align-items: center;
-            gap: .4rem;
-            text-transform: uppercase;
-        }
-
-        .comment-icon {
-            width: 13px; height: 13px;
-            fill: none;
-            stroke: var(--muted);
-            stroke-width: 1.75;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .comment-list {
-            display: flex;
-            flex-direction: column;
-            gap: .5rem;
-            margin-bottom: .85rem;
-        }
-
-        .comment-item {
-            background: var(--light-gray);
-            border-radius: 7px;
-            padding: .75rem .9rem;
-            border-left: 2px solid var(--border);
-        }
-
-        .comment-author {
-            font-weight: 700;
-            font-size: .73rem;
-            color: var(--dark);
-            margin-bottom: .2rem;
-            letter-spacing: .1px;
-        }
-
-        .comment-text {
-            font-size: .82rem;
-            color: var(--gray);
-            line-height: 1.5;
-        }
-
-        .comment-pending {
-            background: var(--accent-light);
-            border-radius: 7px;
-            padding: .6rem .9rem;
-            font-size: .78rem;
-            color: #92400E;
-            border-left: 2px solid var(--accent);
-            font-style: italic;
-        }
-
-        .cmt-input {
-            width: 100%;
-            padding: .6rem .85rem;
-            border: 1.5px solid var(--border);
-            border-radius: 7px;
-            font-family: 'Figtree', sans-serif;
-            font-size: .83rem;
-            transition: all .2s;
-            background: #FAFAF8;
-            margin-bottom: .4rem;
-            color: var(--dark);
-            resize: none;
-        }
-
-        .cmt-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(185,28,28,.07);
-        }
-
-        .cmt-input::placeholder { color: var(--muted); }
-
-        .cmt-btn {
-            padding: .45rem 1rem;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: .76rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: .2s;
-            font-family: 'Figtree', sans-serif;
-            margin-top: .4rem;
-            letter-spacing: .02em;
-        }
-        .cmt-btn:hover { background: var(--primary-dark); }
-
-        /* ============ CAPTCHA ============ */
-        .captcha-box {
-            display: flex;
-            align-items: center;
-            gap: .85rem;
-            background: white;
-            border: 1.5px solid var(--border);
-            border-radius: 7px;
-            padding: .7rem 1rem;
-            margin: .55rem 0;
-            user-select: none;
-        }
-
-        .captcha-check {
-            width: 20px; height: 20px;
-            border: 2px solid #CBD5E1;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: .2s;
-        }
-
-        .captcha-check.checked {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: white;
-        }
-
-        .captcha-check svg {
-            width: 11px; height: 11px;
-            display: none;
-        }
-        .captcha-check.checked svg { display: block; }
-
-        .captcha-label { font-size: .8rem; color: var(--gray); font-weight: 500; }
-        .captcha-logo {
-            margin-left: auto;
-            font-size: .58rem;
-            color: var(--muted);
-            text-align: center;
-            line-height: 1.4;
-            letter-spacing: .3px;
-        }
-
-        /* ============ MODAL ============ */
-        .modal-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,.55);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: .3s ease;
-            backdrop-filter: blur(4px);
-        }
-        .modal-overlay.open { opacity: 1; pointer-events: auto; }
-
-        .modal-content {
-            background: var(--white);
-            padding: 2rem;
-            border-radius: var(--radius);
-            width: 90%;
-            max-width: 390px;
-            box-shadow: var(--shadow-lg);
-            transform: translateY(18px);
-            transition: .3s ease;
-            border: 1px solid var(--border);
-        }
-        .modal-overlay.open .modal-content { transform: translateY(0); }
-
-        .modal-title {
-            font-family: 'Figtree', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: .85rem;
-            padding-bottom: .85rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--dark);
-        }
-
-        .modal-desc {
-            font-size: .82rem;
-            color: var(--gray);
-            margin-bottom: 1.25rem;
-            line-height: 1.55;
-        }
-
-        /* ============ PROFIL ============ */
-        .profile-wrap {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 5rem;
-            align-items: center;
-        }
-
-        .profile-visual { position: relative; }
-
-        .profile-visual::before {
-            content: '';
-            position: absolute;
-            top: 22px; left: -22px;
-            width: 100%; height: 100%;
-            border: 1.5px solid var(--accent);
-            border-radius: var(--radius);
-            z-index: 0;
-        }
-
-        .profile-frame {
-            position: relative;
-            z-index: 1;
-            aspect-ratio: 4/5;
-            background: linear-gradient(160deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: white;
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            padding: 2rem;
-        }
-
-        .profile-frame::before {
-            content: '';
-            position: absolute;
-            top: -30%; right: -30%;
-            width: 80%; height: 80%;
-            background: radial-gradient(circle, rgba(255,255,255,.08) 0%, transparent 70%);
-        }
-
-        .profile-avatar {
-            width: 90px; height: 90px;
-            background: rgba(255,255,255,.12);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1.5px solid rgba(255,255,255,.18);
-            margin-bottom: 1.25rem;
-        }
-
-        .profile-quote {
-            border-left: 3px solid var(--primary);
-            padding-left: 1.5rem;
-            margin: 2rem 0;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem;
-            font-style: italic;
-            line-height: 1.55;
-            color: var(--dark);
-        }
-
-        .info-box {
-            background: var(--light-gray);
-            border-radius: 9px;
-            padding: 1.2rem 1.4rem;
-            border: 1px solid var(--border);
-            margin-top: 1.5rem;
-        }
-
-        .info-box-title {
-            font-weight: 700;
-            margin-bottom: .4rem;
-            font-size: .85rem;
-            display: flex;
-            align-items: center;
-            gap: .5rem;
-        }
-
-        .info-icon {
-            width: 14px; height: 14px;
-            fill: none;
-            stroke: var(--primary);
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-        }
-
-        /* ============ GALERI ============ */
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 230px;
-            gap: .85rem;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 9px;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .gallery-item:nth-child(1) { grid-column: span 2; }
-        .gallery-item:nth-child(4) { grid-row: span 2; }
-
-        .gallery-bg {
-            position: absolute;
-            inset: 0;
-            transition: transform .5s ease;
-        }
-
-        .gallery-item:hover .gallery-bg { transform: scale(1.06); }
-
-        .gallery-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,.72) 0%, transparent 50%);
-            display: flex;
-            align-items: flex-end;
-            padding: 1.1rem 1.25rem;
-            opacity: 0;
-            transition: opacity .3s;
-        }
-
-        .gallery-item:hover .gallery-overlay { opacity: 1; }
-
-        .gallery-label {
-            color: white;
-            font-weight: 600;
-            font-size: .875rem;
-            letter-spacing: .02em;
-        }
-
-        /* ============ PARTISIPASI ============ */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.75rem;
-            align-items: start;
-        }
-
-        .form-card {
-            background: white;
-            padding: 2.25rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border);
-        }
-
-        .form-card-title {
-            font-family: 'Figtree', sans-serif;
-            font-size: .9rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            padding-bottom: .9rem;
-            border-bottom: 1px solid var(--border);
-            color: var(--dark);
-            letter-spacing: .02em;
-        }
-
-        .form-group { margin-bottom: 1.1rem; }
-
-        .form-label {
-            display: block;
-            font-size: .72rem;
-            font-weight: 700;
-            margin-bottom: .45rem;
-            color: var(--gray);
-            letter-spacing: .4px;
-            text-transform: uppercase;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: .72rem .95rem;
-            border: 1.5px solid var(--border);
-            border-radius: 7px;
-            font-family: 'Figtree', sans-serif;
-            font-size: .875rem;
-            background: var(--light-gray);
-            color: var(--dark);
-            transition: all .2s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: white;
-            box-shadow: 0 0 0 3px rgba(185,28,28,.07);
-        }
-
-        .form-control::placeholder { color: var(--muted); }
-        textarea.form-control { resize: vertical; }
-
-        .file-drop {
-            border: 1.5px dashed var(--border);
-            padding: 1.75rem 1.35rem;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all .25s;
-            background: var(--light-gray);
-        }
-
-        .file-drop:hover {
-            border-color: rgba(185,28,28,.35);
-            background: var(--primary-light);
-        }
-
-        .file-drop-icon {
-            width: 30px; height: 30px;
-            margin: 0 auto .6rem;
-            color: var(--muted);
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .file-drop-text { font-size: .83rem; color: var(--gray); line-height: 1.5; }
-
-        .field-error {
-            font-size: .73rem;
-            color: var(--primary);
-            margin-top: .3rem;
-            display: none;
-        }
-        .field-error.show { display: block; }
-
-        /* ============ FOOTER ============ */
-        footer {
-            background: var(--mid);
-            color: rgba(255,255,255,.65);
-            padding: 5rem 0 2.5rem;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 4rem;
-        }
-
-        .footer-brand h3 {
-            color: white;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.35rem;
-            margin-bottom: .75rem;
-        }
-
-        .footer-brand p {
-            font-size: .875rem;
-            line-height: 1.72;
-            max-width: 295px;
-        }
-
-        .footer-col h4 {
-            color: white;
-            font-family: 'Figtree', sans-serif;
-            font-size: .7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.8px;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-col ul li { margin-bottom: .65rem; }
-
-        .footer-col a {
-            font-size: .875rem;
-            color: rgba(255,255,255,.5);
-            transition: .2s;
-        }
-        .footer-col a:hover { color: var(--accent); }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,.07);
-            padding-top: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: .78rem;
-        }
-
-        /* ============ TOAST ============ */
-        .toast {
-            position: fixed;
-            bottom: 2rem; right: 2rem;
-            background: #1C1917;
-            color: white;
-            padding: .88rem 1.35rem;
-            border-radius: 9px;
-            font-size: .82rem;
-            font-weight: 500;
-            z-index: 9999;
-            transform: translateY(80px);
-            opacity: 0;
-            transition: all .38s cubic-bezier(.4,0,.2,1);
-            box-shadow: var(--shadow-lg);
-            min-width: 250px;
-            font-family: 'Figtree', sans-serif;
-            letter-spacing: .01em;
-        }
-
-        .toast.show { transform: translateY(0); opacity: 1; }
-        .toast.success { border-left: 3px solid #15803D; }
-        .toast.warning { border-left: 3px solid var(--accent); }
-        .toast.error   { border-left: 3px solid var(--primary); }
-
-        /* ============ RESPONSIVE ============ */
-        @media (max-width: 1024px) {
-            .hero-container { grid-template-columns: 1fr; }
-            .hero-visual { display: none; }
-            .profile-wrap { grid-template-columns: 1fr; }
-            .gallery-grid { grid-template-columns: repeat(2,1fr); }
-            .gallery-item:nth-child(1) { grid-column: span 1; }
-            .gallery-item:nth-child(4) { grid-row: span 1; }
-            .form-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links, .nav-cta { display: none; }
-            .mobile-toggle { display: flex; }
-            .news-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .footer-bottom { flex-direction: column; gap: .75rem; text-align: center; }
-            .hero-title { font-size: 2.75rem; }
-            .section { padding: 5rem 0; }
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Digitalisasi Rumah Kebangsaan Banyuwangi — Tim Javas Navasena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Figtree:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── DESIGN TOKENS ─────────────────────────────── */
+:root {
+  --utama-terang: #FEF2F2;
+  --utama-base:   #B91C1C;
+  --utama-gelap:  #7F1D1D;
+  --aksen-terang: #FFFBEB;
+  --aksen-base:   #D97706;
+  --aksen-gelap:  #B45309;
+  --netral-putih: #FEFCFA;
+  --netral-terang:#FAFAF8;
+  --netral-redup: #F7F5F3;
+  --netral-batas: #E8E3DD;
+  --netral-abu:   #78716C;
+  --netral-sedang:#44403C;
+  --netral-gelap: #1C1917;
+  --netral-hitam: #0C0A09;
+  --sukses-base:  #15803D;
+  --info-base:    #1D4ED8;
+
+  --ff-judul: 'Playfair Display', Georgia, serif;
+  --ff-teks:  'Figtree', system-ui, sans-serif;
+
+  --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+  --shadow-md:  0 4px 16px rgba(0,0,0,0.08);
+  --shadow-lg:  0 8px 32px rgba(0,0,0,0.12);
+  --shadow-xl:  0 16px 48px rgba(0,0,0,0.20);
+  --shadow-2xl: 0 8px 24px rgba(0,0,0,0.30);
+}
+
+/* ── RESET & BASE ──────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--ff-teks);
+  background: var(--netral-putih);
+  color: var(--netral-gelap);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ── NAVBAR ────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px;
+  background: rgba(12,10,9,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(185,28,28,0.3);
+}
+.nav-logo {
+  font-family: var(--ff-judul);
+  font-size: 18px; font-weight: 700;
+  color: var(--netral-putih);
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-logo-dot {
+  width: 10px; height: 10px;
+  background: var(--utama-base);
+  border-radius: 50%;
+  display: inline-block;
+}
+.nav-links {
+  display: flex; gap: 8px; list-style: none;
+}
+.nav-links a {
+  padding: 8px 16px;
+  font-size: 14px; font-weight: 500;
+  color: rgba(254,252,250,0.75);
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+.nav-links a:hover {
+  color: var(--netral-putih);
+  background: rgba(185,28,28,0.2);
+}
+.nav-cta {
+  background: var(--utama-base) !important;
+  color: var(--netral-putih) !important;
+  padding: 8px 20px !important;
+  border-radius: 6px;
+}
+.nav-cta:hover { background: var(--utama-gelap) !important; }
+
+/* ── SECTION WRAPPERS ──────────────────────────── */
+section { padding: 96px 40px; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--utama-base);
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 2px;
+  background: var(--utama-base);
+}
+.section-title {
+  font-family: var(--ff-judul);
+  font-size: 40px; font-weight: 700;
+  line-height: 1.1;
+  color: var(--netral-gelap);
+  margin-bottom: 16px;
+}
+.section-subtitle {
+  font-size: 16px; font-weight: 400;
+  color: var(--netral-abu);
+  line-height: 1.75;
+  max-width: 560px;
+}
+
+/* ── HERO ──────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  background: var(--netral-hitam);
+  display: flex; align-items: center;
+  padding: 0 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-rings {
+  position: absolute; right: -80px; top: 50%;
+  transform: translateY(-50%);
+  width: 600px; height: 600px;
+  pointer-events: none;
+}
+.hero-rings circle {
+  fill: none;
+  stroke: rgba(185,28,28,0.15);
+  stroke-width: 1.5;
+}
+.hero-inner { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; width: 100%; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(185,28,28,0.15);
+  border: 1px solid rgba(185,28,28,0.4);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px; font-weight: 500;
+  color: #FCA5A5;
+  margin-bottom: 32px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px;
+  background: var(--utama-base);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(1.4); }
+}
+.hero-title {
+  font-family: var(--ff-judul);
+  font-size: 56px; font-weight: 900;
+  line-height: 1.05;
+  color: var(--netral-putih);
+  margin-bottom: 8px;
+}
+.hero-title span { color: var(--utama-base); }
+.hero-sub {
+  font-family: var(--ff-judul);
+  font-size: 22px; font-weight: 400; font-style: italic;
+  color: var(--aksen-base);
+  margin-bottom: 24px;
+}
+.hero-desc {
+  font-size: 16px; color: rgba(254,252,250,0.6);
+  line-height: 1.75; max-width: 560px; margin-bottom: 40px;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 24px; height: 48px;
+  border-radius: 8px;
+  font-size: 15px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  border: none;
+  font-family: var(--ff-teks);
+}
+.btn-primary { background: var(--utama-base); color: #fff; }
+.btn-primary:hover { background: var(--utama-gelap); transform: translateY(-1px); box-shadow: var(--shadow-xl); }
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid rgba(254,252,250,0.25);
+  color: var(--netral-putih);
+}
+.btn-outline:hover { border-color: rgba(254,252,250,0.6); background: rgba(254,252,250,0.05); }
+.hero-meta {
+  margin-top: 64px; display: flex; gap: 48px; flex-wrap: wrap;
+}
+.hero-stat { }
+.hero-stat-num {
+  font-family: var(--ff-judul);
+  font-size: 32px; font-weight: 700;
+  color: var(--netral-putih);
+}
+.hero-stat-label {
+  font-size: 13px; color: rgba(254,252,250,0.5);
+  margin-top: 2px;
+}
+
+/* ── TENTANG ───────────────────────────────────── */
+#tentang { background: var(--netral-putih); }
+.tentang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.tentang-visual {
+  position: relative;
+}
+.tentang-rings-wrap {
+  position: relative; width: 100%; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.tentang-rings-svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+.tentang-rings-svg circle { fill: none; stroke: var(--netral-batas); stroke-width: 1; }
+.tentang-center-card {
+  position: relative; z-index: 2;
+  background: var(--netral-putih);
+  border: 1px solid var(--netral-batas);
+  border-radius: 16px;
+  padding: 32px;
+  width: 280px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.tentang-center-icon {
+  width: 64px; height: 64px;
+  background: var(--utama-terang);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-size: 32px;
+}
+.tentang-center-card h3 {
+  font-family: var(--ff-judul);
+  font-size: 20px; font-weight: 700;
+  color: var(--netral-gelap);
+  margin-bottom: 8px;
+}
+.tentang-center-card p {
+  font-size: 13px; color: var(--netral-abu); line-height: 1.6;
+}
+.tentang-tag {
+  display: inline-block;
+  background: var(--utama-terang);
+  color: var(--utama-base);
+  font-size: 11px; font-weight: 700;
+  padding: 4px 10px; border-radius: 999px;
+  margin-top: 12px;
+}
+.tentang-content .section-title { margin-top: 8px; }
+.tentang-list {
+  list-style: none; margin-top: 32px; display: flex; flex-direction: column; gap: 16px;
+}
+.tentang-list li {
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.tentang-list-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: var(--utama-terang);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.tentang-list-text h4 {
+  font-size: 15px; font-weight: 600;
+  color: var(--netral-gelap); margin-bottom: 2px;
+}
+.tentang-list-text p {
+  font-size: 13px; color: var(--netral-abu); line-height: 1.6;
+}
+
+/* ── FITUR ─────────────────────────────────────── */
+#fitur { background: var(--netral-redup); }
+.fitur-header { text-align: center; margin-bottom: 64px; }
+.fitur-header .section-label { justify-content: center; }
+.fitur-header .section-subtitle { margin: 0 auto; }
+.fitur-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.fitur-card {
+  background: var(--netral-putih);
+  border: 1px solid var(--netral-batas);
+  border-radius: 12px;
+  padding: 28px;
+  transition: all 0.25s;
+}
+.fitur-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+  border-color: var(--utama-base);
+}
+.fitur-card-icon {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.fitur-card-icon.merah { background: var(--utama-terang); }
+.fitur-card-icon.aksen { background: var(--aksen-terang); }
+.fitur-card h3 {
+  font-size: 17px; font-weight: 700;
+  color: var(--netral-gelap); margin-bottom: 10px;
+}
+.fitur-card p {
+  font-size: 13px; color: var(--netral-abu); line-height: 1.65;
+}
+.fitur-card-tags {
+  margin-top: 16px; display: flex; gap: 6px; flex-wrap: wrap;
+}
+.tag {
+  font-size: 11px; font-weight: 600;
+  padding: 3px 8px; border-radius: 4px;
+}
+.tag-merah { background: var(--utama-terang); color: var(--utama-base); }
+.tag-aksen { background: var(--aksen-terang); color: var(--aksen-gelap); }
+.tag-hijau { background: #F0FDF4; color: #15803D; }
+.tag-biru  { background: #EFF6FF; color: #1D4ED8; }
+
+/* ── TIM ───────────────────────────────────────── */
+#tim { background: var(--netral-putih); }
+.tim-header { text-align: center; margin-bottom: 64px; }
+.tim-header .section-label { justify-content: center; }
+.tim-header .section-subtitle { margin: 0 auto; }
+.tim-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.tim-card {
+  background: var(--netral-putih);
+  border: 1px solid var(--netral-batas);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s;
+  cursor: pointer;
+}
+.tim-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-4px);
+  border-color: var(--utama-base);
+}
+.tim-card-top {
+  background: var(--netral-gelap);
+  padding: 28px 24px 0;
+  position: relative;
+  overflow: hidden;
+  min-height: 140px;
+  display: flex;
+  align-items: flex-end;
+}
+.tim-card-ring {
+  position: absolute; right: -20px; top: -20px;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(185,28,28,0.3);
+  pointer-events: none;
+}
+.tim-card-ring2 {
+  position: absolute; right: -40px; top: -40px;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  border: 1px solid rgba(185,28,28,0.15);
+  pointer-events: none;
+}
+/* Foto cover di background kartu atas */
+.tim-card-photo-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.35;
+  z-index: 1;
+}
+.tim-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  background: var(--utama-base);
+  border: 3px solid var(--netral-putih);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-judul);
+  font-size: 22px; font-weight: 700;
+  color: var(--netral-putih);
+  position: relative; z-index: 2;
+  flex-shrink: 0;
+  margin-bottom: -12px;
+  overflow: hidden;
+}
+.tim-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.tim-avatar.aksen { background: var(--aksen-base); }
+.tim-card-body { padding: 24px; }
+.tim-name {
+  font-family: var(--ff-judul);
+  font-size: 17px; font-weight: 700;
+  color: var(--netral-gelap); margin-bottom: 4px;
+  padding-top: 8px;
+}
+.tim-role {
+  font-size: 12px; font-weight: 700;
+  color: var(--utama-base);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.tim-role.aksen { color: var(--aksen-gelap); }
+.tim-tasks {
+  list-style: none; display: flex; flex-direction: column; gap: 8px;
+}
+.tim-tasks li {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 13px; color: var(--netral-sedang); line-height: 1.5;
+}
+.tim-tasks li::before {
+  content: '▸';
+  color: var(--utama-base);
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 11px;
+}
+.tim-card-hint {
+  font-size: 11px; color: var(--netral-abu);
+  text-align: center; padding: 10px 0 14px;
+  opacity: 0.7;
+}
+
+/* ── MODAL TIM ─────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(12,10,9,0.75);
+  backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+  padding: 24px;
+}
+.modal-overlay.active { display: flex; }
+.modal-box {
+  background: var(--netral-putih);
+  border-radius: 20px;
+  max-width: 520px; width: 100%;
+  overflow: hidden;
+  box-shadow: var(--shadow-2xl);
+  animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position: relative;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.88) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-header {
+  background: var(--netral-gelap);
+  padding: 0;
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  display: flex; align-items: flex-end;
+}
+.modal-header-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.4;
+}
+.modal-header-rings {
+  position: absolute; right: -40px; top: -40px;
+  width: 220px; height: 220px; pointer-events: none;
+}
+.modal-header-rings circle { fill: none; stroke: rgba(185,28,28,0.2); stroke-width: 1.5; }
+.modal-photo-wrap {
+  position: relative; z-index: 2;
+  padding: 0 28px 20px;
+  display: flex; align-items: flex-end; gap: 18px;
+}
+.modal-photo {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  border: 4px solid var(--netral-putih);
+  background: var(--utama-base);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--ff-judul); font-size: 28px; font-weight: 700;
+  color: #fff; overflow: hidden; flex-shrink: 0;
+  box-shadow: var(--shadow-lg);
+}
+.modal-photo img { width: 100%; height: 100%; object-fit: cover; }
+.modal-photo.aksen { background: var(--aksen-base); }
+.modal-header-info { padding-bottom: 4px; }
+.modal-header-name {
+  font-family: var(--ff-judul);
+  font-size: 20px; font-weight: 700;
+  color: var(--netral-putih);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+.modal-header-role {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #FCA5A5; margin-top: 4px;
+}
+.modal-header-role.aksen { color: #FCD34D; }
+.modal-body { padding: 28px; }
+.modal-tasks-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--netral-abu);
+  margin-bottom: 14px;
+}
+.modal-tasks {
+  list-style: none; display: flex; flex-direction: column; gap: 10px;
+}
+.modal-tasks li {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 14px; color: var(--netral-sedang); line-height: 1.55;
+}
+.modal-tasks li::before {
+  content: '▸'; color: var(--utama-base);
+  flex-shrink: 0; margin-top: 1px;
+}
+.modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 10;
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(12,10,9,0.5); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px; line-height: 1;
+  transition: background 0.2s;
+}
+.modal-close:hover { background: var(--utama-base); }
+
+/* ── TECH STACK ────────────────────────────────── */
+#techstack { background: var(--netral-gelap); }
+#techstack .section-label { color: #FCA5A5; }
+#techstack .section-label::before { background: #FCA5A5; }
+#techstack .section-title { color: var(--netral-putih); }
+#techstack .section-subtitle { color: rgba(254,252,250,0.55); }
+.techstack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 48px;
+}
+.tech-card {
+  background: rgba(254,252,250,0.05);
+  border: 1px solid rgba(254,252,250,0.1);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.25s;
+}
+.tech-card:hover {
+  background: rgba(185,28,28,0.15);
+  border-color: rgba(185,28,28,0.4);
+  transform: translateY(-3px);
+}
+.tech-icon {
+  font-size: 36px; margin-bottom: 12px;
+}
+.tech-name {
+  font-size: 15px; font-weight: 700;
+  color: var(--netral-putih); margin-bottom: 4px;
+}
+.tech-desc {
+  font-size: 12px; color: rgba(254,252,250,0.45);
+}
+.arch-block {
+  margin-top: 64px;
+  background: rgba(254,252,250,0.04);
+  border: 1px solid rgba(254,252,250,0.08);
+  border-radius: 16px;
+  padding: 40px;
+}
+.arch-block h3 {
+  font-family: var(--ff-judul);
+  font-size: 22px; font-weight: 700;
+  color: var(--netral-putih);
+  margin-bottom: 32px;
+  text-align: center;
+}
+.arch-flow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+}
+.arch-node {
+  background: rgba(185,28,28,0.2);
+  border: 1px solid rgba(185,28,28,0.4);
+  border-radius: 10px;
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 110px;
+}
+.arch-node-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: #FCA5A5; text-transform: uppercase; margin-bottom: 4px;
+}
+.arch-node-name {
+  font-size: 14px; font-weight: 600; color: var(--netral-putih);
+}
+.arch-arrow {
+  font-size: 20px; color: rgba(254,252,250,0.3);
+  padding: 0 8px;
+}
+
+/* ── SCREENSHOT / DEMO ─────────────────────────── */
+#demo { background: var(--netral-redup); }
+.demo-header { text-align: center; margin-bottom: 56px; }
+.demo-header .section-label { justify-content: center; }
+.demo-header .section-subtitle { margin: 0 auto; }
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+.demo-card {
+  background: var(--netral-putih);
+  border: 1px solid var(--netral-batas);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.demo-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-3px);
+}
+.demo-screen {
+  background: var(--netral-gelap);
+  height: 200px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.demo-screen-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  color: rgba(254,252,250,0.25);
+  text-transform: uppercase;
+  position: relative; z-index: 2;
+  text-align: center;
+}
+.demo-screen-icon {
+  font-size: 40px;
+  position: relative; z-index: 2;
+}
+.demo-screen-deco {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.demo-screen-deco svg circle { fill: none; stroke: rgba(185,28,28,0.12); stroke-width: 1; }
+.demo-info { padding: 20px 24px; }
+.demo-info h3 { font-size: 16px; font-weight: 700; color: var(--netral-gelap); margin-bottom: 6px; }
+.demo-info p  { font-size: 13px; color: var(--netral-abu); line-height: 1.6; }
+.demo-info-tags { margin-top: 12px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* ── FOOTER ────────────────────────────────────── */
+footer {
+  background: var(--netral-hitam);
+  padding: 64px 40px 32px;
+  border-top: 1px solid rgba(185,28,28,0.3);
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 48px; margin-bottom: 48px;
+}
+.footer-brand-name {
+  font-family: var(--ff-judul);
+  font-size: 20px; font-weight: 700;
+  color: var(--netral-putih);
+  margin-bottom: 12px;
+}
+.footer-brand-desc {
+  font-size: 13px; color: rgba(254,252,250,0.4);
+  line-height: 1.75; margin-bottom: 20px;
+}
+.footer-badge {
+  display: inline-block;
+  background: rgba(185,28,28,0.2);
+  border: 1px solid rgba(185,28,28,0.4);
+  color: #FCA5A5;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 4px 12px; border-radius: 999px;
+}
+.footer-col h4 {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  color: rgba(254,252,250,0.4);
+  text-transform: uppercase; margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul li a {
+  font-size: 14px; color: rgba(254,252,250,0.6);
+  transition: color 0.2s;
+}
+.footer-col ul li a:hover { color: var(--netral-putih); }
+.footer-bottom {
+  max-width: 1100px; margin: 0 auto;
+  border-top: 1px solid rgba(254,252,250,0.06);
+  padding-top: 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom-text {
+  font-size: 13px; color: rgba(254,252,250,0.3);
+}
+.footer-bottom-links {
+  display: flex; gap: 20px;
+}
+.footer-bottom-links a {
+  font-size: 13px; color: rgba(254,252,250,0.3);
+  transition: color 0.2s;
+}
+.footer-bottom-links a:hover { color: rgba(254,252,250,0.7); }
+
+/* ── SCROLL REVEAL ─────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── MOBILE HAMBURGER ──────────────────────────── */
+.nav-hamburger {
+  display: none;
+  background: none; border: none;
+  cursor: pointer; padding: 8px;
+  flex-direction: column; gap: 5px;
+}
+.nav-hamburger span {
+  display: block; width: 24px; height: 2px;
+  background: var(--netral-putih); border-radius: 2px;
+  transition: all 0.3s;
+}
+
+/* ── RESPONSIVE ────────────────────────────────── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .tentang-grid { grid-template-columns: 1fr; gap: 40px; }
+  .tentang-visual { display: none; }
+  .fitur-grid { grid-template-columns: 1fr 1fr; }
+  .tim-grid { grid-template-columns: 1fr 1fr; }
+  .techstack-grid { grid-template-columns: 1fr 1fr; }
+  .demo-grid { grid-template-columns: 1fr; }
+  .arch-flow { gap: 8px; }
+  .arch-arrow { display: none; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  .section-title { font-size: 32px; }
+  .hero-title { font-size: 40px; }
+  section { padding: 72px 24px; }
+  nav { padding: 0 24px; }
+}
+@media (max-width: 600px) {
+  .fitur-grid { grid-template-columns: 1fr; }
+  .tim-grid { grid-template-columns: 1fr; }
+  .techstack-grid { grid-template-columns: repeat(2,1fr); }
+  .hero-title { font-size: 32px; }
+}
+
+/* ── MOBILE NAV OPEN ───────────────────────────── */
+.nav-mobile-open .nav-links {
+  display: flex; flex-direction: column;
+  position: fixed; top: 64px; left: 0; right: 0;
+  background: rgba(12,10,9,0.97);
+  padding: 16px 24px 24px;
+  border-bottom: 1px solid rgba(185,28,28,0.3);
+  gap: 4px;
+  z-index: 99;
+}
+</style>
 </head>
 <body>
 
-<nav class="navbar" id="navbar">
-    <div class="container nav-inner">
-        <a href="index.html" class="nav-logo">
-            <div class="logo-mark">
-                <img src="images/logo.png" alt="Logo Rumah Kebangsaan">
-            </div>
-            Rumah Kebangsaan
-        </a>
-
-        <div class="nav-links">
-            <a href="#beranda" class="nav-link">Beranda</a>
-            <a href="#berita" class="nav-link">Berita</a>
-            <a href="#profil" class="nav-link">Profil</a>
-            <a href="#galeri" class="nav-link">Galeri</a>
-            <a href="#partisipasi" class="nav-link">Partisipasi</a>
-        </div>
-
-        <div style="display:flex;align-items:center;gap:1.25rem">
-            <a href="login.html" class="nav-cta" id="mainLoginBtn">Login</a>
-            <div class="mobile-toggle" id="mobileToggle">
-                <span></span><span></span><span></span>
-            </div>
-        </div>
-    </div>
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    Javas Navasena
+  </div>
+  <ul class="nav-links">
+    <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#fitur">Fitur</a></li>
+    <li><a href="#tim">Tim</a></li>
+    <li><a href="#techstack">Tech Stack</a></li>
+    <li><a href="#sprint">Sprint</a></li>
+    <li><a href="#demo">Demo</a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<div class="mob-overlay" id="mobOverlay"></div>
-<div class="mob-menu" id="mobMenu">
-    <div class="mob-head">
-        <span style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700">Menu</span>
-        <button class="mob-close" id="mobClose">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-    </div>
-    <a href="#beranda" class="mob-nav-link">Beranda</a>
-    <a href="#berita" class="mob-nav-link">Berita</a>
-    <a href="#profil" class="mob-nav-link">Profil</a>
-    <a href="#galeri" class="mob-nav-link">Galeri</a>
-    <a href="#partisipasi" class="mob-nav-link">Partisipasi</a>
-    <a href="login.html" id="mobLoginBtn" style="margin-top:2rem;display:block;text-align:center;background:var(--primary);color:white;padding:.8rem;border-radius:7px;font-weight:600;font-size:.9rem">Login</a>
-</div>
-
 <!-- HERO -->
-<section id="beranda" class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid-pattern"></div>
-    <div class="container">
-        <div class="hero-container">
-            <div class="hero-text">
-                <div class="hero-eyebrow">
-                    <span class="hero-dot"></span>
-                    Portal Resmi Banyuwangi
-                </div>
-                <h1 class="hero-title">
-                    Rumah Bersama<br>
-                    <em>Masyarakat</em><br>
-                    Banyuwangi
-                </h1>
-                <p class="hero-desc">
-                    Wadah inklusif untuk dialog, berita terkini, dan aspirasi publik. Mari bersatu membangun harmoni dan kemajuan daerah.
-                </p>
-                <div class="hero-actions">
-                    <a href="#berita" class="btn btn-primary">Baca Berita Terbaru</a>
-                    <a href="#profil" class="btn btn-ghost">Tentang Kami</a>
-                </div>
-                <div class="hero-stats">
-                    <div>
-                        <div class="hero-stat-num">5+</div>
-                        <div class="hero-stat-label">Tahun Berdiri</div>
-                    </div>
-                    <div>
-                        <div class="hero-stat-num">200+</div>
-                        <div class="hero-stat-label">Kegiatan</div>
-                    </div>
-                    <div>
-                        <div class="hero-stat-num">10k+</div>
-                        <div class="hero-stat-label">Anggota</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <div class="hero-card">
-                    <div class="hero-card-icon">
-                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                    </div>
-                    <h3 style="color:white;font-size:1.25rem;margin-bottom:.7rem">&ldquo;Hidup Harus Bahagia&rdquo;</h3>
-                    <p style="font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.68">Kebahagiaan lahir dari masyarakat yang terinformasi, harmonis, dan peduli satu sama lain.</p>
-                    <div style="margin-top:1.65rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.09);font-size:.68rem;font-weight:700;letter-spacing:2px;color:var(--accent)">MOH. HAKIM SAID, S.H.</div>
-                </div>
-            </div>
-        </div>
+<section id="hero">
+  <svg class="hero-rings" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="300" cy="300" r="80"/>
+    <circle cx="300" cy="300" r="130"/>
+    <circle cx="300" cy="300" r="185"/>
+    <circle cx="300" cy="300" r="240"/>
+    <circle cx="300" cy="300" r="295"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      Tim Javas Navasena · TRPL · Politeknik Negeri Banyuwangi · 2024
     </div>
+    <h1 class="hero-title">
+      Digitalisasi<br/>
+      <span>Rumah Kebangsaan</span><br/>
+      Banyuwangi
+    </h1>
+    <p class="hero-sub">Membangun Portal Informasi &amp; Dokumentasi yang Terintegrasi</p>
+    <p class="hero-desc">
+      Proyek pengembangan sistem digital berbasis web untuk Rumah Kebangsaan Banyuwangi —
+      menghadirkan satu pintu informasi resmi yang mudah diakses, aman, dan terkelola dengan baik.
+    </p>
+    <div class="hero-actions">
+      <a href="#fitur" class="btn btn-primary">Lihat Fitur →</a>
+      <a href="#tim" class="btn btn-outline">Kenali Tim</a>
+    </div>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-label">Developer Tim</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">18+</div>
+        <div class="hero-stat-label">Use Case Teridentifikasi</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Sprint Pengerjaan</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">RBAC</div>
+        <div class="hero-stat-label">Sistem Hak Akses</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- MARQUEE -->
-<div class="marquee-strip">
-    <div class="marquee-track">
-        <span>Rumah Kebangsaan Banyuwangi</span><span class="marquee-dot"></span>
-        <span>Informasi Terpercaya</span><span class="marquee-dot"></span>
-        <span>Ruang Publik Inklusif</span><span class="marquee-dot"></span>
-        <span>Arsip Kebangsaan</span><span class="marquee-dot"></span>
-        <span>Aspirasi Warga</span><span class="marquee-dot"></span>
-        <span>Hidup Harus Bahagia</span><span class="marquee-dot"></span>
-        <span>Rumah Kebangsaan Banyuwangi</span><span class="marquee-dot"></span>
-        <span>Informasi Terpercaya</span><span class="marquee-dot"></span>
-        <span>Ruang Publik Inklusif</span><span class="marquee-dot"></span>
-        <span>Arsip Kebangsaan</span><span class="marquee-dot"></span>
-        <span>Aspirasi Warga</span><span class="marquee-dot"></span>
-        <span>Hidup Harus Bahagia</span><span class="marquee-dot"></span>
+<!-- TENTANG -->
+<section id="tentang">
+  <div class="container">
+    <div class="tentang-grid">
+      <div class="tentang-visual">
+        <div class="tentang-rings-wrap">
+          <svg class="tentang-rings-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" r="60"/>
+            <circle cx="200" cy="200" r="100"/>
+            <circle cx="200" cy="200" r="145"/>
+            <circle cx="200" cy="200" r="190"/>
+          </svg>
+          <div class="tentang-center-card reveal">
+            <div class="tentang-center-icon">🏛️</div>
+            <h3>Rumah Kebangsaan</h3>
+            <p>Diprakarsai oleh Moh. Hakim Said, S.H. — Jurnalis Senior & Penggiat Sosial. Berlokasi di Jl. Piere Tendean No.1, Karangrejo, Banyuwangi.</p>
+            <span class="tentang-tag">Banyuwangi, Jawa Timur</span>
+          </div>
+        </div>
+      </div>
+      <div class="tentang-content reveal">
+        <div class="section-label">Tentang Proyek</div>
+        <h2 class="section-title">Satu Portal untuk Semua Informasi Kebangsaan</h2>
+        <p class="section-subtitle">
+          Sebelumnya, dokumentasi dan informasi lembaga masih tersebar di berbagai platform.
+          Proyek ini hadir untuk menyatukan semuanya dalam satu sistem digital yang terintegrasi.
+        </p>
+        <ul class="tentang-list">
+          <li class="reveal">
+            <div class="tentang-list-icon">🎯</div>
+            <div class="tentang-list-text">
+              <h4>Masalah yang Diselesaikan</h4>
+              <p>Dokumentasi kegiatan tersebar di media sosial pihak ketiga, tidak ada pusat data resmi, dan kualitas foto/video menurun saat dibagikan via WhatsApp.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <div class="tentang-list-icon">💡</div>
+            <div class="tentang-list-text">
+              <h4>Solusi Digital Satu Pintu</h4>
+              <p>Portal resmi dengan CMS penuh, navigasi terpisah antara sisi publik (pengunjung) dan sisi admin (pengelola), serta manajemen konten real-time.</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <div class="tentang-list-icon">🔒</div>
+            <div class="tentang-list-text">
+              <h4>Keamanan Berlapis</h4>
+              <p>RBAC 4 level (Pengunjung, Pengguna Terdaftar, Admin, Super Admin), reCAPTCHA v2, hash bcrypt, proteksi SQL Injection, dan HTTPS paksa di production.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section id="fitur">
+  <div class="container">
+    <div class="fitur-header reveal">
+      <div class="section-label">Fitur Sistem</div>
+      <h2 class="section-title">Apa yang Bisa Dilakukan Portal Ini?</h2>
+      <p class="section-subtitle">
+        Dari pengelolaan berita hingga interaksi publik — semua fitur dirancang untuk kemudahan pengelola dan kenyamanan pengunjung.
+      </p>
+    </div>
+    <div class="fitur-grid">
+      <div class="fitur-card reveal">
+        <div class="fitur-card-icon merah">📰</div>
+        <h3>Manajemen Berita & Artikel</h3>
+        <p>Admin dapat membuat, mengedit, dan menghapus berita secara mandiri. Pengunjung dapat membaca dan berkomentar — komentar menunggu moderasi admin sebelum tayang.</p>
+        <div class="fitur-card-tags">
+          <span class="tag tag-merah">CRUD</span>
+          <span class="tag tag-aksen">Moderasi</span>
+        </div>
+      </div>
+      <div class="fitur-card reveal">
+        <div class="fitur-card-icon aksen">🖼️</div>
+        <h3>Galeri & Foto Kunjungan</h3>
+        <p>Galeri resmi dikelola admin. Pengguna terdaftar (login) dapat mengunggah Foto Kunjungan yang akan melewati proses moderasi sebelum tampil publik.</p>
+        <div class="fitur-card-tags">
+          <span class="tag tag-aksen">Upload Foto</span>
+          <span class="tag tag-merah">Moderasi</span>
+        </div>
+      </div>
+      <div class="fitur-card reveal">
+        <div class="fitur-card-icon merah">👤</div>
+        <h3>Profil Tokoh & Organisasi</h3>
+        <p>Halaman profil organisasi (visi, misi, sejarah) dan daftar tokoh kebangsaan yang berafiliasi. Dikelola melalui controller singleton khusus.</p>
+        <div class="fitur-card-tags">
+          <span class="tag tag-merah">Full Resource</span>
+          <span class="tag tag-biru">Singleton</span>
+        </div>
+      </div>
+      <div class="fitur-card reveal">
+        <div class="fitur-card-icon aksen">📋</div>
+        <h3>Program Kerja</h3>
+        <p>Roadmap program kerja organisasi dengan status transparan: <em>upcoming</em>, <em>ongoing</em>, dan <em>done</em> — mudah dikelola admin dan dipantau publik.</p>
+        <div class="fitur-card-tags">
+          <span class="tag tag-aksen">Roadmap</span>
+          <span class="tag tag-hijau">Status Tracking</span>
+        </div>
+      </div>
+      <div class="fitur-card reveal">
+        <div class="fitur-card-icon merah">💬</div>
+        <h3>Interaksi & Kontak Publik</h3>
+        <p>Pengunjung dapat mengirim pesan kontak via formulir. Pengguna terdaftar dapat berkomentar di berita dan mengunggah foto kunjungan — semua melalui moderasi admin.</p>
+        <div class="fitur-card-tags">
+          <span class="tag tag-merah">Pesan</span>
+          <span class="tag tag-aksen">Komentar</span>
+          <span class="tag tag-merah">Moderasi</span>
+        </div>
+      </div>
+      <div class="fitur-card reveal">
+        <div class="fitur-card-icon aksen">🔐</div>
+        <h3>Keamanan &amp; RBAC 4 Level</h3>
+        <p>Hak akses terstruktur: Pengunjung, Pengguna Terdaftar, Admin, dan Super Admin. Dilengkapi reCAPTCHA v2, OTP via email, hash bcrypt, dan proteksi SQL Injection.</p>
+        <div class="fitur-card-tags">
+          <span class="tag tag-biru">RBAC</span>
+          <span class="tag tag-hijau">reCAPTCHA</span>
+          <span class="tag tag-aksen">OTP Email</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIM -->
+<section id="tim">
+  <div class="container">
+    <div class="tim-header reveal">
+      <div class="section-label">Tim Pengembang</div>
+      <h2 class="section-title">Javas Navasena</h2>
+      <p class="section-subtitle">
+        Enam mahasiswa TRPL Politeknik Negeri Banyuwangi dengan peran yang saling melengkapi untuk membangun sistem yang solid.
+      </p>
+    </div>
+    <div class="tim-grid">
+
+      <!-- Jevon -->
+      <div class="tim-card reveal"
+        data-nama="Moh. Jevon Attaillah"
+        data-role="Product Owner"
+        data-role-class=""
+        data-foto="foto-jevon.jpg"
+        data-inisial="JA"
+        data-tasks='["Mendefinisikan product backlog &amp; prioritas fitur","Representasi kebutuhan stakeholder &amp; mitra","Review &amp; acceptance testing setiap sprint","Penghubung utama antara tim &amp; pihak luar","PublicController — method halaman publik"]'>
+        <div class="tim-card-top">
+          <div class="tim-card-ring"></div><div class="tim-card-ring2"></div>
+          <img class="tim-card-photo-bg" src="foto-jevon.jpg" alt="" onerror="this.style.display='none'">
+          <div class="tim-avatar"><img src="foto-jevon.jpg" alt="Jevon" onerror="this.outerHTML='<div class=\'tim-avatar\'>JA</div>'">
+          </div>
+        </div>
+        <div class="tim-card-body">
+          <div class="tim-name">Moh. Jevon Attaillah</div>
+          <div class="tim-role">Product Owner</div>
+          <ul class="tim-tasks">
+            <li>Mendefinisikan product backlog &amp; prioritas fitur</li>
+            <li>Representasi kebutuhan stakeholder &amp; mitra</li>
+            <li>Review &amp; acceptance testing setiap sprint</li>
+          </ul>
+        </div>
+        <div class="tim-card-hint">🔍 Klik untuk detail</div>
+      </div>
+
+      <!-- Salam -->
+      <div class="tim-card reveal"
+        data-nama="Salam Rizqi Mulia"
+        data-role="Scrum Master"
+        data-role-class="aksen"
+        data-foto="foto-salam.jpg"
+        data-inisial="SR"
+        data-tasks='["Fasilitasi sprint planning &amp; daily standup","LoginController, RegisterController (+ captcha)","PasswordResetController — OTP flow","Middleware: IsAdmin, IsSuperAdmin, IsGuest, RedirectIfAuth","Mail: OtpMail.php"]'>
+        <div class="tim-card-top">
+          <div class="tim-card-ring"></div><div class="tim-card-ring2"></div>
+          <img class="tim-card-photo-bg" src="foto-salam.jpg" alt="" onerror="this.style.display='none'">
+          <div class="tim-avatar aksen"><img src="foto-salam.jpg" alt="Salam" onerror="this.outerHTML='<div class=\'tim-avatar aksen\'>SR</div>'">
+          </div>
+        </div>
+        <div class="tim-card-body">
+          <div class="tim-name">Salam Rizqi Mulia</div>
+          <div class="tim-role aksen">Scrum Master</div>
+          <ul class="tim-tasks">
+            <li>Fasilitasi sprint planning &amp; daily standup</li>
+            <li>LoginController, RegisterController (+ captcha)</li>
+            <li>PasswordResetController — OTP flow</li>
+          </ul>
+        </div>
+        <div class="tim-card-hint">🔍 Klik untuk detail</div>
+      </div>
+
+      <!-- Nadhifah -->
+      <div class="tim-card reveal"
+        data-nama="Nadhifah Afiyah Q."
+        data-role="Developer Team"
+        data-role-class=""
+        data-foto="foto-nadhifah.jpg"
+        data-inisial="NA"
+        data-tasks='["GaleriController — index, store (upload foto), destroy","ProfilTokohController — full resource","ProgramKerjaController — index, store, update, destroy","Blade views: galeri, tokoh, program kerja"]'>
+        <div class="tim-card-top">
+          <div class="tim-card-ring"></div><div class="tim-card-ring2"></div>
+          <img class="tim-card-photo-bg" src="foto-nadhifah.jpg" alt="" onerror="this.style.display='none'">
+          <div class="tim-avatar"><img src="foto-nadhifah.jpg" alt="Nadhifah" onerror="this.outerHTML='<div class=\'tim-avatar\'>NA</div>'">
+          </div>
+        </div>
+        <div class="tim-card-body">
+          <div class="tim-name">Nadhifah Afiyah Q.</div>
+          <div class="tim-role">Developer Team</div>
+          <ul class="tim-tasks">
+            <li>GaleriController — index, store, destroy</li>
+            <li>ProfilTokohController — full resource</li>
+            <li>ProgramKerjaController — CRUD</li>
+          </ul>
+        </div>
+        <div class="tim-card-hint">🔍 Klik untuk detail</div>
+      </div>
+
+      <!-- Faris -->
+      <div class="tim-card reveal"
+        data-nama="Achmad Alfarizy A.G"
+        data-role="Developer Team"
+        data-role-class="aksen"
+        data-foto="foto-faris.jpg"
+        data-inisial="FA"
+        data-tasks='["DashboardController (Admin) — statistik &amp; ringkasan","AgendaController — full resource + filter","PengumumanController — full resource + filter","Integrasi Chart.js untuk visualisasi data admin"]'>
+        <div class="tim-card-top">
+          <div class="tim-card-ring"></div><div class="tim-card-ring2"></div>
+          <img class="tim-card-photo-bg" src="foto-faris.jpg" alt="" onerror="this.style.display='none'">
+          <div class="tim-avatar aksen"><img src="foto-faris.jpg" alt="Faris" onerror="this.outerHTML='<div class=\'tim-avatar aksen\'>FA</div>'">
+          </div>
+        </div>
+        <div class="tim-card-body">
+          <div class="tim-name">Achmad Alfarizy A.G</div>
+          <div class="tim-role aksen">Developer Team</div>
+          <ul class="tim-tasks">
+            <li>DashboardController — statistik &amp; ringkasan</li>
+            <li>AgendaController &amp; PengumumanController</li>
+            <li>Integrasi Chart.js visualisasi data</li>
+          </ul>
+        </div>
+        <div class="tim-card-hint">🔍 Klik untuk detail</div>
+      </div>
+
+      <!-- Virdan -->
+      <div class="tim-card reveal"
+        data-nama="Virdan Andi Wardana"
+        data-role="Developer Team"
+        data-role-class=""
+        data-foto="foto-virdan.jpg"
+        data-inisial="VA"
+        data-tasks='["PublicController — method halaman publik (koordinasi Jevon)","BeritaController — index, show, store, update, destroy","Frontend views &amp; blade template halaman publik","Layout utama, navbar &amp; footer komponen"]'>
+        <div class="tim-card-top">
+          <div class="tim-card-ring"></div><div class="tim-card-ring2"></div>
+          <img class="tim-card-photo-bg" src="foto-virdan.jpg" alt="" onerror="this.style.display='none'">
+          <div class="tim-avatar"><img src="foto-virdan.jpg" alt="Virdan" onerror="this.outerHTML='<div class=\'tim-avatar\'>VA</div>'">
+          </div>
+        </div>
+        <div class="tim-card-body">
+          <div class="tim-name">Virdan Andi Wardana</div>
+          <div class="tim-role">Developer Team</div>
+          <ul class="tim-tasks">
+            <li>BeritaController — index, show, store, update, destroy</li>
+            <li>Frontend views &amp; blade template publik</li>
+            <li>Layout utama, navbar &amp; footer</li>
+          </ul>
+        </div>
+        <div class="tim-card-hint">🔍 Klik untuk detail</div>
+      </div>
+
+      <!-- Faishal -->
+      <div class="tim-card reveal"
+        data-nama="Mohamad Faishal"
+        data-role="Developer Team"
+        data-role-class="aksen"
+        data-foto="foto-faishal.jpg"
+        data-inisial="MF"
+        data-tasks='["ProfilOrganisasiController — singleton (getData, update)","PesanController — store (publik), index, baca, destroy","SuperAdmin: DashboardController, AkunAdminController","SuperAdmin: StatistikController, KonfigurasiController"]'>
+        <div class="tim-card-top">
+          <div class="tim-card-ring"></div><div class="tim-card-ring2"></div>
+          <img class="tim-card-photo-bg" src="foto-faishal.jpg" alt="" onerror="this.style.display='none'">
+          <div class="tim-avatar aksen"><img src="foto-faishal.jpg" alt="Faishal" onerror="this.outerHTML='<div class=\'tim-avatar aksen\'>MF</div>'">
+          </div>
+        </div>
+        <div class="tim-card-body">
+          <div class="tim-name">Mohamad Faishal</div>
+          <div class="tim-role aksen">Developer Team</div>
+          <ul class="tim-tasks">
+            <li>ProfilOrganisasiController — singleton</li>
+            <li>PesanController &amp; SuperAdmin Dashboard</li>
+            <li>StatistikController &amp; KonfigurasiController</li>
+          </ul>
+        </div>
+        <div class="tim-card-hint">🔍 Klik untuk detail</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MODAL TIM -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-header">
+      <img class="modal-header-bg" id="modalBg" src="" alt="" onerror="this.style.display='none'">
+      <svg class="modal-header-rings" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="180" cy="40" r="50"/><circle cx="180" cy="40" r="80"/><circle cx="180" cy="40" r="110"/>
+      </svg>
+      <div class="modal-photo-wrap">
+        <div class="modal-photo" id="modalPhoto">
+          <img id="modalPhotoImg" src="" alt="" onerror="this.style.display='none'">
+          <span id="modalInisial"></span>
+        </div>
+        <div class="modal-header-info">
+          <div class="modal-header-name" id="modalNama"></div>
+          <div class="modal-header-role" id="modalRole"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tasks-title">Tanggung Jawab & Kontribusi</div>
+      <ul class="modal-tasks" id="modalTasks"></ul>
+    </div>
+  </div>
 </div>
 
-<!-- BERITA -->
-<section id="berita" class="section">
-    <div class="container">
-        <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:3.25rem">
-            <div>
-                <div class="badge">Berita Terkini</div>
-                <h2 class="section-title">Kabar Banyuwangi</h2>
-            </div>
-            <a href="#" style="color:var(--primary);font-weight:600;font-size:.85rem;display:inline-flex;align-items:center;gap:.4rem;letter-spacing:.02em">
-                Lihat Semua
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
-        </div>
-
-        <div class="news-grid reveal">
-
-            <!-- Kartu 1 -->
-            <article class="news-card">
-                <div class="card-thumb">
-                    <img src="images/berita-3.png" alt="Rehabilitasi Swasta">
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">Opini Hukum</span>
-                    <h3 class="card-title">Dari Niat Baik ke Risiko Hukum: Mengurai Peran Panti Rehabilitasi Swasta</h3>
-                    <p class="card-excerpt">Tumbuhnya panti rehabilitasi swasta patut diapresiasi, namun tanpa pengawasan dan regulasi, berpotensi menimbulkan penyimpangan hukum.</p>
-                    <div class="card-meta">
-                        <span>5 Apr 2026</span>
-                        <span class="card-meta-sep">&middot;</span>
-                        <span>Hakim Said, S.H.</span>
-                    </div>
-                    <div class="comment-section">
-                        <div class="comment-section-title">
-                            <svg class="comment-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            Komentar (<span id="cnt-1">2</span>)
-                        </div>
-                        <div class="comment-list" id="cmts-1">
-                            <div class="comment-item">
-                                <div class="comment-author">Ahmad Z. &mdash; 5 Apr 2026</div>
-                                <div class="comment-text">Tulisan yang sangat mencerahkan, perlu pengawasan lebih ketat.</div>
-                            </div>
-                            <div class="comment-item">
-                                <div class="comment-author">Bu Sri &mdash; 5 Apr 2026</div>
-                                <div class="comment-text">Terima kasih infonya Pak Hakim.</div>
-                            </div>
-                        </div>
-                        <input type="text" class="cmt-input" id="cn-1" placeholder="Nama Anda">
-                        <textarea class="cmt-input" id="ct-1" rows="2" placeholder="Tulis komentar..."></textarea>
-                        <button class="cmt-btn" type="button" onclick="kirimKomentar('1')">Kirim Komentar</button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Kartu 2 -->
-            <article class="news-card">
-                <a href="detail-berita.html" class="card-thumb" style="display:block">
-                    <img src="images/berita-2.png" alt="Bupati Ipuk">
-                </a>
-                <div class="card-body">
-                    <span class="card-tag">Berita Daerah</span>
-                    <a href="detail-berita.html" style="text-decoration:none;color:inherit">
-                        <h3 class="card-title">Hadiri Buka Bersama Lintas Elemen, Bupati Ipuk Panen Apresiasi</h3>
-                    </a>
-                    <p class="card-excerpt">Bupati Ipuk berdialog dengan lebih dari seratus tokoh lintas elemen di Rumah Kebangsaan, wujudkan sinergi 3KO untuk Banyuwangi.</p>
-                    <div class="card-meta">
-                        <span>27 Feb 2026</span>
-                        <span class="card-meta-sep">&middot;</span>
-                        <span>Tim Redaksi</span>
-                    </div>
-                    <div class="comment-section">
-                        <div class="comment-section-title">
-                            <svg class="comment-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            Komentar (<span id="cnt-2">1</span>)
-                        </div>
-                        <div class="comment-list" id="cmts-2">
-                            <div class="comment-item">
-                                <div class="comment-author">Budi S. &mdash; 28 Feb 2026</div>
-                                <div class="comment-text">Semoga kolaborasi pemerintah dan warga terus terjalin baik!</div>
-                            </div>
-                        </div>
-                        <input type="text" class="cmt-input" id="cn-2" placeholder="Nama Anda">
-                        <textarea class="cmt-input" id="ct-2" rows="2" placeholder="Tulis komentar..."></textarea>
-                        <button class="cmt-btn" type="button" onclick="kirimKomentar('2')">Kirim Komentar</button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- Kartu 3 -->
-            <article class="news-card">
-                <div class="card-thumb">
-                    <img src="images/berita-1.png" alt="Audiensi RK Banyuwangi">
-                </div>
-                <div class="card-body">
-                    <span class="card-tag">Utama</span>
-                    <h3 class="card-title">Audiensi RK Banyuwangi: Soroti Jalan Rusak &amp; Tambang Ilegal</h3>
-                    <p class="card-excerpt">Pengurus RK Banyuwangi menggelar audiensi dengan Kapolresta membahas infrastruktur jalan dan legalitas penambangan galian C.</p>
-                    <div class="card-meta">
-                        <span>24 Jan 2026</span>
-                        <span class="card-meta-sep">&middot;</span>
-                        <span>Admin</span>
-                    </div>
-                    <div class="comment-section">
-                        <div class="comment-section-title">
-                            <svg class="comment-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            Komentar (<span id="cnt-3">0</span>)
-                        </div>
-                        <div class="comment-list" id="cmts-3"></div>
-                        <input type="text" class="cmt-input" id="cn-3" placeholder="Nama Anda">
-                        <textarea class="cmt-input" id="ct-3" rows="2" placeholder="Tulis komentar..."></textarea>
-                        <button class="cmt-btn" type="button" onclick="kirimKomentar('3')">Kirim Komentar</button>
-                    </div>
-                </div>
-            </article>
-
-        </div>
+<!-- TECH STACK -->
+<section id="techstack">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Teknologi</div>
+      <h2 class="section-title">Tech Stack yang Digunakan</h2>
+      <p class="section-subtitle">Framework modern dengan arsitektur MVC untuk membangun sistem yang robust, aman, dan mudah dikembangkan.</p>
     </div>
+    <div class="techstack-grid">
+      <div class="tech-card reveal">
+        <div class="tech-icon">⚡</div>
+        <div class="tech-name">Laravel</div>
+        <div class="tech-desc">PHP Framework — MVC Architecture</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">🎨</div>
+        <div class="tech-name">Blade</div>
+        <div class="tech-desc">Laravel Templating Engine</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">🗄️</div>
+        <div class="tech-name">MySQL</div>
+        <div class="tech-desc">Relational Database</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">📊</div>
+        <div class="tech-name">Chart.js</div>
+        <div class="tech-desc">Dashboard Visualisasi Data</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">🔐</div>
+        <div class="tech-name">reCAPTCHA</div>
+        <div class="tech-desc">Bot Protection &amp; Security</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">📧</div>
+        <div class="tech-name">Laravel Mail</div>
+        <div class="tech-desc">OtpMail — Kirim OTP Reset Password</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">🛡️</div>
+        <div class="tech-name">RBAC</div>
+        <div class="tech-desc">Role-Based Access Control</div>
+      </div>
+      <div class="tech-card reveal">
+        <div class="tech-icon">🎨</div>
+        <div class="tech-name">Figma</div>
+        <div class="tech-desc">UI/UX Design & Prototype</div>
+      </div>
+    </div>
+    <div class="arch-block reveal">
+      <h3>Alur Arsitektur Sistem</h3>
+      <div class="arch-flow">
+        <div class="arch-node">
+          <div class="arch-node-label">Pengguna</div>
+          <div class="arch-node-name">Browser</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-label">Keamanan</div>
+          <div class="arch-node-name">Middleware + reCAPTCHA</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-label">Controller</div>
+          <div class="arch-node-name">Laravel MVC</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-label">Model</div>
+          <div class="arch-node-name">Eloquent ORM</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node">
+          <div class="arch-node-label">Database</div>
+          <div class="arch-node-name">MySQL</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- PROFIL -->
-<section id="profil" class="section section-alt">
-    <div class="container">
-        <div class="profile-wrap">
-            <div class="profile-visual reveal">
-                <div class="profile-frame">
-                    <div class="profile-avatar">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    </div>
-                    <h3 style="color:white;font-size:1.5rem;margin-bottom:.35rem;text-align:center">Moh. Hakim Said, S.H.</h3>
-                    <span style="font-size:.68rem;letter-spacing:2px;opacity:.65;text-transform:uppercase">Founder &amp; Ketua</span>
-                    <div style="margin-top:1.75rem;padding:1.1rem 1.35rem;background:rgba(255,255,255,.07);border-radius:9px;max-width:85%;text-align:left">
-                        <p style="font-size:.82rem;opacity:.7;line-height:1.68;font-style:italic">&ldquo;Hidup harus bahagia &mdash; kebahagiaan sejati lahir ketika kita hidup rukun, sadar hukum, dan peduli sesama.&rdquo;</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="reveal">
-                <div class="badge">Tentang Kami</div>
-                <h2 class="section-title">Wadah Pemersatu Banyuwangi</h2>
-                <div class="profile-quote">
-                    &ldquo;Hidup harus bahagia. Dan kebahagiaan sejati hanya bisa dicapai ketika kita hidup rukun, sadar hukum, dan peduli sesama.&rdquo;
-                </div>
-                <p style="color:var(--gray);margin-bottom:1rem;line-height:1.75;font-size:.95rem">
-                    Rumah Kebangsaan Banyuwangi didirikan pada 12 Januari 2019 oleh Hakim Said, S.H. sebagai respons atas kebutuhan ruang publik yang netral dan edukatif. Pada 2022, diresmikan bersama Badan Kesatuan Bangsa dan Politik Kabupaten Banyuwangi.
-                </p>
-                <p style="color:var(--gray);margin-bottom:1.5rem;line-height:1.75;font-size:.95rem">
-                    Kami mempertemukan mahasiswa, media, komunitas, akademisi, dan tokoh masyarakat dalam semangat kebangsaan dan prinsip <strong>3KO: Komunikasi, Koordinasi, dan Kolaborasi</strong>.
-                </p>
-                <div class="info-box">
-                    <div class="info-box-title">
-                        <svg class="info-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Lokasi Kami
-                    </div>
-                    <p style="color:var(--gray);font-size:.83rem;margin-bottom:.5rem">Jl. Piere Tendean No.1, Karangrejo, Kecamatan Banyuwangi, Kabupaten Banyuwangi, Jawa Timur 68411</p>
-                    <p style="color:var(--muted);font-size:.8rem">+62 823-3835-5251 &nbsp;&middot;&nbsp; remapenta@gmail.com</p>
-                </div>
-            </div>
-        </div>
+<!-- SPRINT / MANAJEMEN PROYEK -->
+<section id="sprint" style="background: var(--netral-putih);">
+  <div class="container">
+    <div class="fitur-header reveal">
+      <div class="section-label">Manajemen Proyek</div>
+      <h2 class="section-title">5 Sprint Pengerjaan</h2>
+      <p class="section-subtitle">
+        Proyek dikerjakan dalam lima tahap sprint Scrum yang terstruktur, dari riset hingga deployment final.
+      </p>
     </div>
+    <div style="display:flex; flex-direction:column; gap:0; margin-top:40px; position:relative;">
+      <!-- Vertical line -->
+      <div style="position:absolute; left:27px; top:0; bottom:0; width:2px; background:var(--netral-batas); z-index:0;"></div>
+
+      <!-- Sprint 1 -->
+      <div class="reveal" style="display:flex; gap:24px; align-items:flex-start; margin-bottom:32px; position:relative; z-index:1;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--utama-base); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--ff-judul); font-size:18px; font-weight:700; flex-shrink:0; border:3px solid var(--netral-putih); box-shadow:var(--shadow-md);">1</div>
+        <div style="background:var(--netral-redup); border:1px solid var(--netral-batas); border-radius:12px; padding:20px 24px; flex:1;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--utama-base); text-transform:uppercase; margin-bottom:6px;">Sprint 1</div>
+          <h4 style="font-size:16px; font-weight:700; color:var(--netral-gelap); margin-bottom:6px;">Riset & Wireframe</h4>
+          <p style="font-size:13px; color:var(--netral-abu); line-height:1.65;">Riset kebutuhan UI/UX bersama mitra dan pembuatan wireframe untuk seluruh halaman sistem.</p>
+        </div>
+      </div>
+
+      <!-- Sprint 2 -->
+      <div class="reveal" style="display:flex; gap:24px; align-items:flex-start; margin-bottom:32px; position:relative; z-index:1;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--utama-base); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--ff-judul); font-size:18px; font-weight:700; flex-shrink:0; border:3px solid var(--netral-putih); box-shadow:var(--shadow-md);">2</div>
+        <div style="background:var(--netral-redup); border:1px solid var(--netral-batas); border-radius:12px; padding:20px 24px; flex:1;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--utama-base); text-transform:uppercase; margin-bottom:6px;">Sprint 2</div>
+          <h4 style="font-size:16px; font-weight:700; color:var(--netral-gelap); margin-bottom:6px;">Desain UI High-Fidelity</h4>
+          <p style="font-size:13px; color:var(--netral-abu); line-height:1.65;">Pembuatan desain Hi-Fi menggunakan Figma dan perancangan komponen visual sistem secara lengkap.</p>
+        </div>
+      </div>
+
+      <!-- UTS -->
+      <div class="reveal" style="display:flex; gap:24px; align-items:flex-start; margin-bottom:32px; position:relative; z-index:1;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--netral-abu); display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; flex-shrink:0; border:3px solid var(--netral-putih); box-shadow:var(--shadow-sm);">⏸</div>
+        <div style="background:var(--netral-redup); border:1px dashed var(--netral-batas); border-radius:12px; padding:16px 24px; flex:1; opacity:0.7;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--netral-abu); text-transform:uppercase; margin-bottom:4px;">Jeda</div>
+          <h4 style="font-size:15px; font-weight:600; color:var(--netral-sedang);">Ujian Tengah Semester (UTS)</h4>
+        </div>
+      </div>
+
+      <!-- Sprint 3 -->
+      <div class="reveal" style="display:flex; gap:24px; align-items:flex-start; margin-bottom:32px; position:relative; z-index:1;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--utama-base); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--ff-judul); font-size:18px; font-weight:700; flex-shrink:0; border:3px solid var(--netral-putih); box-shadow:var(--shadow-md);">3</div>
+        <div style="background:var(--netral-redup); border:1px solid var(--netral-batas); border-radius:12px; padding:20px 24px; flex:1;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--utama-base); text-transform:uppercase; margin-bottom:6px;">Sprint 3</div>
+          <h4 style="font-size:16px; font-weight:700; color:var(--netral-gelap); margin-bottom:6px;">Prototype & Design Handoff</h4>
+          <p style="font-size:13px; color:var(--netral-abu); line-height:1.65;">Pembuatan prototype interaktif di Figma, identifikasi class diagram & CRC Card, dan design handoff ke tim developer.</p>
+        </div>
+      </div>
+
+      <!-- Sprint 4 -->
+      <div class="reveal" style="display:flex; gap:24px; align-items:flex-start; margin-bottom:32px; position:relative; z-index:1;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--utama-base); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--ff-judul); font-size:18px; font-weight:700; flex-shrink:0; border:3px solid var(--netral-putih); box-shadow:var(--shadow-md);">4</div>
+        <div style="background:var(--netral-redup); border:1px solid var(--netral-batas); border-radius:12px; padding:20px 24px; flex:1;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--utama-base); text-transform:uppercase; margin-bottom:6px;">Sprint 4 — Implementasi Core</div>
+          <h4 style="font-size:16px; font-weight:700; color:var(--netral-gelap); margin-bottom:6px;">Autentikasi, Halaman Publik & CRUD Admin</h4>
+          <p style="font-size:13px; color:var(--netral-abu); line-height:1.65;">Pengembangan sistem autentikasi (login, register, OTP), pembuatan seluruh halaman publik, dan fungsionalitas CRUD untuk admin.</p>
+        </div>
+      </div>
+
+      <!-- Sprint 5 -->
+      <div class="reveal" style="display:flex; gap:24px; align-items:flex-start; position:relative; z-index:1;">
+        <div style="width:56px; height:56px; border-radius:50%; background:var(--sukses-base); display:flex; align-items:center; justify-content:center; color:#fff; font-family:var(--ff-judul); font-size:18px; font-weight:700; flex-shrink:0; border:3px solid var(--netral-putih); box-shadow:var(--shadow-md);">5</div>
+        <div style="background:var(--netral-redup); border:1px solid var(--sukses-base); border-radius:12px; padding:20px 24px; flex:1;">
+          <div style="font-size:12px; font-weight:700; letter-spacing:1px; color:var(--sukses-base); text-transform:uppercase; margin-bottom:6px;">Sprint 5 — Implementasi Lanjutan ✓ Selesai</div>
+          <h4 style="font-size:16px; font-weight:700; color:var(--netral-gelap); margin-bottom:6px;">Moderasi, Pengujian & Deployment</h4>
+          <p style="font-size:13px; color:var(--netral-abu); line-height:1.65;">Fitur moderasi, statistik Chart.js, integrasi reCAPTCHA, threat modelling, Whitebox/Blackbox/UAT testing, dan Deployment (rilis) ke production.</p>
+          <div style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="tag tag-hijau">Whitebox Test</span>
+            <span class="tag tag-biru">Blackbox Test</span>
+            <span class="tag tag-aksen">UAT</span>
+            <span class="tag tag-hijau">Deployed</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
-<!-- GALERI -->
-<section id="galeri" class="section">
-    <div class="container">
-        <div style="text-align:center;margin-bottom:3.5rem">
-            <div class="badge" style="justify-content:center">Arsip Digital</div>
-            <h2 class="section-title">Jejak Kegiatan</h2>
-            <p class="section-desc" style="margin:1rem auto">Dokumentasi visual perjalanan Rumah Kebangsaan dalam merawat persatuan bangsa.</p>
-        </div>
+<!-- DEMO / SCREENSHOT -->
 
-        <div class="gallery-grid reveal">
-            <div class="gallery-item">
-                <div class="gallery-bg" style="background:linear-gradient(135deg,#1c1917,#44403c)"></div>
-                <div class="gallery-overlay"><div class="gallery-label">Kunjungan Tokoh</div></div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-bg" style="background:linear-gradient(135deg,#78350f,#b45309)"></div>
-                <div class="gallery-overlay"><div class="gallery-label">Seminar Kebangsaan</div></div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-bg" style="background:linear-gradient(135deg,#292524,#44403c)"></div>
-                <div class="gallery-overlay"><div class="gallery-label">Bakti Sosial</div></div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-bg" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)"></div>
-                <div class="gallery-overlay"><div class="gallery-label">Pentas Seni Budaya</div></div>
-            </div>
-            <div class="gallery-item">
-                <div class="gallery-bg" style="background:linear-gradient(135deg,#0c4a6e,#075985)"></div>
-                <div class="gallery-overlay"><div class="gallery-label">Pojok Baca</div></div>
-            </div>
-        </div>
+<section id="demo">
+  <div class="container">
+    <div class="demo-header reveal">
+      <div class="section-label">Tampilan Sistem</div>
+      <h2 class="section-title">Halaman-Halaman Utama Portal</h2>
+      <p class="section-subtitle">Sistem terdiri dari halaman publik yang informatif dan dashboard admin yang lengkap untuk pengelola konten.</p>
     </div>
-</section>
-
-<!-- PARTISIPASI -->
-<section id="partisipasi" class="section section-alt">
-    <div class="container">
-        <div style="text-align:center;margin-bottom:3.5rem">
-            <div class="badge" style="justify-content:center">Suara Warga</div>
-            <h2 class="section-title">Partisipasi Publik</h2>
-            <p class="section-desc" style="margin:1rem auto">Bagikan pengalaman kunjungan Anda melalui form di bawah ini.</p>
+    <div class="demo-grid">
+      <div class="demo-card reveal">
+        <div class="demo-screen">
+          <div class="demo-screen-deco">
+            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
+          </div>
+          <div style="text-align:center;position:relative;z-index:2">
+            <div class="demo-screen-icon">🏠</div>
+            <div class="demo-screen-label" style="margin-top:8px">homepage-portal-rumah-kebangsaan.png</div>
+          </div>
         </div>
-
-        <div class="form-grid">
-            <div class="form-card reveal">
-                <div class="form-card-title">Tulis Ulasan Kunjungan</div>
-                <form id="formTestimoni" novalidate>
-                    <div class="form-group">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" id="testiNama" class="form-control" placeholder="Masukkan nama Anda">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Ulasan</label>
-                        <textarea id="testiPesan" class="form-control" rows="4" placeholder="Ceritakan pengalaman kunjungan Anda..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;border-radius:7px">Kirim Ulasan</button>
-                </form>
-            </div>
-
-            <div class="form-card reveal">
-                <div class="form-card-title">Upload Foto Kunjungan</div>
-                <form id="formFoto" novalidate>
-                    <div class="form-group">
-                        <label class="form-label">Nama Pengunjung</label>
-                        <input type="text" id="fotoNama" class="form-control" placeholder="Nama Anda">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Upload Foto &mdash; Maks 5MB (JPG / PNG / WEBP)</label>
-                        <div class="file-drop" id="fileBox" onclick="document.getElementById('fotoFile').click()">
-                            <svg class="file-drop-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                            <div class="file-drop-text" id="fileTxt">Klik untuk pilih foto</div>
-                            <input type="file" id="fotoFile" accept=".jpg,.jpeg,.png,.webp" style="display:none">
-                        </div>
-                        <p id="fileErr" class="field-error"></p>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.5rem;border-radius:7px">Kirim Foto</button>
-                </form>
-            </div>
+        <div class="demo-info">
+          <h3>Halaman Utama (Homepage)</h3>
+          <p>Landing page publik yang menampilkan informasi lembaga, berita terkini, agenda, dan profil tokoh secara ringkas.</p>
+          <div class="demo-info-tags">
+            <span class="tag tag-merah">Publik</span>
+            <span class="tag tag-aksen">Informatif</span>
+          </div>
         </div>
+      </div>
+      <div class="demo-card reveal">
+        <div class="demo-screen">
+          <div class="demo-screen-deco">
+            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
+          </div>
+          <div style="text-align:center;position:relative;z-index:2">
+            <div class="demo-screen-icon">📊</div>
+            <div class="demo-screen-label" style="margin-top:8px">dashboard-cms.png</div>
+          </div>
+        </div>
+        <div class="demo-info">
+          <h3>Dashboard CMS Admin</h3>
+          <p>Panel admin dengan statistik ringkasan, grafik Chart.js visualisasi data kunjungan, dan akses cepat ke pengelolaan berita, galeri, program kerja, dan konfigurasi web.</p>
+          <div class="demo-info-tags">
+            <span class="tag tag-biru">Admin</span>
+            <span class="tag tag-hijau">CMS</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal">
+        <div class="demo-screen">
+          <div class="demo-screen-deco">
+            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
+          </div>
+          <div style="text-align:center;position:relative;z-index:2">
+            <div class="demo-screen-icon">🔐</div>
+            <div class="demo-screen-label" style="margin-top:8px">rbac-dan-moderasi.png</div>
+          </div>
+        </div>
+        <div class="demo-info">
+          <h3>Sistem RBAC &amp; Moderasi</h3>
+          <p>Pengelolaan hak akses 4 level: Pengunjung, Pengguna Terdaftar, Admin, dan Super Admin. Dilengkapi antarmuka moderasi komentar dan foto kunjungan publik.</p>
+          <div class="demo-info-tags">
+            <span class="tag tag-merah">RBAC 4 Level</span>
+            <span class="tag tag-aksen">Moderasi</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-card reveal">
+        <div class="demo-screen">
+          <div class="demo-screen-deco">
+            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
+          </div>
+          <div style="text-align:center;position:relative;z-index:2">
+            <div class="demo-screen-icon">🗺️</div>
+            <div class="demo-screen-label" style="margin-top:8px">arsitektur-sistem.png</div>
+          </div>
+        </div>
+        <div class="demo-info">
+          <h3>Diagram Arsitektur Sistem</h3>
+          <p>Visualisasi alur sistem dari pengguna ke database, mencakup middleware, controller, model, dan lapisan keamanan.</p>
+          <div class="demo-info-tags">
+            <span class="tag tag-biru">Teknis</span>
+            <span class="tag tag-hijau">MVC</span>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>Rumah Kebangsaan Banyuwangi</h3>
-                <p>Tempat lahirnya gagasan strategis untuk membangun negeri melalui Komunikasi, Koordinasi, dan Kolaborasi (3KO).</p>
-                <p style="margin-top:1rem;font-size:.82rem">Jl. Piere Tendean No.1, Banyuwangi 68411</p>
-            </div>
-            <div class="footer-col">
-                <h4>Navigasi</h4>
-                <ul>
-                    <li><a href="#beranda">Beranda</a></li>
-                    <li><a href="#berita">Berita</a></li>
-                    <li><a href="#profil">Profil</a></li>
-                    <li><a href="#galeri">Galeri</a></li>
-                    <li><a href="#partisipasi">Partisipasi</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Kontak</h4>
-                <ul>
-                    <li><a href="tel:+6282338355251">+62 823-3835-5251</a></li>
-                    <li><a href="mailto:remapenta@gmail.com">remapenta@gmail.com</a></li>
-                    <li><a href="login.html">Panel Admin</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div>&copy; 2026 Rumah Kebangsaan Banyuwangi. Semua hak dilindungi.</div>
-            <div>Design by <span style="color:var(--accent)">Javas Navasena</span></div>
-        </div>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Javas Navasena</div>
+      <p class="footer-brand-desc">
+        Tim pengembang dari Program Studi Teknologi Rekayasa Perangkat Lunak,
+        Politeknik Negeri Banyuwangi. Di bawah bimbingan Lutfi Hakim, S.Pd., M.T.
+        Proyek digitalisasi Rumah Kebangsaan Banyuwangi sebagai wujud kontribusi teknologi untuk masyarakat.
+      </p>
+      <span class="footer-badge">TRPL · Politeknik Negeri Banyuwangi</span>
     </div>
+    <div class="footer-col">
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#tentang">Tentang Proyek</a></li>
+        <li><a href="#fitur">Fitur Sistem</a></li>
+        <li><a href="#tim">Tim Pengembang</a></li>
+        <li><a href="#techstack">Tech Stack</a></li>
+        <li><a href="#sprint">Manajemen Sprint</a></li>
+        <li><a href="#demo">Demo &amp; Screenshot</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Tim</h4>
+      <ul>
+        <li><a href="#tim">Moh. Jevon Attaillah</a></li>
+        <li><a href="#tim">Salam Rizqi Mulia</a></li>
+        <li><a href="#tim">Nadhifah Afiyah Q.</a></li>
+        <li><a href="#tim">Achmad Alfarizy A.G</a></li>
+        <li><a href="#tim">Virdan Andi Wardana</a></li>
+        <li><a href="#tim">Mohamad Faishal</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-text">© 2025 Tim Javas Navasena · Digitalisasi Rumah Kebangsaan Banyuwangi · TRPL Politeknik Negeri Banyuwangi</span>
+    <div class="footer-bottom-links">
+      <a href="#hero">Ke Atas ↑</a>
+    </div>
+  </div>
 </footer>
 
-<!-- MODAL CAPTCHA -->
-<div class="modal-overlay" id="captchaModal">
-    <div class="modal-content">
-        <div class="modal-title">Verifikasi Keamanan</div>
-        <p class="modal-desc">Mohon selesaikan verifikasi berikut untuk melanjutkan.</p>
-
-        <div class="captcha-box" style="margin-bottom:1.5rem">
-            <div class="captcha-check" id="modalCaptchaCheck" onclick="toggleModalCaptcha()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <span class="captcha-label">Saya bukan robot</span>
-            <div class="captcha-logo">reCAPTCHA</div>
-        </div>
-
-        <div style="display:flex;gap:.75rem;justify-content:flex-end">
-            <button type="button" class="btn" style="border:1.5px solid var(--border);background:var(--white);color:var(--gray);font-size:.82rem;padding:.5rem 1rem" onclick="closeCaptchaModal()">Batal</button>
-            <button type="button" class="btn btn-primary" style="font-size:.82rem;padding:.5rem 1rem" id="btnConfirmCaptcha" onclick="confirmCaptcha()">Verifikasi</button>
-        </div>
-    </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <script>
-// ============================================
-// AUTH & NAVIGASI
-// ============================================
-const isLoggedIn = () => sessionStorage.getItem('rk_logged_in') === 'true';
-
-function updateNav() {
-    const mainBtn = document.getElementById('mainLoginBtn');
-    const mobBtn  = document.getElementById('mobLoginBtn');
-
-    if (isLoggedIn()) {
-        const role   = sessionStorage.getItem('rk_role');
-        const target = (role === 'superadmin') ? 'superadmin.html' : 'admin.html';
-        if (mainBtn) { mainBtn.textContent = 'Dashboard'; mainBtn.href = target; }
-        if (mobBtn)  { mobBtn.textContent  = 'Dashboard'; mobBtn.href  = target; }
-    } else {
-        if (mainBtn) { mainBtn.textContent = 'Login'; mainBtn.href = 'login.html'; }
-        if (mobBtn)  { mobBtn.textContent  = 'Login'; mobBtn.href  = 'login.html'; }
+/* Scroll reveal */
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
     }
-}
-updateNav();
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
 
-function requireLogin() {
-    if (!isLoggedIn()) {
-        window.location.href = 'login.html';
-        return false;
-    }
-    return true;
-}
+/* Hamburger */
+const hamburger = document.getElementById('hamburger');
+const navbar = document.getElementById('navbar');
+hamburger.addEventListener('click', () => {
+  navbar.classList.toggle('nav-mobile-open');
+});
 
-// ============================================
-// NAVBAR & MOBILE MENU
-// ============================================
+/* Close mobile nav on link click */
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => navbar.classList.remove('nav-mobile-open'));
+});
+
+/* Navbar scroll style */
 window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  navbar.style.background = window.scrollY > 40
+    ? 'rgba(12,10,9,0.97)'
+    : 'rgba(12,10,9,0.92)';
 });
 
-function openMobMenu() {
-    document.getElementById('mobMenu').classList.add('open');
-    document.getElementById('mobOverlay').classList.add('open');
-}
-function closeMobMenu() {
-    document.getElementById('mobMenu').classList.remove('open');
-    document.getElementById('mobOverlay').classList.remove('open');
-}
-document.getElementById('mobileToggle').addEventListener('click', openMobMenu);
-document.getElementById('mobClose').addEventListener('click', closeMobMenu);
-document.getElementById('mobOverlay').addEventListener('click', closeMobMenu);
-document.querySelectorAll('.mob-nav-link').forEach(l => l.addEventListener('click', closeMobMenu));
+/* ── MODAL TIM ────────────────────────────────── */
+const overlay   = document.getElementById('modalOverlay');
+const modalBox  = document.getElementById('modalBox');
+const btnClose  = document.getElementById('modalClose');
+const mBg       = document.getElementById('modalBg');
+const mPhoto    = document.getElementById('modalPhoto');
+const mPhotoImg = document.getElementById('modalPhotoImg');
+const mInisial  = document.getElementById('modalInisial');
+const mNama     = document.getElementById('modalNama');
+const mRole     = document.getElementById('modalRole');
+const mTasks    = document.getElementById('modalTasks');
 
-// ============================================
-// FILTER KATA KASAR
-// ============================================
-const KASAR_WORDS = ['bajingan','brengsek','keparat','bangsat','anjing','babi','tolol','goblok','idiot'];
-const KASAR_REGEX = new RegExp('\\b(' + KASAR_WORDS.join('|') + ')\\b', 'gi');
-function adaKasar(teks) { KASAR_REGEX.lastIndex = 0; return KASAR_REGEX.test(teks); }
+document.querySelectorAll('.tim-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const foto    = card.dataset.foto;
+    const nama    = card.dataset.nama;
+    const role    = card.dataset.role;
+    const roleKls = card.dataset.roleClass;
+    const inisial = card.dataset.inisial;
+    const tasks   = JSON.parse(card.dataset.tasks);
 
-// ============================================
-// MODAL CAPTCHA
-// ============================================
-let pendingSubmitAction = null;
-let isModalCaptchaChecked = false;
+    // Foto background header
+    mBg.src = foto;
 
-function toggleModalCaptcha() {
-    isModalCaptchaChecked = !isModalCaptchaChecked;
-    document.getElementById('modalCaptchaCheck').classList.toggle('checked', isModalCaptchaChecked);
-}
+    // Foto bulat
+    mPhotoImg.src = foto;
+    mPhotoImg.style.display = 'block';
+    mInisial.textContent = '';
+    mPhotoImg.onerror = () => {
+      mPhotoImg.style.display = 'none';
+      mInisial.textContent = inisial;
+    };
 
-function openCaptchaModal(actionCallback) {
-    pendingSubmitAction = actionCallback;
-    isModalCaptchaChecked = false;
-    document.getElementById('modalCaptchaCheck').classList.remove('checked');
-    document.getElementById('captchaModal').classList.add('open');
-}
+    // Warna avatar sesuai role
+    mPhoto.className = 'modal-photo' + (roleKls === 'aksen' ? ' aksen' : '');
 
-function closeCaptchaModal() {
-    pendingSubmitAction = null;
-    document.getElementById('captchaModal').classList.remove('open');
-}
+    // Teks
+    mNama.textContent = nama;
+    mRole.textContent = role;
+    mRole.className   = 'modal-header-role' + (roleKls === 'aksen' ? ' aksen' : '');
 
-function confirmCaptcha() {
-    if (!isModalCaptchaChecked) { showToast('Centang verifikasi terlebih dahulu.', 'warning'); return; }
-    closeCaptchaModal();
-    if (pendingSubmitAction) pendingSubmitAction();
-}
+    // Tasks
+    mTasks.innerHTML = tasks.map(t => `<li>${t}</li>`).join('');
 
-// Close modal on backdrop click
-document.getElementById('captchaModal').addEventListener('click', function(e) {
-    if (e.target === this) closeCaptchaModal();
+    // Tampilkan
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
 });
 
-// ============================================
-// KOMENTAR
-// ============================================
-function kirimKomentar(id) {
-    if (!requireLogin()) return;
-
-    const nama = document.getElementById('cn-' + id).value.trim();
-    const teks = document.getElementById('ct-' + id).value.trim();
-
-    if (!nama || !teks) { showToast('Nama dan komentar wajib diisi.', 'warning'); return; }
-    if (adaKasar(teks)) { showToast('Komentar mengandung kata yang tidak pantas.', 'error'); return; }
-
-    openCaptchaModal(() => {
-        const list = document.getElementById('cmts-' + id);
-        const el   = document.createElement('div');
-        el.className   = 'comment-pending';
-        el.textContent = 'Komentar Anda sedang menunggu persetujuan admin.';
-        list.appendChild(el);
-
-        const cntEl = document.getElementById('cnt-' + id);
-        if (cntEl) cntEl.textContent = parseInt(cntEl.textContent) + 1;
-
-        document.getElementById('cn-' + id).value = '';
-        document.getElementById('ct-' + id).value = '';
-        showToast('Komentar terkirim. Menunggu moderasi admin.', 'success');
-    });
+function closeModal() {
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
 }
 
-// ============================================
-// TESTIMONI
-// ============================================
-document.getElementById('formTestimoni').addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!requireLogin()) return;
-
-    const nama  = document.getElementById('testiNama').value.trim();
-    const pesan = document.getElementById('testiPesan').value.trim();
-
-    if (!nama || !pesan) { showToast('Lengkapi semua kolom terlebih dahulu.', 'warning'); return; }
-    if (adaKasar(pesan)) { showToast('Pesan mengandung kata yang tidak pantas.', 'error'); return; }
-
-    openCaptchaModal(() => {
-        this.reset();
-        showToast('Ulasan dikirim. Menunggu moderasi admin.', 'success');
-    });
-});
-
-// ============================================
-// UPLOAD FOTO
-// ============================================
-const ALLOWED_TYPES = ['image/jpeg','image/jpg','image/png','image/webp'];
-const MAX_SIZE = 5 * 1024 * 1024;
-
-document.getElementById('fotoFile').addEventListener('change', function() {
-    const f   = this.files[0];
-    const err = document.getElementById('fileErr');
-    const txt = document.getElementById('fileTxt');
-    const box = document.getElementById('fileBox');
-
-    if (!f) return;
-
-    if (!ALLOWED_TYPES.includes(f.type) || f.size > MAX_SIZE) {
-        err.textContent = !ALLOWED_TYPES.includes(f.type)
-            ? 'Format tidak didukung. Gunakan JPG, PNG, atau WEBP.'
-            : 'Ukuran file melebihi batas 5MB.';
-        err.classList.add('show');
-        box.style.borderColor = 'var(--primary)';
-        this.value = '';
-        return;
-    }
-
-    err.classList.remove('show');
-    box.style.borderColor = '#15803D';
-    txt.textContent = f.name.substring(0, 28) + (f.name.length > 28 ? '...' : '') + ' dipilih';
-});
-
-document.getElementById('formFoto').addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!requireLogin()) return;
-
-    const nama = document.getElementById('fotoNama').value.trim();
-    const file = document.getElementById('fotoFile').files[0];
-
-    if (!nama) { showToast('Nama pengunjung wajib diisi.', 'warning'); return; }
-    if (!file) { showToast('Pilih foto terlebih dahulu.', 'warning'); return; }
-
-    openCaptchaModal(() => {
-        this.reset();
-        document.getElementById('fileTxt').textContent = 'Klik untuk pilih foto';
-        document.getElementById('fileBox').style.borderColor = '';
-        document.getElementById('fileErr').classList.remove('show');
-        showToast('Foto berhasil diunggah. Menunggu moderasi admin.', 'success');
-    });
-});
-
-// ============================================
-// ANIMASI REVEAL & TOAST
-// ============================================
-const observer = new IntersectionObserver(
-    (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }),
-    { threshold: 0.1 }
-);
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-function showToast(msg, type = 'success') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast ' + type + ' show';
-    setTimeout(() => t.classList.remove('show'), 3500);
-}
+btnClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
