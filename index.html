@@ -647,9 +647,24 @@ section { padding: 96px 40px; }
 }
 .demo-screen {
   background: var(--netral-gelap);
-  height: 200px;
+  height: 220px;
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
+}
+.demo-screen-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transition: transform 0.4s ease, opacity 0.3s;
+}
+.demo-card:hover .demo-screen-img {
+  transform: scale(1.04);
+  opacity: 1;
+}
+.demo-screen-placeholder {
+  position: relative; z-index: 2;
+  text-align: center;
 }
 .demo-screen-label {
   font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
@@ -1364,12 +1379,10 @@ footer {
     <div class="demo-grid">
       <div class="demo-card reveal">
         <div class="demo-screen">
-          <div class="demo-screen-deco">
-            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
-          </div>
-          <div style="text-align:center;position:relative;z-index:2">
+          <img class="demo-screen-img" src="homepage-portal-rumah-kebangsaan.png" alt="Homepage Portal" onerror="this.style.display='none'">
+          <div class="demo-screen-placeholder" id="ph-homepage">
             <div class="demo-screen-icon">🏠</div>
-            <div class="demo-screen-label" style="margin-top:8px">homepage-portal-rumah-kebangsaan.png</div>
+            <div class="demo-screen-label" style="margin-top:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(254,252,250,0.25);text-transform:uppercase;">homepage-portal-rumah-kebangsaan.png</div>
           </div>
         </div>
         <div class="demo-info">
@@ -1383,12 +1396,10 @@ footer {
       </div>
       <div class="demo-card reveal">
         <div class="demo-screen">
-          <div class="demo-screen-deco">
-            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
-          </div>
-          <div style="text-align:center;position:relative;z-index:2">
+          <img class="demo-screen-img" src="dashboard-cms.png" alt="Dashboard CMS" onerror="this.style.display='none'">
+          <div class="demo-screen-placeholder">
             <div class="demo-screen-icon">📊</div>
-            <div class="demo-screen-label" style="margin-top:8px">dashboard-cms.png</div>
+            <div class="demo-screen-label" style="margin-top:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(254,252,250,0.25);text-transform:uppercase;">dashboard-cms.png</div>
           </div>
         </div>
         <div class="demo-info">
@@ -1402,12 +1413,10 @@ footer {
       </div>
       <div class="demo-card reveal">
         <div class="demo-screen">
-          <div class="demo-screen-deco">
-            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
-          </div>
-          <div style="text-align:center;position:relative;z-index:2">
+          <img class="demo-screen-img" src="rbac-dan-moderasi.png" alt="RBAC dan Moderasi" onerror="this.style.display='none'">
+          <div class="demo-screen-placeholder">
             <div class="demo-screen-icon">🔐</div>
-            <div class="demo-screen-label" style="margin-top:8px">rbac-dan-moderasi.png</div>
+            <div class="demo-screen-label" style="margin-top:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(254,252,250,0.25);text-transform:uppercase;">rbac-dan-moderasi.png</div>
           </div>
         </div>
         <div class="demo-info">
@@ -1421,12 +1430,10 @@ footer {
       </div>
       <div class="demo-card reveal">
         <div class="demo-screen">
-          <div class="demo-screen-deco">
-            <svg width="200" height="200" viewBox="0 0 200 200"><circle cx="100" cy="100" r="40"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="98"/></svg>
-          </div>
-          <div style="text-align:center;position:relative;z-index:2">
+          <img class="demo-screen-img" src="arsitektur-sistem.png" alt="Arsitektur Sistem" onerror="this.style.display='none'">
+          <div class="demo-screen-placeholder">
             <div class="demo-screen-icon">🗺️</div>
-            <div class="demo-screen-label" style="margin-top:8px">arsitektur-sistem.png</div>
+            <div class="demo-screen-label" style="margin-top:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;color:rgba(254,252,250,0.25);text-transform:uppercase;">arsitektur-sistem.png</div>
           </div>
         </div>
         <div class="demo-info">
@@ -1574,7 +1581,15 @@ function closeModal() {
 
 btnClose.addEventListener('click', closeModal);
 overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+/* Sembunyikan placeholder kalau foto demo berhasil dimuat */
+document.querySelectorAll('.demo-screen-img').forEach(img => {
+  const hidePh = () => {
+    const ph = img.nextElementSibling;
+    if (ph) ph.style.display = 'none';
+  };
+  if (img.complete && img.naturalWidth > 0) hidePh();
+  img.addEventListener('load', hidePh);
+});
 </script>
 </body>
 </html>
